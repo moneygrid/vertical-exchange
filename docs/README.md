@@ -48,13 +48,10 @@ The Basic Data Model is very flexible and extensible to future needs. It is buil
 ![Basic Specifications models](img/Basic_Specifications_models.png)
  
  
-Beside of \*res.currency and res.partner also others standard models of Odoo are accessed, but this are the most important.
+<br>Beside of \*res.currency and res.partner also others standard models of Odoo are accessed, but this are the most important.
 
 An addition model id distributed\_db what contains settings for attaching an external ledger or any DB distributed or not.
 
-A more detailed data model is accessible here:
-
-<https://github.com/codoo/vertical-exchange/docs/dev>
 
 
 ### <span id="a_2_1_2_Functionality">2.1.2 Functionality
@@ -90,17 +87,18 @@ option allows the integration of an exchange into the accounting system.
 
 
 When you click on External DB a new field appears where you can open the
-settings for External DB's.
+settings for other Exchange Providers.
 
  
 ### <span id="a_2_1_4_Transactions">2.1.4 Transactions 
 
-Transaction are performed as following scheme shows.
+Transaction are performed according the two-phase-commit protocol and is described in the following scheme.
 
+[https://en.wikipedia.org/wiki/Two-phase_commit_protocol](https://en.wikipedia.org/wiki/Two-phase_commit_protocol)
  
+
 ![Basic Specifications models](img/Basic_Specifications_transaction.png)
- 
- 
+  
 
 For a transaction type it is also possible to ad one
 or more follow up transaction, for example to charge transaction
