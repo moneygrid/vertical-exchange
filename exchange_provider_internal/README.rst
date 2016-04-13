@@ -2,19 +2,18 @@
    :target: http://www.gnu.org/licenses/lgpl-3.0-standalone.html
    :alt: License: LGPL-3
 
-======================
-Dumy Exchange Provider
-======================
+==========================
+Internal Exchange Provider
+=========================
 
-Dumy Exchange Provider to use the internal transaction engine
+Internal Exchange Provider to use the internal transaction engine
 
-THIS IS A DUMY TEMPLATE! There is no real  function!
+THIS IS A WIP module! Functions are still limited!
 
 Dependencies
 ============
-
 * base_exchange
-* exchange
+
 
 Installation
 ============
@@ -27,18 +26,20 @@ Configuration
 To configure this module, you need to:
 
 #. You need Exchange Admin permission to see the Configuration Exchange menu   
-#. Go to the Assocation / Member Menu / Configuration 
+#. Go to the Assocation / Member Menu / Configuration
 
 Usage
 =====
 
 To use this module, you need to:
 
-#. Look at the record Dumy 
+#. Look at the record Internal 
 
 
 Known issues / Roadmap
 ======================
 
 * 
+
+
 
