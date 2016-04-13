@@ -11,7 +11,7 @@ Allow each member to have multiple accounts, and to make transactions between th
 This software is a fork of 
 https://github.com/OCA/vertical-community/tree/8.0/__unreviewed__/account_wallet
 
-THIS SOFTWARE IS STILL UNHEAVY DEVELOPMENT!!!!
+THIS SOFTWARE IS STILL UNDER HEAVY DEVELOPMENT!!!!
 
 THIS IS A WIP module! Functions are still limited!
 
