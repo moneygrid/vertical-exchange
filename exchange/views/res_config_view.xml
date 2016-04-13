@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Accounts Type Config view -->
+    <record id="view_account_type_tree" model="ir.ui.view">
+        <field name="name">exchange.account.type.tree</field>
+        <field name="model">exchange.account.type</field>
+        <field name="arch" type="xml">
+            <tree string="Account Types">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_account_type_form" model="ir.ui.view">
+        <field name="name">exchange.account.type.form</field>
+        <field name="model">exchange.account.type</field>
+        <field name="arch" type="xml">
+            <form string="Accounts Types">
+                <field name="name" class="oe_inline"/>
+                <label for="name"/>
+                <field name="account_name" class="oe_inline"/>
+                <label for="account_name"/><br> </br>
+                <field name="account_desc" class="oe_inline"/>
+                <label for="account_desc"/>
+            </form>
+        </field>
+    </record>
+
+
+    <!-- Accounts Config Templates view -->
+
+    <record id="view_account_config_tree" model="ir.ui.view">
+        <field name="name">exchange.config.accounts.tree</field>
+        <field name="model">exchange.config.accounts</field>
+        <field name="arch" type="xml">
+            <tree string="Accounts">
+                <field name="name"/>
+                <field name="account_type"/>
+                <field name="membership_type"/>
+                <field name="currency_id"/>
+                <field name="exchange_provider_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_account_config_form" model="ir.ui.view">
+        <field name="name">exchange.config.accounts.form</field>
+        <field name="model">exchange.config.accounts</field>
+        <field name="arch" type="xml">
+            <form string="Account Templates">
+                <header>
+
+                </header>
+                <sheet string="Account Templates">
+                    <field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Name"/></h1>
+                        <label for="exchange_provider_id"/>
+                        <field name="exchange_provider_id"/>
+                    </div>
+                    <separator string="Account Type Settings"/>
+                    <group name="accounts_grp">
+                        <label for="id" string="Basics"/>
+                        <div name="bas-setting">
+                            <div>
+                                <field name="currency_id" class="oe_inline"/>
+
+                                <label for="currency_id" class="oe_inline"/>
+                                <!-- TODO error when I open view -->
+                                <field name="exchange_rate" class="oe_inline"/>
+                                <label for="exchange_rate"/>
+                            </div>
+                            <div>
+                                <field name="account_type" class="oe_inline"/>
+                                <label for="account_type"/><br> </br>
+                            </div>
+                            <div>
+                                <!-- TODO <field name="membership_type" attrs="{'invisible': [('account_type' '!=' 'user')]}" class="oe_inline"/>
+                                    <label for="membership_type" attrs="{'invisible': [('account_type' '!=' 'user')]}"/>
+                                 --><field name="membership_type" class="oe_inline"/>
+                                <label for="membership_type" />
+                            </div>
+                            <div>
+                                <field name="type_prefix" class="oe_inline"/>
+                                <label for="type_prefix"/><br> </br>
+                            </div>
+                            <div>
+                                <field name="hidden" class="oe_inline"/>
+                                <label for="hidden"/><br> </br>
+                            </div>
+                            <div>
+                                <field name="default_account" class="oe_inline"/>
+                                <label for="default_account"/>
+                            </div>
+                            <div>
+                                <field name="with_messaging" class="oe_inline"/>
+                                <label for="with_messaging"/>
+                            </div>
+                        </div>
+                    </group>
+                    <group name="limits_grp">
+                        <label for="id" string="Credit Limits"/>
+                        <div name="limit-setting">
+                            <div>
+                                <field name="limit_negative" class="oe_inline"/>
+                                <label for="limit_negative" class="oe_inline"/>
+                                <field name="limit_negative_value" attrs="{'invisible': [('limit_negative','=',False)]}"/>
+                            </div>
+                            <div>
+                                <field name="limit_positive"/>
+                                <label for="limit_positive" class="oe_inline"/>
+                                <field name="limit_positive_value" attrs="{'invisible': [('limit_positive','=',False)]}"/>
+                            </div>
+                        </div>
+                    </group>
+                    <group name="external_grp">
+                        <label for="id" string="Other Settings"/>
+                        <div name="other-setting">
+                            <div>
+                                <field name="account_id" class="oe_inline"/>
+                                <label for="account_id"/>
+                            </div>
+                        </div>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Exchange Config view -->
+    <record id="view_exchange_configuration_setting" model="ir.ui.view">
+        <field name="name">exchange.configuration.setting</field>
+        <field name="model">exchange.config.settings</field>
+        <field name="inherit_id" ref="base_exchange.view_exchange_configuration"/>
+        <field name="arch" type="xml">
+            <form position="inside">
+                <separator string="Basic Settings"/>
+                <group name="init_grp">
+                    <label for="id" string="Exchange Name"/>
+                    <div name="names">
+                        <div>
+                            <field name="name"/><newline/>
+                            <field name="res_company_id" class="oe_inline"/>
+                            <label for="res_company_id"/>
+                            <newline/><br/>
+                            <field name="code" class="oe_inline"/>
+                            <label for="code"/>
+                        </div>
+                    </div>
+                </group>
+                <group name="account_grp">
+                    <label for="id" string="Accounts"/>
+                    <div name="accounts">
+                        <div>
+                            <field name="account_ids"/>
+                        </div>
+                    </div>
+                </group>
+
+                <group name="exchange_grp">
+                    <label for="id" string="Exchange Settings"/>
+                    <div name="ex-setting">
+                        <div>
+                            <field name="display_balance" class="oe_inline"/>
+                            <label for="display_balance"/>
+                        </div>
+                        <div>
+                            <field name="ref_currency_id" class="oe_inline"/>
+                            <label for="ref_currency_id"/>
+                        </div>
+                        <div>
+                            <field name="journal_id" class="oe_inline"/>
+                            <label for="journal_id"/>
+                        </div>
+                        <div>
+                            <field name="use_account_numbers" class="oe_inline"/>
+                            <label for="use_account_numbers"/>
+                        </div>
+
+                    </div>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Settings Menu Item Account config/templates -->
+    <record id="act_account_config_all" model="ir.actions.act_window">
+        <field name="name">Account Templates</field>
+        <field name="res_model">exchange.config.accounts</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field eval="False" name="view_id"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+    </record>
+    <!-- Association Menu Item  view_account_config_tree -->
+    <menuitem action="act_account_config_all" id="menu_act_account_config_assoc_all" parent="base_exchange.menu_association_exchange_config" sequence="4"/>
+
+
+    <!-- TODO Adding Config ID to Distributed DB
+    <record id="form_exchange_distributed_db_view_inherited" model="ir.ui.view">
+
+        <field name="model">distributed.db.list</field>
+        <field name="inherit_id" ref="distributed_db.view_distributed_db_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="config_id"/>
+            </xpath>
+        </field>
+    </record>
+    -->
+</odoo>

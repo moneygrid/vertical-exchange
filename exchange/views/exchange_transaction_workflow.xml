@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Workflow Transaction definition -->
+    <record id="wkf_transaction" model="workflow">
+        <field name="name">exchange.transaction.flow</field>
+        <field name="osv">exchange.transaction</field>
+        <field name="on_create">True</field>
+    </record>
+    <!--A STAGE 1 Draft (default) -->
+    <record id="act_transaction_draft" model="workflow.activity">
+        <field name="wkf_id" ref="wkf_transaction"/>
+        <field name="name">draft</field>
+        <field name="kind">function</field>
+        <field name="action">action_draft</field>
+        <field name="flow_start">True</field>
+        <field name="split_mode">OR</field>
+    </record>
+    <!--A STAGE 2a Send Payment -->
+    <record id="act_transaction_sent" model="workflow.activity">
+        <field name="wkf_id" ref="wkf_transaction"/>
+        <field name="name">sent</field>
+        <field name="kind">function</field>
+        <field name="action">action_send()</field>
+    </record>
+    <!--A STAGE 2b Send Invoiced -->
+    <record id="act_transaction_invoiced" model="workflow.activity">
+        <field name="wkf_id" ref="wkf_transaction"/>
+        <field name="name">invoiced</field>
+        <field name="kind">function</field>
+        <field name="action">action_invoice()</field>
+    </record>
+    <!--A STAGE 3 Paid -->
+    <record id="act_transaction_paid" model="workflow.activity">
+        <field name="wkf_id" ref="wkf_transaction"/>
+        <field name="name">paid</field>
+        <field name="kind">function</field>
+        <field name="action">change_state('paid')</field>
+        <field name="flow_stop">True</field>
+    </record>
+    <!--A STAGE 4 Denied -->
+    <record id="act_transaction_denied" model="workflow.activity">
+        <field name="wkf_id" ref="wkf_transaction"/>
+        <field name="name">denied</field>
+        <field name="kind">function</field>
+        <field name="action">change_state('denied')</field>
+        <field name="flow_stop">True</field>
+    </record>
+
+    <!--A STAGE 4 Refunded -->
+    <record id="act_transaction_refunded" model="workflow.activity">
+        <field name="wkf_id" ref="wkf_transaction"/>
+        <field name="name">refunded</field>
+        <field name="kind">function</field>
+        <field name="action">write({'state':'refunded'})</field>
+    </record>
+    <!--A STAGE 5 Canceled -->
+    <record id="act_transaction_canceled" model="workflow.activity">
+        <field name="wkf_id" ref="wkf_transaction"/>
+        <field name="name">canceled</field>
+        <field name="kind">function</field>
+        <field name="action">change_state('canceled')</field>
+        <field name="flow_stop">True</field>
+    </record>
+
+    <!-- TRANSITIONS -->
+    <!--T from STAGE 1 Draft (default) -->
+    <record id="tr_draft-cancel" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_draft"/>
+        <field name="act_to" ref="act_transaction_canceled"/>
+        <field name="signal">do_cancel</field>
+        <!--    <field name="condition">test_access_role('is_issuer')</field> -->
+    </record>
+    <record id="tr_draft-sent" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_draft"/>
+        <field name="act_to" ref="act_transaction_sent"/>
+        <field name="signal">do_payment</field>
+        <field name="condition">test_access_role('is_issuer')</field>
+    </record>
+    <record id="tr_draft-invoiced" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_draft"/>
+        <field name="act_to" ref="act_transaction_invoiced"/>
+        <field name="signal">do_invoice</field>
+        <!--    <field name="condition">test_access_role('is_issuer')</field> -->
+    </record>
+
+    <!--T from STAGE 2a Sent -->
+    <record id="trans_sent-paid" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_sent"/>
+        <field name="act_to" ref="act_transaction_paid"/>
+        <field name="signal">trans_sent-paid</field>
+        <!--    <field name="condition">test_access_role('is_issuer')</field> -->
+    </record>
+    <record id="trans_sent-cancel" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_sent"/>
+        <field name="act_to" ref="act_transaction_canceled"/>
+        <field name="signal">do_cancel</field>
+        <!--    <field name="condition">test_access_role('is_issuer')</field> -->
+    </record>
+
+
+    <!--T from STAGE 2b invoiced -->
+    <record id="trans_invoiced-cancel" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_invoiced"/>
+        <field name="act_to" ref="act_transaction_canceled"/>
+        <field name="signal">do_cancel</field>
+        <field name="condition">test_access_role('is_issuer')</field>
+    </record>
+
+    <record id="tr_invoiced-denied" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_invoiced"/>
+        <field name="act_to" ref="act_transaction_denied"/>
+        <field name="signal">do_deny_invoice</field>
+        <field name="condition">test_access_role('is_receiver')</field>
+    </record>
+    <record id="tr_invoiced-paid" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_invoiced"/>
+        <field name="act_to" ref="act_transaction_paid"/>
+        <field name="signal">do_confirm_invoice</field>
+        <field name="condition">test_access_role('is_receiver')</field>
+    </record>
+
+    <!--T from STAGE 3 Paid -> Refund -->
+    <record id="trans_paid-sent" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_paid"/>
+        <field name="act_to" ref="act_transaction_sent"/>
+        <field name="signal">do_refund</field>
+        <field name="condition">test_access_role('is_receiver')</field>
+    </record>
+    <record id="trans_sent-refunded" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_sent"/>
+        <field name="act_to" ref="act_transaction_refunded"/>
+        <field name="signal">trans_sent-refunded</field>
+        <!--  <field name="condition">test_access_role('is_issuer')</field>-->
+    </record>
+
+    <!--T from STAGE 5 Canceled -->
+    <record id="trans_canceled-draft" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_canceled"/>
+        <field name="act_to" ref="act_transaction_draft"/>
+        <field name="signal">do_draft</field>
+        <field name="condition">test_access_role('is_issuer')</field>
+    </record>
+
+    <!--  Needed?
+    <record id="transaction_paid_cancel" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_draft"/>
+        <field name="act_to" ref="act_transaction_canceled"/>
+        <field name="signal">transaction_paid_cancel</field>
+        <field name="condition">test_access_role('is_receiver')</field>
+    </record>
+    <record id="transaction_paid_cancel_through_draft" model="workflow.transition">
+        <field name="act_from" ref="act_transaction_draft"/>
+        <field name="act_to" ref="act_transaction_canceled"/>
+        <field name="signal">transaction_paid_cancel_through_draft</field>
+        <field name="condition">test_access_role('is_receiver')</field>
+    </record> -->
+</odoo>

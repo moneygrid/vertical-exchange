@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="exchange_provider_internal" model="exchange.provider">
+            <field name="name">Internal</field>
+            <field name="provider">internal</field>
+            <field name="active" eval="True"/>
+            <field name="environment">internal</field>
+            <field name="description">This Exchange Provider is necessary to run the internal transaction engine of the Odoo Exchange Framework</field>
+            <field name="sequence">0</field>
+            <field name="image" type="base64" file="exchange_provider_internal/static/img/internal-icon.png"/>
+            <field name="pre_msg"><![CDATA[
+                <p>You will be redirected to nowhere after clicking on pay button.</p>
+                ]]>
+            </field>
+            <field name="post_msg">&lt;p&gt;&lt;br&gt;&lt;/p&gt;</field>
+        </record>
+    </data>
+</odoo>

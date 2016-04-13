@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <!-- Distributed DB view tree -->
+        <record id="view_distributed_db_tree" model="ir.ui.view">
+            <field name="name">distributed.db.list.tree</field>
+            <field name="model">distributed.db.list</field>
+            <field name="arch" type="xml">
+                <tree string="Distributed DB all">
+                    <field name="name"/>
+                    <field name="active"/>
+                    <field name="ip"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Distributed DB view form -->
+        <record id="view_distributed_db_form" model="ir.ui.view">
+            <field name="name">distributed.db.list.form</field>
+            <field name="model">distributed.db.list</field>
+            <field name="arch" type="xml">
+                <form string="Distributed DB" version="8.0">
+                    <group col="4">
+                        <field name="name" modifiers="{'required': true}"/>
+                        <field name="active" modifiers="{}"/>
+                        <field name="description" modifiers="{}"/>
+                    </group>
+                    <group col="4">
+
+                    </group>
+                    <group name="login_grp">
+                        <label for="id" string="Login"/>
+                        <group col="4">
+                            <field name="ip" modifiers="{'required': true}"/>
+                            <field name="port" modifiers="{'required': true}"/>
+                            <field name="db_hash" modifiers="{}"/>
+                            <field name="pw" modifiers="{}"/>
+                            <field name="active" modifiers="{}"/>
+                            <field name="login" modifiers="{}"/>
+                            <field name="goclouder" modifiers="{}"/>
+                        </group>
+                    </group>
+
+                    <group name="key_grp">
+                        <label for="id" string="Keys"/>
+                        <group col="4">
+                            <field name="use_keys" modifiers="{}"/>
+                            <newline/>
+                            <field name="private_key" modifiers="{'required': true}"/>
+                            <field name="public_key" modifiers="{'required': true}"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+        <!-- Menu Items distributed all -->
+        <record id="act_distributed_db_all" model="ir.actions.act_window">
+            <field name="name">Distributed DB All </field>
+            <field name="res_model">distributed.db.list</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        <!--     <field name="search_view_id" ref="view_exchange_transaction_search"/>
+       --> </record>
+         <!-- Configuration Menu Item -->
+        <menuitem action="act_distributed_db_all" id="menu_act_transaction_all" parent="base_exchange.menu_association_exchange_config" sequence="22"/>
+</odoo>

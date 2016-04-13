@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+         <!-- Currencies hours -->
+        <record id="HRS" model="res.currency">
+            <field name="name">HRS</field>
+            <field name="symbol">h</field>
+            <field name="rounding">0.01</field>
+            <field name="accuracy">4</field>
+            <field name="exchange_currency" eval="True"/>
+        </record>
+        <record id="rateHRS" model="res.currency.rate">
+            <field name="currency_id" ref="HRS" />
+            <field eval="time.strftime('%Y-01-01')" name="name"/>
+            <field name="rate">20.0</field>
+        </record>
+         <!-- Currencies Bitcoin -->
+        <record id="BTC" model="res.currency">
+            <field name="name">BTC</field>
+            <field name="symbol">B</field>
+            <field name="rounding">0.01</field>
+            <field name="accuracy">4</field>
+            <field name="exchange_currency" eval="True"/>
+        </record>
+        <record id="rateBTC" model="res.currency.rate">
+            <field name="currency_id" ref="BTC" />
+            <field eval="time.strftime('%Y-01-01')" name="name"/>
+            <field name="rate">200.0</field>
+        </record>
+
+        <!-- New Account Type in accounting system-->
+        <record id="exchange_account_type_exchange" model="account.account.type">
+            <field name="name">Exchange</field>
+            <field name="code">exchange</field>
+            <field name="close_method">unreconciled</field>
+            <field name="report_type">liability</field>
+        </record>
+
+        <!-- Chart of Accounts in accounting system  -->
+        <record id="account_exch" model="account.account">
+            <field name="company_id" ref="base.main_company"/>
+            <field name="code">EXCH</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange Accounting</field>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="account_member" model="account.account">
+            <field name="code">EXC</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Members</field>
+            <field name="parent_id" ref="account_exch"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="exchange_partner_user_account1" model="account.account">
+            <field name="code">EXC 41</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange User Account 1</field>
+            <field name="parent_id" ref="account_member"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="exchange_partner_user_account2" model="account.account">
+            <field name="code">EXC 42</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange User Account 2</field>
+            <field name="parent_id" ref="account_member"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="exchange_partner_bus_user_account1" model="account.account">
+            <field name="code">EXC 43</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange Business User Account 1</field>
+            <field name="parent_id" ref="account_member"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="exchange_partner_bus_user_account2" model="account.account">
+            <field name="code">EXC 44</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange Business User Account 2</field>
+            <field name="parent_id" ref="account_member"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+
+        <record id="account_org" model="account.account">
+            <field name="code">EXC_ORG</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange Organisation</field>
+            <field name="parent_id" ref="account_exch"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="exchange_stock_account" model="account.account">
+            <field name="code">EXC_ORG 1</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange stock account</field>
+            <field name="parent_id" ref="account_org"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="exchange_organisation_account" model="account.account">
+            <field name="code">EXC_ORG 51</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange Organisation account</field>
+            <field name="parent_id" ref="account_org"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="exchange_organisation_loans1" model="account.account">
+            <field name="code">EXC_ORG-L1</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange Loan 1 account</field>
+            <field name="parent_id" ref="account_org"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="exchange_organisation_loans2" model="account.account">
+            <field name="code">EXC_ORG-L2</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange Loan 2 account</field>
+            <field name="parent_id" ref="account_org"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <record id="exchange_income_account" model="account.account">
+            <field name="code">EXC_ORG 7</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="name">Exchange income account</field>
+            <field name="parent_id" ref="account_org"/>
+            <field name="internal_type">other</field>
+            <field name="user_type_id" ref="exchange.exchange_account_type_exchange"/>
+        </record>
+
+        <!-- Accounting Journal -->
+        <record id="sequence_exchange_journal" model="ir.sequence">
+            <field name="name">Account Default Exchange Journal</field>
+            <field eval="3" name="padding"/>
+            <field name="prefix">EXCJ/%(year)s/</field>
+        </record>
+
+        <record id="exchange_journal_u1" model="account.journal">
+            <field name="name">Exchange User1 Journal</field>
+            <field name="code">EX_U1</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">general</field>
+            <field name="sequence_id" ref="sequence_exchange_journal"/>
+            <field name="default_debit_account_id" ref="exchange_partner_user_account1"/>
+            <field name="default_credit_account_id" ref="exchange_partner_user_account1"/>
+        </record>
+        <record id="exchange_journal_u2" model="account.journal">
+            <field name="name">Exchange User2 Journal</field>
+            <field name="code">EX_U2</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">general</field>
+            <field name="sequence_id" ref="sequence_exchange_journal"/>
+            <field name="default_debit_account_id" ref="exchange_partner_user_account2"/>
+            <field name="default_credit_account_id" ref="exchange_partner_user_account2"/>
+        </record>
+
+        <record id="exchange_journal_b1" model="account.journal">
+            <field name="name">Exchange Business Journal</field>
+            <field name="code">EX_B1</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">general</field>
+            <field name="sequence_id" ref="sequence_exchange_journal"/>
+            <field name="default_debit_account_id" ref="exchange_partner_bus_user_account1"/>
+            <field name="default_credit_account_id" ref="exchange_partner_bus_user_account1"/>
+        </record>
+
+        <record id="exchange_journal_o1" model="account.journal">
+            <field name="name">Exchange Organisation Journal</field>
+            <field name="code">EX_O1</field>
+            <field name="currency_id" ref="base_exchange.DOO"/>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="type">general</field>
+            <field name="sequence_id" ref="sequence_exchange_journal"/>
+            <field name="default_debit_account_id" ref="account_exch"/>
+            <field name="default_credit_account_id" ref="account_exch"/>
+        </record>
+
+        <!-- Account Types Templates -->
+        <record id="account_type_template1" model="exchange.account.type">
+            <field name="name">PD</field>
+            <field name="account_name">Private User Default account</field>
+            <field name="account_desc">Private Member Accounts</field>
+        </record>
+
+        <record id="account_type_template2" model="exchange.account.type">
+            <field name="name">PU</field>
+            <field name="account_name">Private User sub account</field>
+            <field name="account_desc">Private Member Accounts</field>
+        </record>
+
+        <record id="account_type_template3" model="exchange.account.type">
+            <field name="name">BD</field>
+            <field name="account_name">Business User Default account</field>
+            <field name="account_desc">Business User Accounts</field>
+        </record>
+
+        <record id="account_type_template4" model="exchange.account.type">
+            <field name="name">BS</field>
+            <field name="account_name">Business User sub account</field>
+            <field name="account_desc">Business User Accounts</field>
+        </record>
+
+        <record id="account_type_template5" model="exchange.account.type">
+            <field name="name">SY</field>
+            <field name="account_name">System Account</field>
+            <field name="account_desc">For System or Organisation</field>
+        </record>
+
+         <record id="account_type_template6" model="exchange.account.type">
+            <field name="name">CL</field>
+            <field name="account_name">Clearing Account</field>
+            <field name="account_desc">For System or Organisation</field>
+        </record>
+    </data>
+</odoo>

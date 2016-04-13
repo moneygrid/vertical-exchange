@@ -1,0 +1,623 @@
+# French translation for odoo-vertical-community
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the odoo-vertical-community package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: odoo-vertical-community\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2014-11-11 10:31+0000\n"
+"PO-Revision-Date: 2014-11-14 00:24+0000\n"
+"Last-Translator: Sybille Saint Girons <sybille@valeureux.org>\n"
+"Language-Team: French <fr@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2014-11-14 11:48+0000\n"
+"X-Generator: Launchpad (build 17241)\n"
+
+#. module: exchange
+#: code:addons/exchange/exchange.py:219
+#, python-format
+msgid "Access error!"
+msgstr "Erreur d'accès"
+
+#. module: exchange
+#: model:ir.model,name:exchange.model_account_move
+msgid "Account Entry"
+msgstr "Écriture comptable"
+
+#. module: exchange
+#: model:ir.actions.act_window,name:exchange.act_exchange_transactions_all
+#: model:ir.ui.menu,name:exchange.menu_act_exchange_transactions_all
+msgid "All"
+msgstr "Tous"
+
+#. module: exchange
+#: field:exchange.transaction,already_published:0
+msgid "Already published?"
+msgstr "Déjà publié?"
+
+#. module: exchange
+#: field:res.partner.wallet.balance,available:0
+msgid "Available"
+msgstr "Disponible"
+
+#. module: exchange
+#: field:res.partner.wallet.currency,available_account:0
+msgid "Available account"
+msgstr "Compte de disponibilité"
+
+#. module: exchange
+#: model:ir.model,name:exchange.model_res_partner_wallet_balance
+#: view:res.partner:exchange.view_partner_form_wallet
+msgid "Balance"
+msgstr "Solde"
+
+#. module: exchange
+#: field:res.partner,account_balance_ids:0
+msgid "Balances"
+msgstr "Soldes"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: exchange
+#: selection:exchange.transaction,state:0
+msgid "Cancelled"
+msgstr "Annulé"
+
+#. module: exchange
+#: view:community.config.settings:exchange.view_community_configuration_wallet
+msgid "Central Bank"
+msgstr "Banque Centrale"
+
+#. module: exchange
+#: selection:exchange.transaction,state:0
+msgid "Closed"
+msgstr "Cloturé"
+
+#. module: exchange
+#: model:account.account.type,name:exchange.exchange_account_type_community
+#: view:res.partner:exchange.view_partner_form_wallet
+msgid "Community"
+msgstr "Communauté"
+
+#. module: exchange
+#: field:exchange.config.settings,journal_id:0
+msgid "Community Journal"
+msgstr "Journal de la Communauté"
+
+#. module: exchange
+#: model:ir.model,name:exchange.model_community_config_settings
+msgid "Community configuration"
+msgstr "Configuration de la Communauté"
+
+#. module: exchange
+#: field:exchange.config.accounts,config_id:0
+msgid "Config"
+msgstr "Configuration"
+
+#. module: exchange
+#: code:addons/exchange/exchange.py:330
+#, python-format
+msgid "Config error!"
+msgstr "Erreur de configuation !"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_form
+#: selection:exchange.transaction,state:0
+msgid "Confirm"
+msgstr "Confirmer"
+
+#. module: exchange
+#: selection:exchange.transaction,state:0
+msgid "Confirm Refund"
+msgstr "Confirmer l'Avoir"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_form
+msgid "Confirm that you received the payment for the refund"
+msgstr "Veuillez confirmer que vous avez reçu le paiement de l'Avoir"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_form
+msgid "Confirm that your have received the payment"
+msgstr "Confirmez la réception du paiment"
+
+#. module: exchange
+#: field:exchange.transaction,confirm_id:0
+msgid "Confirmation move"
+msgstr "Mouvement de confirmation"
+
+#. module: exchange
+#: field:exchange.config.accounts,create_uid:0
+#: field:exchange.currency.line,create_uid:0
+#: field:exchange.transaction,create_uid:0
+#: field:res.partner.wallet.balance,create_uid:0
+#: field:res.partner.wallet.currency,create_uid:0
+msgid "Created by"
+msgstr "Créée par"
+
+#. module: exchange
+#: field:exchange.config.accounts,create_date:0
+#: field:exchange.currency.line,create_date:0
+#: field:exchange.transaction,create_date:0
+#: field:res.partner.wallet.balance,create_date:0
+#: field:res.partner.wallet.currency,create_date:0
+msgid "Created on"
+msgstr "Créée le"
+
+#. module: exchange
+#: view:exchange.config.accounts:exchange.view_account_config_tree
+#: view:exchange.currency.line:exchange.view_exchange_currency_line_tree
+#: field:exchange.transaction,currency_ids:0
+#: view:exchange.config.settings:exchange.view_community_configuration_wallet
+#: field:exchange.config.settings,currency_ids:0
+#: field:res.partner,exchange_account_ids:0
+#: view:res.partner.wallet.currency:exchange.view_res_partner_exchange_currency_tree
+msgid "Currencies"
+msgstr "Devises"
+
+#. module: exchange
+#: view:exchange.config.accounts:exchange.view_account_config_form
+#: field:exchange.config.accounts,currency_id:0
+#: field:exchange.currency.line,currency_id:0
+#: model:ir.model,name:exchange.model_res_currency
+#: model:ir.model,name:exchange.model_res_partner_exchange_currency
+#: field:res.partner.wallet.balance,currency_id:0
+#: view:res.partner.wallet.currency:exchange.view_res_partner_exchange_currency_form
+#: field:res.partner.wallet.currency,currency_id:0
+msgid "Currency"
+msgstr "Devise"
+
+#. module: exchange
+#: model:ir.model,name:exchange.model_exchange_currency_line
+msgid "Currency line"
+msgstr "Ligne de Devise"
+
+#. module: exchange
+#: help:exchange.transaction,message_last_post:0
+msgid "Date of the last message posted on the record."
+msgstr "Date du dernier message posté sur cet enregistrement"
+
+#. module: exchange
+#: field:exchange.config.settings,ref_currency_id:0
+msgid "Default currency"
+msgstr "Devise par défaut"
+
+#. module: exchange
+#: field:exchange.transaction,description:0
+msgid "Detail"
+msgstr "Détail"
+
+#. module: exchange
+#: selection:exchange.transaction,state:0
+msgid "Draft"
+msgstr "Brouillon"
+
+#. module: exchange
+#: field:exchange.transaction,quantity:0
+msgid "Exchanged quantity"
+msgstr "Quantité échangée"
+
+#. module: exchange
+#: field:res.partner.wallet.currency,expense_account:0
+msgid "Expense account"
+msgstr "Compte de charge"
+
+#. module: exchange
+#: field:exchange.config.accounts,external_currency:0
+msgid "External currency"
+msgstr "Devise externe"
+
+#. module: exchange
+#: field:exchange.currency.line,field:0
+msgid "Field"
+msgstr "Champ"
+
+#. module: exchange
+#: field:exchange.transaction,message_follower_ids:0
+msgid "Followers"
+msgstr "Abonnés"
+
+#. module: exchange
+#: help:exchange.transaction,message_summary:0
+msgid ""
+"Holds the Chatter summary (number of messages, ...). This summary is "
+"directly in html format in order to be inserted in kanban views."
+msgstr ""
+"Contient le résumé de la discussion (nombre de messages, ...). Ce résumé est "
+"au format HTML pour permettre son utilisation dans la vue kanban"
+
+#. module: exchange
+#: field:exchange.config.accounts,id:0
+#: field:exchange.currency.line,id:0
+#: field:exchange.transaction,id:0
+#: field:res.partner.wallet.balance,id:0
+#: field:res.partner.wallet.currency,id:0
+msgid "ID"
+msgstr "ID"
+
+#. module: exchange
+#: help:exchange.transaction,message_unread:0
+msgid "If checked new messages require your attention."
+msgstr "Si coché, de nouveaux messages demandent votre attention."
+
+#. module: exchange
+#: field:res.partner.wallet.currency,income_account:0
+msgid "Income account"
+msgstr "Compte de produit"
+
+#. module: exchange
+#: view:res.partner:exchange.view_partner_form_wallet
+msgid "Internal Notes"
+msgstr "Notes Internes"
+
+#. module: exchange
+#: selection:account.move,wallet_action:0
+msgid "Invoice"
+msgstr "Facture"
+
+#. module: exchange
+#: field:exchange.transaction,invoice_id:0
+msgid "Invoice move"
+msgstr "Mouvement de facturation"
+
+#. module: exchange
+#: field:exchange.transaction,message_is_follower:0
+msgid "Is a Follower"
+msgstr "Est un Abonné"
+
+#. module: exchange
+#: field:exchange.transaction,is_moderator:0
+msgid "Is moderator?"
+msgstr "Est modérateur?"
+
+#. module: exchange
+#: field:exchange.transaction,is_receiver:0
+msgid "Is receiver?"
+msgstr "Est le receveur ?"
+
+#. module: exchange
+#: field:exchange.transaction,is_issuer:0
+msgid "Is sender?"
+msgstr "Est l'envoyeur ?"
+
+#. module: exchange
+#: field:exchange.transaction,message_last_post:0
+msgid "Last Message Date"
+msgstr "Date du dernier message"
+
+#. module: exchange
+#: field:exchange.config.accounts,write_uid:0
+#: field:exchange.currency.line,write_uid:0
+#: field:exchange.transaction,write_uid:0
+#: field:res.partner.wallet.balance,write_uid:0
+#: field:res.partner.wallet.currency,write_uid:0
+msgid "Last Updated by"
+msgstr "Modifiée par"
+
+#. module: exchange
+#: field:exchange.config.accounts,write_date:0
+#: field:exchange.currency.line,write_date:0
+#: field:exchange.transaction,write_date:0
+#: field:res.partner.wallet.balance,write_date:0
+#: field:res.partner.wallet.currency,write_date:0
+msgid "Last Updated on"
+msgstr "Modifiée le"
+
+#. module: exchange
+#: field:exchange.config.accounts,limit_positive:0
+#: field:res.partner.wallet.balance,limit_positive:0
+#: field:res.partner.wallet.currency,limit_positive:0
+msgid "Limit + ?"
+msgstr "Limite + ?"
+
+#. module: exchange
+#: field:exchange.config.accounts,limit_negative:0
+#: field:res.partner.wallet.balance,limit_negative:0
+#: field:res.partner.wallet.currency,limit_negative:0
+msgid "Limit - ?"
+msgstr "Limite - ?"
+
+#. module: exchange
+#: code:addons/exchange/exchange.py:283
+#: code:addons/exchange/exchange.py:295
+#, python-format
+msgid "Limit error!"
+msgstr "Erreur de limite !"
+
+#. module: exchange
+#: model:ir.module.category,name:exchange.module_exchange_category
+msgid "Marketplace"
+msgstr "Place de marché"
+
+#. module: exchange
+#: model:res.groups,name:exchange.base_exchange.group_exchange_moderator
+msgid "Marketplace / Moderator"
+msgstr "Place de marché / Modérateur"
+
+#. module: exchange
+#: model:res.groups,name:exchange.base_exchange.group_exchange_user
+msgid "Marketplace / User"
+msgstr "Place de marché / Utilisateur"
+
+#. module: exchange
+#: field:exchange.transaction,message_ids:0
+msgid "Messages"
+msgstr "Messages"
+
+#. module: exchange
+#: help:exchange.transaction,message_ids:0
+msgid "Messages and communication history"
+msgstr "Historique des messages et des communications"
+
+#. module: exchange
+#: field:exchange.transaction,model_id:0
+#: field:exchange.transaction,model_name:0
+msgid "Model"
+msgstr "Modèle"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_form
+#: field:exchange.transaction,move_ids:0
+msgid "Moves"
+msgstr "Mouvements"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_search
+#: model:ir.actions.act_window,name:exchange.act_exchange_transactions_my
+#: model:ir.ui.menu,name:exchange.menu_act_exchange_transactions_my
+msgid "My transactions"
+msgstr "Mes transactions"
+
+#. module: exchange
+#: code:addons/exchange/exchange.py:284
+#, python-format
+msgid ""
+"Not enough amount available for %s. Currency : %s, Current : %s, Needed : "
+"%s, Limit : %s"
+msgstr ""
+
+#. module: exchange
+#: code:addons/exchange/exchange.py:330
+#, python-format
+msgid "One of the currency is missing in the configuration!"
+msgstr "Une des devises manque dans la configuration"
+
+#. module: exchange
+#: model:ir.model,name:exchange.model_res_partner
+#: field:res.partner.wallet.balance,partner_id:0
+#: field:res.partner.wallet.currency,partner_id:0
+msgid "Partner"
+msgstr "Partenaire"
+
+#. module: exchange
+#: field:exchange.config.accounts,partner_availability_account_id:0
+msgid "Partner Availability account"
+msgstr "Compte disponibilité du Partenaire"
+
+#. module: exchange
+#: field:exchange.config.accounts,partner_expense_account_id:0
+msgid "Partner Expense account"
+msgstr "Compte d'achat du Partenaire"
+
+#. module: exchange
+#: field:exchange.config.accounts,partner_income_account_id:0
+msgid "Partner Income account"
+msgstr "Compte de vente du Partenaire"
+
+#. module: exchange
+#: field:exchange.config.accounts,partner_reserved_account_id:0
+msgid "Partner Reserved account"
+msgstr "Compte de réserve du Partenaire"
+
+#. module: exchange
+#: selection:account.move,wallet_action:0
+msgid "Payment"
+msgstr "Paiement"
+
+#. module: exchange
+#: selection:account.move,wallet_action:0
+msgid "Payment confirmation"
+msgstr "Confirmation du paiement"
+
+#. module: exchange
+#: selection:account.move,wallet_action:0
+msgid "Payment confirmation cancellation"
+msgstr "Annulation de la confirmation du paiement"
+
+#. module: exchange
+#: field:exchange.transaction,payment_id:0
+msgid "Payment move"
+msgstr "Mouvement de paiement"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_form
+msgid "Put in draft"
+msgstr "Mettre en brouillon"
+
+#. module: exchange
+#: field:exchange.transaction,receiver_id:0
+msgid "Receiver"
+msgstr "Receveur"
+
+#. module: exchange
+#: selection:account.move,wallet_action:0
+#: view:exchange.transaction:exchange.view_exchange_transaction_form
+msgid "Refund"
+msgstr "Avoir"
+
+#. module: exchange
+#: selection:account.move,wallet_action:0
+msgid "Refund Payment"
+msgstr "Paiement de l'Avoir"
+
+#. module: exchange
+#: field:exchange.currency.line,res_id:0
+msgid "Related Document ID"
+msgstr "Id. du document associé"
+
+#. module: exchange
+#: field:exchange.currency.line,model:0
+msgid "Related Document Model"
+msgstr "Modèle de document associé"
+
+#. module: exchange
+#: selection:account.move,wallet_action:0
+msgid "Reservation"
+msgstr "Réservation"
+
+#. module: exchange
+#: selection:account.move,wallet_action:0
+msgid "Reservation Cancellation"
+msgstr "Annulation de la réservation"
+
+#. module: exchange
+#: field:exchange.transaction,reservation_id:0
+msgid "Reservation move"
+msgstr "Mouvement de réservation"
+
+#. module: exchange
+#: field:res.partner.wallet.balance,reserved:0
+msgid "Reserved"
+msgstr "Réservé"
+
+#. module: exchange
+#: field:res.partner.wallet.currency,reserved_account:0
+msgid "Reserved account"
+msgstr "Compte de réservation"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_form
+msgid "Return to done"
+msgstr "Revenir à Terminé"
+
+#. module: exchange
+#: field:exchange.transaction,sender_id:0
+msgid "Sender"
+msgstr "Émetteur"
+
+#. module: exchange
+#: field:exchange.transaction,state:0
+msgid "Status"
+msgstr "Statut"
+
+#. module: exchange
+#: field:exchange.currency.line,subtotal:0
+msgid "Subtotal"
+msgstr "Sous-total"
+
+#. module: exchange
+#: field:exchange.transaction,message_summary:0
+msgid "Summary"
+msgstr "Résumé"
+
+#. module: exchange
+#: code:addons/exchange/exchange.py:296
+#, python-format
+msgid ""
+"Too much amount available for %s. Currency : %s, Current %s, Needed : %s, "
+"Limit : %s"
+msgstr ""
+"Montant disponible trop élevé pour %s. Devise : %s, Courant %s, Nécessaire : "
+"%s, Limite : %s"
+
+#. module: exchange
+#: field:exchange.transaction,total:0
+msgid "Total"
+msgstr "Total"
+
+#. module: exchange
+#: field:account.move,wallet_transaction_id:0
+#: view:exchange.transaction:exchange.view_exchange_transaction_form
+#: model:ir.model,name:exchange.model_exchange_transaction
+msgid "Transaction"
+msgstr "Transaction"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_search
+#: view:exchange.transaction:exchange.view_exchange_transaction_tree
+#: model:ir.ui.menu,name:exchange.menu_exchange
+msgid "Transactions"
+msgstr "Transactions"
+
+#. module: exchange
+#: field:account.move,wallet_action:0
+msgid "Type"
+msgstr "Type"
+
+#. module: exchange
+#: field:exchange.transaction,uom_id:0
+msgid "Unit of Measure"
+msgstr "Unité de mesure"
+
+#. module: exchange
+#: field:exchange.currency.line,price_unit:0
+msgid "Unit price"
+msgstr "Prix unitaire"
+
+#. module: exchange
+#: field:exchange.transaction,message_unread:0
+msgid "Unread Messages"
+msgstr "Messages non-lus"
+
+#. module: exchange
+#: field:exchange.config.accounts,limit_positive_value:0
+#: field:res.partner.wallet.balance,limit_positive_value:0
+#: field:res.partner.wallet.currency,limit_positive_value:0
+msgid "Value Limit +"
+msgstr "Valeur de la Limite +"
+
+#. module: exchange
+#: field:exchange.config.accounts,limit_negative_value:0
+#: field:res.partner.wallet.balance,limit_negative_value:0
+#: field:res.partner.wallet.currency,limit_negative_value:0
+msgid "ValueLimit -"
+msgstr "Valeur de la Limite -"
+
+#. module: exchange
+#: field:res.currency,exchange_currency:0
+msgid "Wallet currency?"
+msgstr "Devise du Porte-monnaie ?"
+
+#. module: exchange
+#: sql_constraint:exchange.currency.line:0
+msgid "We can only have one currency per record"
+msgstr "Nous pouvons avoir seulement une devise par enregistrement"
+
+#. module: exchange
+#: sql_constraint:exchange.config.accounts:0
+msgid "We can only have one line per currency"
+msgstr "Nous pouvons avoir seulement une seule ligne par devise"
+
+#. module: exchange
+#: field:exchange.transaction,website_message_ids:0
+msgid "Website Messages"
+msgstr "Messages du site web"
+
+#. module: exchange
+#: help:exchange.transaction,website_message_ids:0
+msgid "Website communication history"
+msgstr "Historique de communication du site web"
+
+#. module: exchange
+#: constraint:exchange.transaction:0
+msgid "You cannot make a transaction between the same partner."
+msgstr ""
+"Vous ne pouvez pas faire de transactions avec le partenaire identique"
+
+#. module: exchange
+#: code:addons/exchange/exchange.py:220
+#, python-format
+msgid "You need to have the role  to perform this action!"
+msgstr "Vous devez avoir le rôle pour faire cette action !"
+
+#. module: exchange
+#: view:exchange.transaction:exchange.view_exchange_transaction_form_admin
+msgid "[('user_ids','!=',False)]"
+msgstr ""

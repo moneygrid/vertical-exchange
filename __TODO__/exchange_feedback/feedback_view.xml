@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Feedback view inherited transaction.type -->
+        <record id="view_exchange_transaction_type_inherited" model="ir.ui.view">
+            <field name="name">exchange.transaction.type.extension</field>
+            <field name="model">exchange.transaction.type</field>
+            <field name="inherit_id" ref="view_transaction_type_form"/>
+            <field name="arch" type="xml">
+
+                    <group name="feedback_grp" attrs="{'invisible': [('is_fee','=',True)]}">
+                        <label for="id" string="Feedback on transaction"/>
+                        <group col="4">
+                            <field name="requires_feedback" modifiers="{}"/>
+                            <field name="default_feedback_level" modifiers="{}"/>
+                            <field name="feedback_enabled_since" modifiers="{}"/>
+                            <field name="feedback_expiration_time_number" modifiers="{}"/> days
+                            <field name="feedback_reply_expiration_time_number" modifiers="{}"/> days
+                            <field name="feedback_account_id" modifiers="{}"/>
+                        </group>
+                    </group>
+            </field>
+        </record>
+    </data>
+</openerp>

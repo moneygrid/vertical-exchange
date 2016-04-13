@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_exchange_config_settings_base_user,exchange_config_settings user,model_exchange_config_settings,base.group_user,1,0,0,0
+access_exchange_exchange_provider_settings_admin,exchange_exchange_provider_settings_admin,model_exchange_provider,base.group_system,1,1,1,1

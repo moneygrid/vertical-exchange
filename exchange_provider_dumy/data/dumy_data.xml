@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Dumy Currency -->
+        <record id="DUM" model="res.currency">
+            <field name="name">DUM</field>
+            <field name="symbol">Đ</field>
+            <field name="rounding">0.01</field>
+            <field name="accuracy">4</field>
+            <field name="exchange_currency" eval="True"/>
+        </record>
+        <record id="rateDUM" model="res.currency.rate">
+            <field name="currency_id" ref="DUM" />
+            <field eval="time.strftime('%Y-01-01')" name="name"/>
+            <field name="rate">1.0</field>
+        </record>
+        <!-- Dumy Partner -->
+        <record id="partner_dumy_company" model="res.partner">
+            <field name="name">John Do</field>
+            <field name="use_parent_address" eval="True"/>
+            <field name="company_type">company</field>
+            <field name="website">www.dumy.com</field>
+            <field name="function">Business Division Manager</field>
+            <field name="email">john.do@dumy.com</field>
+            <field name="website">www.dumy.com</field>
+            <field name="notify_email">none</field>
+            <field name="image" type="base64" file="exchange_provider_dumy/static/img/dumy-icon.png"/>
+        </record>
+        <!-- Dumy Provider DATA -->
+        <record id="exchange_provider_dumy" model="exchange.provider">
+            <field name="name">Dumy Provider</field>
+            <field name="provider">dumy</field>
+            <field name="environment">test</field>
+            <field name="asset_class">Hot air</field>
+            <field name="active" eval="True"/>
+            <field name="currency_ids" ref="exchange_provider_dumy.DUM"/>
+            <field name="dumy_id">JohnDo</field>
+            <field name="dumy_secret">1240597'9867'98072</field>
+            <field name="partner_id" ref="partner_dumy_company"/>
+            <!-- <field name="view_template_id" ref="exchange_provider_dumy.dumy_button"/> -->
+            <field name="image" type="base64" file="exchange_provider_dumy/static/img/dumy-icon.png"/>
+            <field name="pre_msg"><![CDATA[
+                <p>You will be redirected to nowhere after clicking on pay button.</p>
+                ]]>
+            </field>
+            <field name="post_msg"><![CDATA[
+                <p>...</p>
+                ]]>
+            </field>
+            <field name="description">This module can be used as template to integrate future Exchange Provider into the Odoo Exchange framework</field>
+        </record>
+    </data>
+</odoo>

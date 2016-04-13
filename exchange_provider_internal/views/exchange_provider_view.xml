@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Credentials for Internal Provider -->
+    <record id="provider_form_internal" model="ir.ui.view">
+        <field name="name">exchange.provider.form.internal</field>
+        <field name="model">exchange.provider</field>
+        <field name="inherit_id" ref="base_exchange.view_exchange_provider_form"/>
+        <field name="arch" type="xml">
+            <xpath expr='//group[@name="provider_grp"]' position='after'>
+                <group attrs="{'invisible': [('provider', '!=', 'internal')]}">
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

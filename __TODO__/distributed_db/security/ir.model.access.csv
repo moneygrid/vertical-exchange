@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_exchange_distributed_db_settings_admin,exchange_distributed_db_settings_admin,model_distributed_db_list,base.group_system,1,1,1,1

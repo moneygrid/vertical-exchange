@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Exchange Provider Models form  view -->
+    <record id="view_exchange_provider_model2_form" model="ir.ui.view">
+        <field name="name">exchange.provider.model.form</field>
+        <field name="model">exchange.provider.model</field>
+        <field name="arch" type="xml">
+            <form string="Exchange Provider Models">
+                <group name="provider_model" col="4">
+                    <field name="name"/>
+                    <newline/>
+                    <field name="account_model_id"/>
+                    <field name="transaction_model_id"/>
+                </group>
+                <group>
+                    <field name="description"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Exchange Provider view tree -->
+    <record id="view_exchange_provider_tree" model="ir.ui.view">
+        <field name="name">exchange.provider.tree</field>
+        <field name="model">exchange.provider</field>
+        <field name="arch" type="xml">
+            <tree string="Exchange Provider">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="provider"/>
+                <field name="environment"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Exchange Provider view form -->
+    <record id="view_exchange_provider_form" model="ir.ui.view">
+        <field name="name">exchange.provider.form</field>
+        <field name="model">exchange.provider</field>
+        <field name="arch" type="xml">
+            <form string="Exchange Provider">
+                <header>
+                    <button string="Test Connection" type="object" name="act_provider_test"
+                        context="{'default_provider': provider}"
+                        attrs="{'invisible': [('environment', '=', 'internal')]}"/>
+                    <button string="Get Account Balance" type="object" name="act_provider_get_balance"
+                        context="{'default_provider': provider}"
+                        attrs="{'invisible': [('environment', '=', 'internal')]}"/>
+                </header>
+                <sheet string="Exchange Provider">
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_inline oe_stat_button" name="act_provider_get_balance"
+                                type="object" icon="fa-money">
+                                <field name="balance_test" widget="statinfo"/>
+                        </button>
+                    </div>
+                    <field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Name"/></h1>
+                        <label for="provider" class="oe_edit_only"/>
+                        <field name="provider"/>
+                        <label for="provider_model" class="oe_edit_only"/>
+                        <field name="provider_model"/>
+                    </div>
+                    <group name="provider_base1" col="4">
+                        <field name="environment" groups="base.group_no_one"/>
+                        <field name="partner_id"/>
+                        <field name="active"/>
+                        <field name="asset_class"/>
+                    </group>
+                    <group name="provider_base2" col="2">
+                        <field name="description"/>
+                    </group>
+
+                    <notebook>
+                        <page name="credentials" string="Credentials">
+                            <group name="provider_grp">
+
+                            </group>
+                        </page>
+                        <page name="messages" string="Messages">
+                            <group>
+                                <field name="pre_msg"/>
+                                <field name="post_msg"/>
+                                <field name="pending_msg"/>
+                                <field name="done_msg"/>
+                                <field name="cancel_msg"/>
+                                <field name="error_msg"/>
+                            </group>
+                        </page>
+                        <page name="configuration" string="Configuration"  groups="base.group_no_one">
+                            <group name="provider_config">
+                             <!--   <field name="auto_confirm"/>  -->
+                                <field name="fees_active"/>
+                                <field name="fees_dom_fixed" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                                <field name="fees_dom_var" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                                <field name="fees_int_fixed" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                                <field name="fees_int_var" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                                <label for="view_template_id"/>
+                                <div>
+                                    <!-- <field name="view_template_id" nolabel="1"/>  -->
+                                    <div>
+                                        This template renders the pay button with all necessary values.
+                                        It is be rendered with qWeb with the following evaluation context:
+                                        <ul>
+                                            <li>tx_url: transaction URL to post the form</li>
+                                            <li>acquirer: payment.acquirer browse record</li>
+                                            <li>user: current user browse record</li>
+                                            <li>reference: the transaction reference number</li>
+                                            <li>currency: the transaction currency browse record</li>
+                                            <li>amount: the transaction amount, a float</li>
+                                            <li>partner: the buyer partner browse record, not necessarily set</li>
+                                            <li>partner_values: specific values about the buyer, for example coming from a shipping form</li>
+                                            <li>tx_values: transaction values</li>
+                                            <li>context: the current context dictionary</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </group>
+                        </page>
+                        <page name="currencies" string="Available Currencies">
+                            <tree>
+                                <field name="currency_ids"/>
+                            </tree>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Search Exchange Provider -->
+    <record id="view_exchange_provider_search" model="ir.ui.view">
+        <field name="name">exchange.provider.search</field>
+        <field name="model">exchange.provider</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="active"/>
+                <field name="provider"/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Provider" name="provider" domain="[]" context="{'group_by': 'provider'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <!-- Menu action Exchange Provider -->
+    <record id="act_exchange_provider_all" model="ir.actions.act_window">
+        <field name="name">Exchange Provider</field>
+        <field name="res_model">exchange.provider</field>
+        <field name="view_id" ref="view_exchange_provider_tree"/>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field eval="False" name="view_id"/>
+        <!--     <field name="search_view_id" ref="view_exchange_provider_search"/>
+       -->
+    </record>
+
+</odoo>

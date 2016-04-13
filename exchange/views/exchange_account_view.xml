@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Accounts view tree -->
+    <record id="view_accounts_tree" model="ir.ui.view">
+        <field name="name">exchange.accounts.tree</field>
+        <field name="model">exchange.accounts</field>
+        <field name="arch" type="xml">
+            <tree string="Accounts all" default_order="name">
+                <field name="name"/>
+                <field name="number"/>
+                <field name="template_id"/>
+                <field name="partner_id"/>
+            </tree>
+        </field>
+    </record>
+    <!--
+    <record id="acquirer_form" model="ir.ui.view">
+        <field name="name">payment.acquirer.form</field>
+        <field name="model">payment.acquirer</field>
+        <field name="arch" type="xml">
+            <form string="Payment Acquirer">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" name="%(payment_transaction_action_child)d"
+                            type="action" icon="fa-money" string="Payments">
+                        </button>
+                    </div>
+                    <field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Name"/></h1>
+                        <label for="provider" class="oe_edit_only"/>
+                        <field name="provider"/>
+                    </div>
+                    <group name="acquirer_base" col="2">
+                        <group name="acquirer_left">
+                            <field name="environment" groups="base.group_no_one"/>
+                            <field name="company_id" groups="base.group_multi_company" options='{"no_open":True}'/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Credentials">
+                            <group name="acquirer">
+                            </group>
+                        </page>
+                        <page string="Messages">
+                            <group>
+                                <field name="pre_msg"/>
+                                <field name="post_msg"/>
+                                <field name="pending_msg"/>
+                                <field name="done_msg"/>
+                                <field name="cancel_msg"/>
+                                <field name="error_msg"/>
+                            </group>
+                        </page>
+                        <page string="Configuration"  groups="base.group_no_one">
+                            <group name="acquirer_config">
+                                <field name="auto_confirm"/>
+                                <field name="fees_active"/>
+                                <field name="fees_dom_fixed" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                                <field name="fees_dom_var" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                                <field name="fees_int_fixed" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                                <field name="fees_int_var" attrs="{'invisible': [('fees_active', '=', False)]}"/>
+                                <label for="view_template_id"/>
+                                <div>
+                                    <field name="view_template_id" nolabel="1"/>
+                                    <div>
+                                        This template renders the acquirer button with all necessary values.
+                                        It is be rendered with qWeb with the following evaluation context:
+                                        <ul>
+                                            <li>tx_url: transaction URL to post the form</li>
+                                            <li>acquirer: payment.acquirer browse record</li>
+                                            <li>user: current user browse record</li>
+                                            <li>reference: the transaction reference number</li>
+                                            <li>currency: the transaction currency browse record</li>
+                                            <li>amount: the transaction amount, a float</li>
+                                            <li>partner: the buyer partner browse record, not necessarily set</li>
+                                            <li>partner_values: specific values about the buyer, for example coming from a shipping form</li>
+                                            <li>tx_values: transaction values</li>
+                                            <li>context: the current context dictionary</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <field name="registration_view_template_id"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>    -->
+
+    <!-- Accounts view form -->
+    <record id="view_accounts_form" model="ir.ui.view">
+        <field name="name">exchange.accounts.form</field>
+        <field name="model">exchange.accounts</field>
+        <field name="arch" type="xml">
+            <form string="Accounts" version="8.0">
+
+                <!--    <field name="active_model" invisible="1"/>
+                    <header attrs="{'invisible': [('active_model','!=','exchange.accounts')]}"> -->
+                <header>
+                    <button name="do_account_block" type="object" states="open" string="Block"/>
+                    <button name="do_account_deblock" type="object" states="blocked" class="oe_highlight" string="Deblock"/>
+                    <button name="do_account_close" confirm="Are you sure? You can't reopen it" type="object" states="open" string="Close"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="open,blocked,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_inline oe_stat_button" name="act_account_get_balance"
+                                type="object" icon="fa-money">
+                                <field name="balance" widget="monetary" options="{'currency_field': 'currency_base'}"/>
+                        </button>
+                    </div>
+
+                    <field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Name"/></h1>
+                        <field name="number" placeholder="Account Number" fonts="bold"/>
+                    </div>
+                    <group col="4">
+                        <field name="template_id" class="oe_inline"/>
+                        <field name="partner_id"/>
+                    </group>
+                    <group name="curr_grp" col="4">
+                        <field name="currency_base"/>
+                        <field name="available" widget="monetary" options="{'currency_field': 'currency_base'}"/>
+                        <field name="exchange_rate"/>
+                    </group>
+
+                    <notebook colspan="4">
+                        <page name="setting_page" string="Settings">
+                            <group col="4">
+                                <field name="type_prefix"/>
+                                <field name="with_messaging"/>
+                                <field name="default_account"/>
+                                <field name="exchange_provider_id"/>
+                            </group>
+                        </page>
+                        <page name="limits_page" string="Credit Limits">
+                            <group col="4">
+                                <field name="limit_negative"/>
+                                <field name="limit_negative_value" attrs="{'invisible': [('limit_negative','=',False)]}"/>
+                                <field name="limit_positive"/>
+                                <field name="limit_positive_value" attrs="{'invisible': [('limit_positive','=',False)]}"/>
+                            </group>
+                        </page>
+                        <page string="Description">
+                            <group>
+                                <field name="desc"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_exchange_accounts_search" model="ir.ui.view">
+        <field name="name">exchange.accounts.search</field>
+        <field name="model">exchange.accounts</field>
+        <field name="arch" type="xml">
+            <search string="Accounts">
+                <field name="name"/>
+                <field name="number"/>
+                <field name="partner_id"/>
+                <separator/>
+                <!--        <filter name="my_accounts" string="My accounts" domain="['|',('sender_id.user_ids','in',uid),('receiver_id.user_ids','in',uid)]" icon="terp-check"/>
+               --> </search>
+        </field>
+    </record>
+
+    <!-- Members/Settings Menu Items -->
+    <record id="act_exchange_accounts_all" model="ir.actions.act_window">
+        <field name="name">Accounts All</field>
+        <field name="res_model">exchange.accounts</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field eval="False" name="view_id"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="view_exchange_accounts_search"/>
+    </record>
+    <!-- Association Menu Item -->
+    <menuitem action="act_exchange_accounts_all" id="menu_act_exchange_accounts_asoc_all" parent="base_exchange.menu_association_exchange_admin" sequence="6"/>
+    <!-- *********************************************************************************** -->
+
+    <!-- Association Menu Item My Wallet -->
+    <record id="act_exchange_accounts_my" model="ir.actions.act_window">
+        <field name="name">My Exchange Wallet</field>
+        <field name="res_model">exchange.accounts</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field eval="False" name="view_id"/>
+        <field name="domain">[('partner_id','!=',False)]</field>
+        <field name="domain">[('user_ids','=',uid)]</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="view_exchange_accounts_search"/>
+    </record>
+    <!-- Association Menu Item -->
+    <menuitem action="act_exchange_accounts_my" id="menu_act_exchange_accounts_my" parent="base_exchange.menu_association_exchange_user" sequence="20"/>
+    <!-- *********************************************************************************** -->
+</odoo>
