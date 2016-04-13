@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Menu Item -->
+
+        <menuitem id="menu_association_exchange_config" name="Exchange" parent="account.menu_finance" sequence="6"/>
+
+        <!-- Accounts view -->
+         <record id="view_accounts_form" model="ir.ui.view">
+            <field name="name">exchange.accounts.form</field>
+            <field name="model">exchange.accounts</field>
+            <field name="arch" type="xml">
+                <form string="Accounts">
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="number"/>
+                            <field name="limit_negative"/>
+                            <field name="limit_negative_value" attrs="{'invisible': [('limit_negative','=',False)]}"/>
+                            <field name="limit_positive"/>
+                            <field name="limit_positive_value" attrs="{'invisible': [('limit_positive','=',False)]}"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="available"/>
+                            <field name="reserved"/>
+                            <field name="partner_id"/>
+                            <field name="template_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="desc"/>
+                        </group>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+       <record id="act_accouns_all" model="ir.actions.act_window">
+            <field name="name">All</field>
+            <field name="res_model">exchange.accounts</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+     <!--        <field eval="False" name="view_id"/>  -->
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="view_accounts_form"/>
+        </record>
+
+        <menuitem action="act_accounts_all" id="menu_act_accounts_all"
+                  parent="menu_association_exchange_config"/>
+        <!--
+        <record id="action_exchange_accounts" model="ir.actions.act_window">
+            <field name="name">Exchange Accounts</field>
+            <field name="res_model">exchange.accounts</field>
+            <field name="view_id" ref="view_exchange_accounts"/>
+            <field name="view_mode">form</field>
+            <field name="res_id" ref="view_accounts_form"/>
+        </record>
+
+
+        <menuitem id="menu_exchange_accounts" parent="base_exchange.menu_exchange_admin_configuration"
+            sequence="1" action="action_exchange_accounts"/>
+
+        <menuitem id="menu_account_wallet" name="Transactions" parent="account.menu_finance" sequence="6"/>
+
+        <record id="view_account_wallet_currency_line_tree" model="ir.ui.view">
+            <field name="name">exchange.currency.line.tree</field>
+            <field name="model">exchange.currency.line</field>
+            <field name="arch" type="xml">
+        -->
+    </data>
+</openerp>

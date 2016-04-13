@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- Transactions view tree -->
+        <record id="view_transactions_tree" model="ir.ui.view">
+            <field name="name">exchange.transaction.tree</field>
+            <field name="model">exchange.transaction</field>
+            <field name="arch" type="xml">
+                <tree string="Transactions all">
+                    <field name="create_date"/>
+                    <field name="account_from_id"/>
+                    <field name="account_to_id"/>
+                    <field name="tr_number"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Transactions view form -->
+        <record id="view_accounts_form" model="ir.ui.view">
+            <field name="name">exchange.transaction.form</field>
+            <field name="model">exchange.transaction</field>
+            <field name="arch" type="xml">
+                <form string="Transactions all">
+                    <group col="4">
+                        <field name="type_id" modifiers="{'required': true}"/>
+                        <field name="tr_number" modifiers="{'required': true}"/><field name="is_fee" modifiers="{}"/>
+                        <field name="is_loan" modifiers="{}"/><field name="state" modifiers="{'required': true}"/><field name="transaction_date" modifiers="{}"/><field name="emission_date" modifiers="{'required': true}"/>
+                        <field name="loan_type_id" modifiers="{}"/>
+                        <field name="fee_ids" modifiers="{}"/>
+                    </group>
+
+                    <group col="4">
+                        <field name="sender_id" modifiers="{}"/>
+                        <field name="account_from_id" modifiers="{'required': true}"/>
+                        <field name="amount_from" modifiers="{'required': true}"/>
+                        <field name="exchange_rate_from" modifiers="{'required': true}"/>
+                    </group>
+
+                    <group>
+                        <field name="receiver_id" modifiers="{}"/>
+                        <field name="account_to_id" modifiers="{'required': true}"/>
+                        <field name="amount_to" modifiers="{'required': true}"/>
+                        <field name="exchange_rate_to" modifiers="{'required': true}"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+        <!-- Menu Items -->
+        <record id="act_exchange_transaction_all" model="ir.actions.act_window">
+            <field name="name">All</field>
+            <field name="res_model">exchange.transaction</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_exchange_transaction_search"/>
+        </record>
+        <!-- Association Menu Item -->
+        <menuitem action="act_exchange_transaction_all" id="menu_act_transaction_accounts_asoc_all" parent="base_exchange.menu_association_exchange" sequence="2"/>
+        <!-- Settings Menu Item -->
+        <menuitem action="act_exchange_transaction_all" id="menu_act_transaction_accounts_all" parent="base_exchange.menu_configuration_exchange" sequence="2"/>
+
+        <record id="act_exchange_transaction_my" model="ir.actions.act_window">
+            <field name="name">My transactions</field>
+            <field name="res_model">exchange.transaction</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[('sender_id','!=',uid)]</field>
+        <!--  <field name="domain">['|',('sender_id.user_ids','in',uid),('receiver_id.user_ids','in',uid)]</field> -->
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_exchange_transaction_search"/>
+        </record>
+        <!-- Association Menu Item -->
+        <menuitem action="act_exchange_transaction_my" id="menu_act_transaction_accounts_my" parent="membership.menu_membership" sequence="18"/>
+
+        <!--
+        <menuitem id="menu_association_exc_accounts" parent="base_exchange.menu_association_exchange"
+            sequence="1" action="action_exchange_accounts_all"/>
+
+         Transactions type view form
+        <record id="view_accounts_form" model="ir.ui.view">
+            <field name="name">exchange.transaction.type.form</field>
+            <field name="model">exchange.transaction.type</field>
+            <field name="arch" type="xml">
+                <form string="Transactions type all">
+        <group col="4">
+		<field name="feedback_reply_expiration_time_field" modifiers="{}"/>
+		<field name="requires_feedback" modifiers="{}"/>
+		<field name="allowed_self_payment" modifiers="{}"/>
+		<field name="is_fee" modifiers="{}"/>
+		<field name="feedback_reply_expiration_time_number" modifiers="{}"/>
+		<field name="from_account_type_id" modifiers="{'required': true}"/>
+		<field name="max_amount_per_day" modifiers="{}"/>
+		<field name="is_loan" modifiers="{}"/>
+		<field name="priority" modifiers="{}"/>
+		<field name="feedback_expiration_time_field" modifiers="{}"/>
+		<field name="hidden" modifiers="{}"/>
+		<field name="feedback_enabled_since" modifiers="{}"/>
+		<field name="allowed_payment" modifiers="{}"/>
+		<field name="default_feedback_level" modifiers="{}"/>
+		<field name="feedback_expiration_time_number" modifiers="{}"/>
+		<field name="feetype_ids" modifiers="{}"/>
+		<field name="loan_type_ids" modifiers="{}"/>
+		<field name="conciliable" modifiers="{}"/>
+		<field name="desc" modifiers="{}"/>
+		<newline/>
+		<field name="name" modifiers="{'required': true}"/>
+		<field name="to_account_type_id" modifiers="{'required': true}"/>
+		<field name="default_feedback_comments" modifiers="{}"/>
+		<newline/>
+		<field name="confirmation_message" modifiers="{}"/>
+		<newline/>
+
+
+	        </group>
+        </record>
+
+        <record id="action_exchange_accounts_all" model="ir.actions.act_window">
+            <field name="name">All</field>
+            <field name="res_model">exchange.accounts</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="view_id" ref="view_accounts_form"/>
+        </record>
+
+
+
+        <menuitem action="act_accounts_all" id="menu_act_accounts_all"
+                  parent="menu_association_exchange_config"/>
+
+        <record id="action_exchange_accounts" model="ir.actions.act_window">
+            <field name="name">Exchange Accounts</field>
+            <field name="res_model">exchange.accounts</field>
+            <field name="view_id" ref="view_exchange_accounts"/>
+            <field name="view_mode">form</field>
+            <field name="res_id" ref="view_accounts_form"/>
+        </record>
+
+
+        <menuitem id="menu_exchange_accounts" parent="base_exchange.menu_exchange_admin_configuration"
+            sequence="1" action="action_exchange_accounts"/>
+
+        <menuitem id="menu_exchange" name="Transactions" parent="account.menu_finance" sequence="6"/>
+
+        <record id="view_exchange_currency_line_tree" model="ir.ui.view">
+            <field name="name">exchange.currency.line.tree</field>
+            <field name="model">exchange.currency.line</field>
+            <field name="arch" type="xml">
+        -->
+
+    </data>
+</openerp>

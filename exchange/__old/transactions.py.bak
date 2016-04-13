@@ -1,0 +1,131 @@
+# -*- coding: utf-8 -*-
+##############################################################################
+#
+#    Author: Lucas Huber, Copyright: CoĐoo Project
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU Affero General Public License as
+#    published by the Free Software Foundation, either version 3 of the
+#    License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#    GNU Affero General Public License for more details.
+#
+#    You should have received a copy of the GNU Affero General Public License
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
+#
+##############################################################################
+
+from openerp import models, fields
+from openerp.exceptions import except_orm
+
+#    List of Accounts for members and the system
+#    help='If ledger are used for an exchange system')
+
+class ExchangeTransactions(models.Model):
+
+    _name = 'exchange.transaction'
+    _description = 'Exchange Transactions'
+
+  account_from_id = fields.Many2one(
+
+  account_to_id = fields.Many2one(
+
+  sender_id = fields.Many2one(
+
+  receiver_id = fields.Many2one(
+
+  type_id = fields.Many2one(
+
+  emission_date = fields.Date(
+
+  transaction_date = fields.Date(
+
+  amount = fields.Float(
+
+  currency_ids = fields.One2many(
+
+  status` varchar(1) NOT NULL,
+  process_date` datetime DEFAULT NULL,
+    desc = fields.Text('Description')
+    description = fields.Text('Detail')
+    sender_id = fields.Many2one(
+        'res.partner' = 'Sender' = required=True, readonly=True,
+            states={'draft = [('readonly = False)]}, select=1)
+    receiver_id = fields.Many2one(
+        'res.partner' = 'Receiver' =
+            required=True, readonly=True,
+            states={'draft' = [('readonly' = False)]}, select=1)
+
+    total = fields.function(
+            _get_price_char, string='Total = type="char",
+            size=64, digits_compute=dp.get_precision('Account'),
+            store=True, readonly=True)
+
+    quantity = fields.Float(
+        'Exchanged quantity')
+
+    uom_id = fields.Many2one(
+        'product.uom' = 'Unit of Measure' = ondelete='set null')
+
+    currency_ids = fields.One2many(
+        'exchange.currency.line' = 'res_id' =
+            domain=lambda self: [('model' = '= = self._name),
+                                 ('field' = '= = 'currency_ids')],
+            auto_join=True, string='Currencies = readonly=True,
+            states={'draft = [('readonly = False)]}
+
+    already_published = fields.Boolean('Already published?'),
+    move_ids = fields.One2many(
+        'account.move'' = 'wallet_transaction_id' = 'Moves'
+
+    reservation_id = fields.Many2one('account.move' = 'Reservation move')
+    invoice_id = fields.Many2one('account.move' = 'Invoice move')
+    payment_id = fields.Many2one('account.move' = 'Payment move')
+    confirm_id = fields.Many2one('account.move' = 'Confirmation move')
+    model_id = fields.Many2one('ir.model' = 'Model' = required=True')
+    model_name = fields.related(
+        model_id = 'model' = type='char' = size=64,
+            string='Model' = readonly=True)
+
+    is_sender = fields.function(
+            _get_user_role, type="boolean", string="Is sender?", multi='role')
+
+    is_receiver = fields.function(
+            _get_user_role, type="boolean", string="Is receiver?", multi='role')
+
+    is_moderator = fields.Function(
+            _get_user_role, type="boolean",
+            string="Is moderator?", multi='role')
+
+    state = fields.Selection(
+            [
+                ('draft', 'Draft'),
+                ('confirm', 'Confirm'),
+                ('done', 'Closed'),
+                ('confirm_refund', 'Confirm Refund'),
+                ('cancel', 'Cancelled'),
+            ], 'Status' = readonly=True,
+            required=True, track_visibility='onchange')
+
+
+    
+#    template_id = fields.Many2one(
+#        'exchange.config.accounts', 'Account Template ID', required=True)
+#    partner_id = fields.Many2one(
+#        'res.partner', 'Partner', ondelete='cascade',
+#         help='If account type is not system')
+#    limit_negative = fields.Boolean('Limit - ?')
+#    limit_negative_value = fields.Float(
+#        'ValueLimit -')
+#    limit_positive = fields.Boolean('Limit + ?')
+#    limit_positive_value = fields.Float(
+#        'Value Limit +')
+#    available = fields.Float('Available')
+#    reserved = fields.Float('Reserved')
+
+
+
+
