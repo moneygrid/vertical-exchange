@@ -14,6 +14,7 @@
             <field eval="time.strftime('%Y-01-01')" name="name"/>
             <field name="rate">1.0</field>
         </record>
+
         <!-- Dumy Partner -->
         <record id="partner_dumy_company" model="res.partner">
             <field name="name">John Do</field>
@@ -24,8 +25,17 @@
             <field name="email">john.do@dumy.com</field>
             <field name="website">www.dumy.com</field>
             <field name="notify_email">none</field>
-            <field name="image" type="base64" file="exchange_provider_dumy/static/img/dumy-icon.png"/>
+            <field name="image" type="base64" file="exchange_provider_dumy/static/img/dumy_icon.png"/>
         </record>
+
+        <!-- Dumy Currency for available Currencies -->
+        <record id="exch_DUM" model="exchange.provider.currency">
+            <field name="name">DUMY Currency</field>
+            <field name="sequence">1</field>
+            <field name="description">This is a Dumy currency only for demonstration purpose</field>
+            <field name="currency_id" ref="exchange_provider_dumy.DUM"/>
+        </record>
+
         <!-- Dumy Provider DATA -->
         <record id="exchange_provider_dumy" model="exchange.provider">
             <field name="name">Dumy Provider</field>
@@ -33,12 +43,13 @@
             <field name="environment">test</field>
             <field name="asset_class">Hot air</field>
             <field name="active" eval="True"/>
-            <field name="currency_ids" ref="exchange_provider_dumy.DUM"/>
+            <field name="currency_ids" eval="[(4, ref('exch_DUM'))]"/>
+            <field name="currency_id" ref="exch_DUM"/>
             <field name="dumy_id">JohnDo</field>
             <field name="dumy_secret">1240597'9867'98072</field>
             <field name="partner_id" ref="partner_dumy_company"/>
             <!-- <field name="view_template_id" ref="exchange_provider_dumy.dumy_button"/> -->
-            <field name="image" type="base64" file="exchange_provider_dumy/static/img/dumy-icon.png"/>
+            <field name="image" type="base64" file="exchange_provider_dumy/static/img/dumy_icon.png"/>
             <field name="pre_msg"><![CDATA[
                 <p>You will be redirected to nowhere after clicking on pay button.</p>
                 ]]>

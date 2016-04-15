@@ -58,6 +58,7 @@ class ExchangeConfigSettings(models.Model):
     use_account_numbers = fields.Boolean(
         'Use of Account Numbering System', default=True,
         help="Use of the 20 digits Account Numbering Code 'CC BBBB DDDDDDDD XXXX-KK'")
+    email_sysadmin = fields.Char('Sysadmin mail address')
 
 
 class ResPartner(models.Model):

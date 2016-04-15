@@ -2,10 +2,11 @@
 # © <2016> <Moneygrid Project, Lucas Huber>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-import logging
+
 import openerp
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions
 from openerp.tools import image_get_resized_images, image_resize_image_big
+import logging
 _logger = logging.getLogger(__name__)
 
 
@@ -41,8 +42,9 @@ class ExchangeProviderCurrencies(models.Model):
     provider_id = fields.Many2one('exchange.provider', string='Provider', required=False)
     # provider = fields.Selection(_provider_selection, string='Provider', required=True)
     description = fields.Text('Description')
-    currency_id = fields.Many2one('res.currency', 'Currencies', required=True)
-
+    currency_id = fields.Many2one('res.currency', 'Currency', required=True)
+    currency_symbol = fields.Char('Symbol', related='currency_id.symbol')
+    currency_rate = fields.Float('Rate', related='currency_id.rate')
 
 class ExchangeProvider(models.Model):
     """ Base Model for Transaction engines or external DB's
@@ -74,12 +76,9 @@ class ExchangeProvider(models.Model):
     _description = 'Exchange Provider'
     _order = 'sequence'
 
-    def _get_providers(self, cr, uid, context=None):
+    @api.model
+    def _get_providers(self):
         return []
-
-#    @api.model
-#    def _get_providers(self):
-#        return []
 
     # indirection to ease inheritance
     _provider_selection = lambda self, *args, **kwargs: self._get_providers(*args, **kwargs)
@@ -87,7 +86,19 @@ class ExchangeProvider(models.Model):
     name = fields.Char('Name', size=64, required=True)
     sequence = fields.Integer('Sequence', help="Determine the display order")
     provider = fields.Selection(_provider_selection, string='Provider', required=True)
-    provider_model = fields.Many2one('exchange.provider.model', string='Provider Model', required=False)
+    # TODO provider_model = fields.Many2one('exchange.provider.model', string='Provider Model', required=False)
+    connection = fields.Selection(
+        [('single', 'Singlepoint'),
+         ('multiuser', 'Multiple Users'),
+         ('multisys', 'Multiple Accounts')],
+        string='Connection',
+        help="Defines how the provider connected to the Exchange framework."
+             "- Single-point connection. Eg. a Clearing account"
+             "- Multiple Users connection -> Eg. normal usecase with ext. transaction engine"
+             "- Multiple Accounts connection -> One Admin can manage all account")
+    singlepoint = fields.Boolean(string='Singlepoint Provider', readonly=True,  # TODO
+                                 help="if checked the provider is serving only a single"
+                                      " point connection. Eg. a Clearing account")
     environment = fields.Selection(
         [('internal', 'Internal'),
          ('test', 'External Test'),
@@ -96,10 +107,14 @@ class ExchangeProvider(models.Model):
     asset_class = fields.Char('Asset Class', size=64, required=False)
     active = fields.Boolean('Active?', default=False)
     partner_id = fields.Many2one('res.partner',  string='Related Partner')
-    currency_ids = fields.One2many('exchange.provider.currency', 'provider_id',  string='Currencies')
+    currency_ids = fields.One2many('exchange.provider.currency', 'provider_id',  readonly=True,
+                                   string='Provided Currencies')
+    currency_id = fields.Many2one('exchange.provider.currency', 'Currency', required=False,
+                                  help="Currency used for this Provider Configuration"
+                                       "(only by the module provided currencies are available!)")
     view_template_id = fields.Many2one('ir.ui.view', 'Form Button Template', required=False)
     """
-    registration_view_template_id = fields.Many2one('ir.ui.view', 'S2S Form Template',
+    registration_view_template_id = fields.Many2one('ir.ui.view', 'Form Template',
                                                      domain=[('type', '=', 'qweb')],
                                                      help="Template for method registration")
     """
@@ -143,19 +158,19 @@ class ExchangeProvider(models.Model):
             rec.image_medium = openerp.tools.image_resize_image_medium(rec.image)
             rec.image_small = openerp.tools.image_resize_image_small(rec.image)
 
-    @api.one  # TODO  Call of sub function does not work
+    @api.one  # Action connection test via the provider models
     def act_provider_test(self):
         sub_function = "_act_provider_test_" + str(self.provider)
-        function = self.sub_function2()
-        print "function", sub_function
+        call_test = getattr(self, sub_function)
+        result = call_test()
+        # function = self.sub_function2()
+        print "function conn", sub_function, call_test, result
 
-    @api.one  # TODO
-    def sub_function2(self):
-        print "sub function"
-
-    @api.one  # TODO get provider_balance from test account
+    @api.one  # get provider_balance from the provider models
     def act_provider_get_balance(self):
         sub_function = "_get_provider_balance_" + str(self.provider)
-        print "function", sub_function
-        function = self.sub_function()
+        call_balance = getattr(self, sub_function)
+        result = call_balance()
+        print "function_balance", sub_function, call_balance, result
+        self.balance_test = result
 

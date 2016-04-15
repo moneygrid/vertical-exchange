@@ -25,10 +25,23 @@ class ExchangeAccounts(models.Model):
         self.limit_negative_value = self.template_id.limit_negative_value
         self.limit_positive = self.template_id.limit_positive
         self.limit_positive_value = self.template_id.limit_positive_value
+    """
+    @api.multi  # TODO   # get balance from the provider models
+    def _compute_balance_mod(self):
+        sub_function = "_act_provider_test_" + str(self.exchange_provider_module)
+        call_test = getattr(self, sub_function)
+        result = call_test()
+        # function = self.sub_function2()
+        print "function balance", sub_function, call_test, result
+    """
 
     name = fields.Char('Account Name',  size=64, required=True)
     exchange_provider_id = fields.Many2one(string='Exchange Provider', related='template_id.exchange_provider_id',
                                            readonly=True, help='Related Transaction engine internal or external')
+    exchange_provider_module = fields.Selection(string='Exchange Provider Module',
+                                                related='template_id.exchange_provider_id.provider',
+                                                readonly=True, help='Related Transaction engine Module name extension')
+
     # TODO should be computed field out of 'number_prefix' & 'GeneratedNumber' & 'currency_id'
     number = fields.Char(
         'Account Number', required=True,
@@ -44,15 +57,6 @@ class ExchangeAccounts(models.Model):
         required=True, default='open', track_visibility='onchange',
         help="State of of Account Lock"
              "Every transaction locks Blocked the Account for a certain time (max 10sec)")
-    template_id = fields.Many2one(
-        'exchange.config.accounts', 'Account Template',
-        track_visibility='onchange', required=True)
-    partner_id = fields.Many2one(
-        'res.partner', 'Partner')
-    limit_negative = fields.Boolean('Limit - ?')
-    limit_negative_value = fields.Float('Credit Limit -', default=0.0)
-    limit_positive = fields.Boolean('Limit + ?')
-    limit_positive_value = fields.Float('Account Limit +')
     state = fields.Selection([
         ('open', 'Open'),
         ('blocked', 'Blocked'),
@@ -61,11 +65,29 @@ class ExchangeAccounts(models.Model):
         required=True, default='open', track_visibility='onchange',
         help="Status of Account"
              "Blocked, for temporary blocking transactions")
+    template_id = fields.Many2one(
+        'exchange.config.accounts', 'Account Template',
+        track_visibility='onchange', required=True)
+    partner_id = fields.Many2one(
+        'res.partner', 'Partner')
+    # Referenced Fields
+    # ref = fields.Reference('Reference', selection=openerp.addons.base.res.res_request.referencable_models)
+    """
+     refers_to = fields.Reference(
+        [('res.user', 'User'), ('res.partner', 'Partner')],
+        'Refers to')
+    """
+    ref_test = fields.Reference(
+        [('exchange.provider.internal', 'Internal'), ('exchange.provider.dumy', 'Dumy')],
+        'Ref test')
+    limit_negative = fields.Boolean('Limit - ?')
+    limit_negative_value = fields.Float('Credit Limit -', default=0.0)
+    limit_positive = fields.Boolean('Limit + ?')
+    limit_positive_value = fields.Float('Account Limit +')
+
     # Related fields (stored in DB)
     type_prefix = fields.Many2one('exchange.account.type',
-        'Account Type Prefix', related='template_id.type_prefix',
-         readonly=True, store=True)
-
+        'Account Type Prefix', related='template_id.type_prefix', readonly=True, store=True)
     default_account = fields.Boolean(
         'Default account', related='template_id.default_account',
          readonly=True, store=True)
@@ -94,7 +116,6 @@ class ExchangeAccounts(models.Model):
         'Account Balance', store=False,
         compute='_get_balance')
     reserved = fields.Float('Reserved')
-    # ref = fields.Reference('Reference', selection=openerp.addons.base.res.res_request.referencable_models)
 
     @api.one
     def do_account_deblock(self):

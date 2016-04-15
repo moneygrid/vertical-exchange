@@ -60,14 +60,16 @@
                         <h1><field name="name" placeholder="Name"/></h1>
                         <label for="provider" class="oe_edit_only"/>
                         <field name="provider"/>
-                        <label for="provider_model" class="oe_edit_only"/>
-                        <field name="provider_model"/>
+                        <label for="connection" class="oe_edit_only"/>
+                        <field name="connection"/>
                     </div>
                     <group name="provider_base1" col="4">
                         <field name="environment" groups="base.group_no_one"/>
                         <field name="partner_id"/>
                         <field name="active"/>
                         <field name="asset_class"/>
+                        <newline/>
+                        <field name="currency_id" attrs="{'invisible': [('environment', '=', 'internal')]}"/>
                     </group>
                     <group name="provider_base2" col="2">
                         <field name="description"/>
@@ -119,10 +121,17 @@
                                 </div>
                             </group>
                         </page>
-                        <page name="currencies" string="Available Currencies">
-                            <tree>
-                                <field name="currency_ids"/>
-                            </tree>
+                        <page name="currencies" string="Available Currencies" attrs="{'invisible': [('environment', '=', 'internal')]}">
+                            <field name="currency_ids">
+                                <tree>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="currency_id"/>
+                                    <field name="currency_symbol"/>
+                                    <field name="currency_rate"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </sheet>

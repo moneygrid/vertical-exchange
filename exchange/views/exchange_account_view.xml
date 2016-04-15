@@ -135,6 +135,9 @@
                                 <field name="with_messaging"/>
                                 <field name="default_account"/>
                                 <field name="exchange_provider_id"/>
+                                <field name="exchange_provider_module"/>
+                                <field name="ref_test"/>
+
                             </group>
                         </page>
                         <page name="limits_page" string="Credit Limits">

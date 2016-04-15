@@ -1,19 +1,10 @@
 # -*- coding: utf-8 -*-
 # © <2016> <Moneygrid Project, Lucas Huber, Yannick Buron>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+# TODO, THE LOGGING FUNCTION NEEDS TO BE INTEGRATED INTO THE EXCHANGE FRAMEWORK
 from openerp import models, fields, api, _
-from openerp.exceptions import except_orm
-
 from datetime import datetime, timedelta
-import subprocess
-# import paramiko
-import os.path
 import string
-# import errno
-import random
-
-from os.path import expanduser
-
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -54,11 +45,11 @@ class ExchangeLog(models.Model):
 
 class ExchangeModel(models.AbstractModel):
     """
-    Define the exchange.model abstract object, which is inherited by most
-    objects in exchange.
+    Define the exchange.log.model abstract object, which is inherited by
+    objects using logging in exchange.
     """
 
-    _name = 'exchange.model'
+    _name = 'exchange.log.model'
 
     _log_expiration_days = 30
     _autodeploy = True
@@ -69,73 +60,6 @@ class ExchangeModel(models.AbstractModel):
         'exchange.log', 'res_id',
         domain=lambda self: [('model', '=', self._name)],
         auto_join=True, string='Logs')
-
-    @property
-    def email_sysadmin(self):
-        """
-        Property returning the sysadmin email of the exchange.
-        """
-        return self.env.ref('clouder.clouder_settings').email_sysadmin
-
-    @property
-    def user_partner(self):
-        """
-        Property returning the full name of the server.
-        """
-        return self.env['res.partner'].search(
-            [('user_ids', 'in', int(self.env.uid))])[0]
-
-
-    @property
-    def home_directory(self):
-        """
-        Property returning the path to the home directory.
-        """
-        return expanduser("~")
-
-    @property
-    def now_date(self):
-        """
-        Property returning the actual date.
-        """
-        now = datetime.now()
-        return now.strftime("%Y-%m-%d")
-
-    @property
-    def now_hour(self):
-        """
-        Property returning the actual hour.
-        """
-        now = datetime.now()
-        return now.strftime("%H-%M")
-
-    @property
-    def now_hour_regular(self):
-        """
-        Property returning the actual hour.
-        """
-        now = datetime.now()
-        return now.strftime("%H:%M:%S")
-
-    @property
-    def now_bup(self):
-        """
-        Property returning the actual date, at the bup format.
-        """
-        now = datetime.now()
-        return now.strftime("%Y-%m-%d-%H%M%S")
-
-    @api.one
-    @api.constrains('name')
-    def _check_config(self):
-        """
-        Check that we specified the sysadmin email in configuration before
-        making any action.
-        """
-        if not self.env.ref('clouder.clouder_settings').email_sysadmin:
-            raise except_orm(
-                _('Data error!'),
-                _("You need to specify the sysadmin email in configuration"))
 
     @api.multi
     def create_log(self, action):
@@ -305,84 +229,3 @@ class ExchangeModel(models.AbstractModel):
         log_ids.unlink()
         return res
 
-    @api.multi
-    def execute_local(self, cmd, path=False, shell=False):
-        """
-        Method which can be used to execute command on the local system.
-
-        :param cmd: The command we need to execute.
-        :param path: The path where the command shall be executed.
-        :param shell: Specify if the command shall be executed in shell mode.
-        """
-        self.log('command : ' + ' '.join(cmd))
-        cwd = os.getcwd()
-        if path:
-            self.log('path : ' + path)
-            os.chdir(path)
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                                stderr=subprocess.STDOUT, shell=shell)
-        out = ''
-        for line in proc.stdout:
-            out += line
-            line = 'stdout : ' + line
-            self.log(line)
-        os.chdir(cwd)
-        return out
-
-    @api.multi
-    def local_file_exist(self, localfile):
-        """
-        Method which check is a file exist on the local system.
-
-        :param localfile: The path to the file we need to check.
-        """
-        return os.path.isfile(localfile)
-
-    @api.multi
-    def local_dir_exist(self, localdir):
-        """
-        Method which check is a directory exist on the local system.
-
-        :param localdir: The path to the dir we need to check.
-        """
-        return os.path.isdir(localdir)
-
-    @api.multi
-    def execute_write_file(self, localfile, value):
-        """
-        Method which write in a file on the local system.
-
-        :param localfile: The path to the file we need to write.
-        :param value: The value we need to write in the file.
-        """
-        f = open(localfile, 'a')
-        f.write(value)
-        f.close()
-
-    @api.multi
-    def generate_random_password(size):
-        """
-        Method which can be used to generate a random password.
-
-        :param size: The size of the random string we need to generate.
-        """
-        return ''.join(
-        random.choice(string.ascii_uppercase + string.ascii_lowercase
-                      + string.digits)
-        for _ in range(size))
-
-    @api.multi
-    def _create_key(self):
-        """
-        Generate a key on the filesystem.
-        """
-        if not self.env.ref('exchange.config.settings').code:
-            raise except_orm(
-                _('Data error!'),
-                _("You need to specify the sysadmin email in configuration"))
-
-        self.execute_local(['mkdir', '/tmp/key_' + self.env.uid])
-        self.execute_local(['ssh-keygen', '-t', 'rsa', '-C',
-                            self.email_sysadmin, '-f',
-                            '/tmp/key_' + self.env.uid + '/key', '-N', ''])
-        return True

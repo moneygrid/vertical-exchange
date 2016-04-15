@@ -6,7 +6,7 @@ from hashlib import sha256
 import urlparse
 import unicodedata
 
-from openerp import models, fields, api
+from openerp import models, fields, api, exceptions
 from openerp.tools.float_utils import float_compare
 from openerp.tools.translate import _
 from openerp.addons.base_exchange.models.exchange_provider import ValidationError
@@ -46,13 +46,19 @@ class ProviderDumy(models.Model):
         providers.append(['dumy', 'Dumy'])
         return providers
 
-    @api.one  # TODO
+    @api.one  # Here the code for testing the connection has to be ad
     def _act_provider_test_dumy(self):
-        raise Exception("This is not a valid connection (Dumy Module!)")
+        test = True
+        if test is True:
+            raise exceptions.Warning('This is not a valid connection (Dumy Module)!')
+        return "test"
 
-    @api.one  # TODO get provider_balance from test account
+    @api.one  # Here the code for getting the balance has to be ad
     def _get_provider_balance_dumy(self):
-        self.balance_test = 50.0
+        test = True
+        if test is True:
+            raise exceptions.Warning('This is not a valid balance (Dumy Module)!')
+        return float(50.0)
 
     """
 
