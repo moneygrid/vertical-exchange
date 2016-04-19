@@ -39,7 +39,7 @@
                         </tree>
                     </field>
                 </page>
-            </xpath>
+            </xpath> <!--
             <xpath expr="//page[@name='internal_notes']" position="before">
                 <page name="loans" string="Loans">
                     <group col="4">
@@ -57,7 +57,7 @@
                         </tree>
                     </field>
                 </page>
-            </xpath>
+            </xpath>  -->
             <field name="website" position="after">
                 <field name="show_phone" attrs="{'invisible': [('exchange_group','!=','user')]}"/>
                 <field name="exchange_group" invisible="0"/>

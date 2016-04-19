@@ -7,7 +7,7 @@
         <field name="arch" type="xml">
             <tree string="Accounts all" default_order="name">
                 <field name="name"/>
-                <field name="number"/>
+                <field name="acc_number"/>
                 <field name="template_id"/>
                 <field name="partner_id"/>
             </tree>
@@ -41,7 +41,7 @@
                     <field name="image" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
                     <div class="oe_title">
                         <h1><field name="name" placeholder="Name"/></h1>
-                        <field name="number" placeholder="Account Number" fonts="bold"/>
+                        <field name="acc_number" placeholder="Account Number" fonts="bold"/>
                     </div>
                     <group col="4">
                         <field name="template_id" class="oe_inline"/>
@@ -59,10 +59,7 @@
                                 <field name="type_prefix"/>
                                 <field name="with_messaging"/>
                                 <field name="default_account"/>
-                                <field name="exchange_provider_id"/>
-                                <field name="exchange_provider_module"/>
-                                <field name="ref_test"/>
-
+                             <!--   <field name="exchange_provider_id"/> -->
                             </group>
                         </page>
                         <page name="limits_page" string="Credit Limits">
@@ -90,7 +87,7 @@
         <field name="arch" type="xml">
             <search string="Accounts">
                 <field name="name"/>
-                <field name="number"/>
+                <field name="acc_number"/>
                 <field name="partner_id"/>
                 <separator/>
                 <!--        <filter name="my_accounts" string="My accounts" domain="['|',('sender_id.user_ids','in',uid),('receiver_id.user_ids','in',uid)]" icon="terp-check"/>

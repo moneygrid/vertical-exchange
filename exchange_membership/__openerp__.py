@@ -23,7 +23,7 @@ Add Exchange management forms to the association part of Odoo
 """,
     'website': 'https://github.com/moneygrid/vertical-exchange',
     'depends': ['membership',
-                'exchange'
+                'exchange_provider'
     ],
     'data': [
  #       'security/membership_users_security.xml',
