@@ -2,32 +2,6 @@
 <odoo>
     <data noupdate="1">
 
-         <!-- Currencies hours -->
-        <record id="HRS" model="res.currency">
-            <field name="name">HRS</field>
-            <field name="symbol">h</field>
-            <field name="rounding">0.01</field>
-            <field name="accuracy">4</field>
-            <field name="exchange_currency" eval="True"/>
-        </record>
-        <record id="rateHRS" model="res.currency.rate">
-            <field name="currency_id" ref="HRS" />
-            <field eval="time.strftime('%Y-01-01')" name="name"/>
-            <field name="rate">20.0</field>
-        </record>
-         <!-- Currencies Bitcoin -->
-        <record id="BTC" model="res.currency">
-            <field name="name">BTC</field>
-            <field name="symbol">B</field>
-            <field name="rounding">0.01</field>
-            <field name="accuracy">4</field>
-            <field name="exchange_currency" eval="True"/>
-        </record>
-        <record id="rateBTC" model="res.currency.rate">
-            <field name="currency_id" ref="BTC" />
-            <field eval="time.strftime('%Y-01-01')" name="name"/>
-            <field name="rate">200.0</field>
-        </record>
 
         <!-- New Account Type in accounting system-->
         <record id="exchange_account_type_exchange" model="account.account.type">

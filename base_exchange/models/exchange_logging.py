@@ -43,13 +43,13 @@ class ExchangeLog(models.Model):
     _order = 'create_date desc'
 
 
-class ExchangeModel(models.AbstractModel):
+class ExchangeModelLog(models.AbstractModel):
     """
     Define the exchange.log.model abstract object, which is inherited by
     objects using logging in exchange.
     """
 
-    _name = 'exchange.log.model'
+    _name = 'exchange.log'
 
     _log_expiration_days = 30
     _autodeploy = True

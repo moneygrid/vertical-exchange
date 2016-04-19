@@ -98,16 +98,5 @@ def _compute_number(self):
     print partid, type1
     return type1
 
-"""
-class DistributedDB(models.Model):
-
-    # Adds many2one fields to Distributed DB model.
-
-    _inherit = 'distributed.db.list'
-
-    config_id = fields.Many2one(
-        'exchange.config.accounts', 'Config ID',
-        help='If ledger are used for an exchange system')
-"""
 
 

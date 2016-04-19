@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Currencies Default -->
+        <record id="DOO" model="res.currency">
+            <field name="name">DOO</field>
+            <field name="symbol">Đ</field>
+            <field name="rounding">0.01</field>
+            <field name="accuracy">4</field>
+            <field name="exchange_currency" eval="True"/>
+        </record>
+        <record id="rateDOO" model="res.currency.rate">
+            <field name="currency_id" ref="DOO" />
+            <field eval="time.strftime('%Y-01-01')" name="name"/>
+            <field name="rate">1.0</field>
+        </record>
+
+
+
+    </data>
+</odoo>

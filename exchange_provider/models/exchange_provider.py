@@ -14,10 +14,10 @@ class ValidationError(ValueError):
     """ Used for value error when validating transaction data coming from Exchange Providers. """
     pass
 
-
+    """
 class ExchangeProviderModel(models.Model):
     """
-    Model allocation for the Exchange Providers
+    # Model allocation for the Exchange Providers
     """
     _name = 'exchange.provider.model'
     _description = 'Exchange Provider Models'
@@ -27,6 +27,7 @@ class ExchangeProviderModel(models.Model):
     account_model_id = fields.Many2one('ir.model', string='Account Model', required=False)
     transaction_model_id = fields.Many2one('ir.model', string='Transaction Model', required=False)
     description = fields.Text('Description')
+    """
 
 
 class ExchangeProviderCurrencies(models.Model):
@@ -45,6 +46,7 @@ class ExchangeProviderCurrencies(models.Model):
     currency_id = fields.Many2one('res.currency', 'Currency', required=True)
     currency_symbol = fields.Char('Symbol', related='currency_id.symbol')
     currency_rate = fields.Float('Rate', related='currency_id.rate')
+
 
 class ExchangeProvider(models.Model):
     """ Base Model for Transaction engines or external DB's
@@ -76,7 +78,7 @@ class ExchangeProvider(models.Model):
     _description = 'Exchange Provider'
     _order = 'sequence'
 
-    @api.model
+    @api.model  # collects selection items from provider modules
     def _get_providers(self):
         return []
 
@@ -87,11 +89,19 @@ class ExchangeProvider(models.Model):
     sequence = fields.Integer('Sequence', help="Determine the display order")
     provider = fields.Selection(_provider_selection, string='Provider', required=True)
     # TODO provider_model = fields.Many2one('exchange.provider.model', string='Provider Model', required=False)
+    ref_provider = fields.Reference(
+        [('exchange.provider.internal', 'Internal'), ('exchange.provider.dumy', 'Dumy')],
+        'Accounts PR')
+   # balance = fields.Float(
+   #    'Balance Pr', related='ref_provider.balance', readonly=True)
+    account_conf_ids = fields.One2many('exchange.config.accounts', 'exchange_provider_id', string='Account Templates',
+                                       required=False)
     connection = fields.Selection(
-        [('single', 'Singlepoint'),
+        [('none', 'No connection'),
+         ('single', 'Singlepoint'),
          ('multiuser', 'Multiple Users'),
          ('multisys', 'Multiple Accounts')],
-        string='Connection',
+        string='Connection Type', required=True,
         help="Defines how the provider connected to the Exchange framework."
              "- Single-point connection. Eg. a Clearing account"
              "- Multiple Users connection -> Eg. normal usecase with ext. transaction engine"
@@ -103,7 +113,10 @@ class ExchangeProvider(models.Model):
         [('internal', 'Internal'),
          ('test', 'External Test'),
          ('prod', 'External Production')],
-        string='Environment')
+        string='Environment', required=True)
+    test_url = fields.Char('Test URL', required=False)
+    test_login = fields.Char('Test Login', size=64, required=False)
+    test_secret = fields.Char('Test secret', size=128, required=False)
     asset_class = fields.Char('Asset Class', size=64, required=False)
     active = fields.Boolean('Active?', default=False)
     partner_id = fields.Many2one('res.partner',  string='Related Partner')

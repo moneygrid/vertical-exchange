@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Adding Menu Config -->
     <record id="exchange_settings" model='exchange.config.settings'/>
 
     <record id="view_exchange_configuration" model="ir.ui.view">
@@ -9,9 +8,113 @@
         <field name="arch" type="xml">
             <form string="Configure Exchange" version="7.0" create="false" class="oe_form_configuration">
                 <separator string="Exchange"/>
+                 <group name="init_grp">
+                    <label for="id" string="Exchange Name"/>
+                    <div name="names">
+                        <div>
+                            <field name="name"/><newline/>
+                            <field name="res_company_id" class="oe_inline"/>
+                            <label for="res_company_id"/>
+                            <newline/><br/>
+                            <field name="exch_code" class="oe_inline"/>
+                            <label for="exch_code"/>
+                        </div>
+                    </div>
+                </group> <!--
+                <group name="account_grp">
+                    <label for="id" string="Accounts"/>
+                    <div name="accounts">
+                        <div>
+                            <field name="account_ids"/>
+                        </div>
+                    </div>
+                </group>
+                 -->
+                <group name="exchange_grp">
+                    <label for="id" string="Exchange Settings"/>
+                    <div name="ex-setting">
+                        <div>
+                            <field name="display_balance" class="oe_inline"/>
+                            <label for="display_balance"/>
+                        </div>
+                        <div>
+                            <field name="ref_currency_id" class="oe_inline"/>
+                            <label for="ref_currency_id"/>
+                        </div>
+                        <div>
+                            <field name="journal_id" class="oe_inline"/>
+                            <label for="journal_id"/>
+                        </div>
+                        <div>
+                            <field name="use_account_numbers" class="oe_inline"/>
+                            <label for="use_account_numbers"/>
+                        </div>
+                        <div>
+                            <field name="email_sysadmin" class="oe_inline"/>
+                            <label for="email_sysadmin"/>
+                        </div>
+                    </div>
+                </group>
             </form>
         </field>
     </record>
+
+    <!-- Exchange Config view
+    <record id="exchange_settings" model='exchange.config.settings'/>
+
+    <record id="view_exchange_configuration_setting" model="ir.ui.view">
+        <field name="name">exchange.configuration.setting</field>
+        <field name="model">exchange.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="Configure Exchange" position="inside" create="false" class="oe_form_configuration">
+                <separator string="Exchange"/>
+
+                <group name="init_grp">
+                    <label for="id" string="Exchange Name"/>
+                    <div name="names">
+                        <div>
+                            <field name="name"/><newline/>
+                            <field name="res_company_id" class="oe_inline"/>
+                            <label for="res_company_id"/>
+                            <newline/><br/>
+                            <field name="exch_code" class="oe_inline"/>
+                            <label for="exch_code"/>
+                        </div>
+                    </div>
+                </group>
+                <group name="account_grp">
+                    <label for="id" string="Accounts"/>
+                    <div name="accounts">
+                        <div>
+                            <field name="account_ids"/>
+                        </div>
+                    </div>
+                </group>
+
+                <group name="exchange_grp">
+                    <label for="id" string="Exchange Settings"/>
+                    <div name="ex-setting">
+                        <div>
+                            <field name="display_balance" class="oe_inline"/>
+                            <label for="display_balance"/>
+                        </div>
+                        <div>
+                            <field name="ref_currency_id" class="oe_inline"/>
+                            <label for="ref_currency_id"/>
+                        </div>
+                        <div>
+                            <field name="journal_id" class="oe_inline"/>
+                            <label for="journal_id"/>
+                        </div>
+                        <div>
+                            <field name="use_account_numbers" class="oe_inline"/>
+                            <label for="use_account_numbers"/>
+                        </div>
+                    </div>
+                </group>
+            </form>
+        </field>
+    </record> -->
 
     <record id="action_exchange_configuration" model="ir.actions.act_window">
         <field name="name">Exchange Settings</field>
@@ -44,8 +147,6 @@
     <!-- Association Configuration Menu Items -->
     <menuitem id="menu_association_exchange_config" name="Exchange"
               parent="base.menu_marketing_config_association" sequence="60" groups="group_exchange_admin"/>
-    <menuitem id="menu_exchange_provider_all" parent="menu_association_exchange_config"
-              action="act_exchange_provider_all" sequence="22"/>
     <menuitem id="menu_exchange_admin_configuration" parent="menu_association_exchange_config"
               sequence="16" action="action_exchange_configuration"/>
 </odoo>

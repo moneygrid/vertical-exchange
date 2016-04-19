@@ -41,6 +41,10 @@
             <field name="name">Dumy Provider</field>
             <field name="provider">dumy</field>
             <field name="environment">test</field>
+            <field name="connection">multiuser</field> <!-- possible values
+                                     'single' -> 'Singlepoint'
+                                     'multiuser' -> 'Multiple Users'
+                                     'multisys' -> Multiple Accounts' -->
             <field name="asset_class">Hot air</field>
             <field name="active" eval="True"/>
             <field name="currency_ids" eval="[(4, ref('exch_DUM'))]"/>

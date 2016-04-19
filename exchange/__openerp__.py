@@ -13,6 +13,8 @@
     'depends': [
                 'account_accountant',
                 'base_exchange',
+                'exchange_provider',
+                'exchange_provider_internal',
                 ],
 
     'data': [

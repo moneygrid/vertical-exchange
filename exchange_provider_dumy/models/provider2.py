@@ -9,7 +9,7 @@ import unicodedata
 from openerp import models, fields, api
 from openerp.tools.float_utils import float_compare
 from openerp.tools.translate import _
-from openerp.addons.base_exchange.models.exchange_provider import ValidationError
+from openerp.addons.exchange_provider.models.exchange_provider import ValidationError
 from exchange_provider_dumy.controllers.main import DumyController
 
 _logger = logging.getLogger(__name__)

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- TODO to delete Adding Menu Config -->
+    <record id="exchange_settings" model='exchange.config.settings'/>
+
+    <record id="view_exchange_configuration" model="ir.ui.view">
+        <field name="name">exchange.configuration</field>
+        <field name="model">exchange.config.settings</field>
+        <field name="arch" type="xml">
+            <form string="Configure Exchange" version="7.0" create="false" class="oe_form_configuration">
+                <separator string="Exchange"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_exchange_configuration" model="ir.actions.act_window">
+        <field name="name">Exchange Settings</field>
+        <field name="res_model">exchange.config.settings</field>
+        <field name="view_id" ref="view_exchange_configuration"/>
+        <field name="view_mode">form</field>
+        <field name="res_id" ref="exchange_settings"/>
+    </record>
+
+    <!-- Adding Exchange Currency Boolean to Currencies -->
+    <record id="form_exchange_currency_view_inherited" model="ir.ui.view">
+        <field name="name">Currency view Exchange extension</field>
+        <field name="model">res.currency</field>
+        <field name="inherit_id" ref="base.view_currency_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='active']" position="after">
+                <field name="exchange_currency"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Association Menu Items -->
+    <menuitem id="menu_association_exchange_user" name="My Exchange" parent="base.menu_association" sequence="40"/>
+    <menuitem id="menu_association_exchange_admin" name="Exchange Admin"
+              parent="base.menu_association" sequence="60" groups="group_exchange_moderator"/>
+    <menuitem id="menu_association_config_products" name="Membership Products"
+              parent="base.menu_marketing_config_association" sequence="100" groups="base.group_configuration"
+              action="membership.action_membership_products"/>
+
+    <!-- Association Configuration Menu Items -->
+    <menuitem id="menu_association_exchange_config" name="Exchange"
+              parent="base.menu_marketing_config_association" sequence="60" groups="group_exchange_admin"/>
+    <menuitem id="menu_exchange_provider_all" parent="menu_association_exchange_config"
+              action="act_exchange_provider_all" sequence="22"/>
+    <menuitem id="menu_exchange_admin_configuration" parent="menu_association_exchange_config"
+              sequence="16" action="action_exchange_configuration"/>
+</odoo>

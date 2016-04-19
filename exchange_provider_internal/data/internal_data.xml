@@ -6,6 +6,7 @@
             <field name="provider">internal</field>
             <field name="active" eval="True"/>
             <field name="environment">internal</field>
+            <field name="connection">none</field>
             <field name="description">This Exchange Provider is necessary to run the internal transaction engine of the Odoo Exchange Framework</field>
             <field name="sequence">0</field>
             <field name="image" type="base64" file="exchange_provider_internal/static/img/internal_icon.png"/>

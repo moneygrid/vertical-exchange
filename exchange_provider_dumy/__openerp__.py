@@ -11,7 +11,7 @@
     'website': 'https://github.com/moneygrid/vertical-exchange',
     'description': """
 This module can be used as template to integrate future Exchange Provider into the Odoo Exchange framework""",
-    'depends': ['base_exchange'],
+    'depends': ['exchange_provider'],
     'data': [
         # 'views/dumy_button_view.xml',
         'views/exchange_provider_view.xml',

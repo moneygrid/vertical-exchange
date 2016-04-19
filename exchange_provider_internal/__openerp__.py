@@ -14,10 +14,11 @@
         Dumy Exchange Provider to use the internal transaction engine
         """,
     'depends': ['base_exchange',
-                'exchange'],
+                'exchange_provider'],
     'data': [
         'views/exchange_provider_view.xml',
         'data/internal_data.xml',
+        'data/account_data.xml',
     ],
     'installable': True,
 }
