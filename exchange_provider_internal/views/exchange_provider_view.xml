@@ -6,7 +6,7 @@
         <field name="model">exchange.provider</field>
         <field name="inherit_id" ref="exchange_provider.view_exchange_provider_form"/>
         <field name="arch" type="xml">
-            <xpath expr='//group[@name="provider_grp"]' position='after'>
+            <xpath expr='//group[@name="provider_grp1"]' position='before'>
                 <group attrs="{'invisible': [('provider', '!=', 'internal')]}">
                 </group>
             </xpath>

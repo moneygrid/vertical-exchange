@@ -77,25 +77,25 @@
 
                     <notebook>
                         <page name="credentials" string="Credentials">
-                            <group name="provider_grp"  attrs="{'invisible': [('environment', '=', 'internal')]}">
+                            <group name="provider_grp1" col="2" attrs="{'invisible': [('environment', '=', 'internal')]}">
                                 <field name="test_url"/>
                                 <field name="test_login"/>
                                 <field name="test_secret" />
-                                 <div>
-                                    <div name="cred_text">
-                                        Credentials containing context driven connection parameter to external transaction engines.
-                                        They may contain the following fields:
-                                        <ul>
-                                            <li>tx_url: transaction URL to post the form</li>
-                                            <li>test_url: transaction URL to post the form</li>
-                                            <li>user: user credentials in 'multiuser' connection mode</li>
-                                            <li>reference: the transaction reference number</li>
-                                            <li>currency: the transaction currency</li>
-                                            <li>amount: the transaction amount, a float</li>
-                                            <li>partner: the exchange partner, not necessarily set</li>
-                                            <li>more_to_define: this list is a Work in Progress</li>
-                                        </ul>
-                                    </div>
+                            </group>
+                            <group name="provider_grp2" col="2" attrs="{'invisible': [('environment', '=', 'internal')]}">
+                                <div name="cred_text">
+                                    Credentials containing context driven connection parameter to external transaction engines.
+                                    They may contain the following fields:
+                                    <ul>
+                                        <li>tx_url: transaction URL to post the form</li>
+                                        <li>test_url: transaction URL to post the form</li>
+                                        <li>user: user credentials in 'multiuser' connection mode</li>
+                                        <li>reference: the transaction reference number</li>
+                                        <li>currency: the transaction currency</li>
+                                        <li>amount: the transaction amount, a float</li>
+                                        <li>partner: the exchange partner, not necessarily set</li>
+                                        <li>more_to_define: this list is a Work in Progress</li>
+                                    </ul>
                                 </div>
                             </group>
                         </page>
