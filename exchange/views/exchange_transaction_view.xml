@@ -48,7 +48,7 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,sent,paid,canceled"/>
                 </header>
                 <!--   <form string="Transactions all"> -->
-                <group col="4">
+                <group name="group_1" col="4">
                     <field name="type_id" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                     <field name="name" fonts="bold:state!=draft"/>
                     <field name="emission_date" attrs="{'readonly': [('state','not in',('draft'))]}"/>
@@ -63,13 +63,11 @@
                         <attribute name="invisible"/>1<attribute/>
                     </field>
                 </group>
-                <group col="4">
+                <group name="group_2" col="4">
                     <field name="is_fee" attrs="{'readonly': [('state','not in',('draft'))]}"/>
-                    <field name="is_loan" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                     <field name="is_invoice" attrs="{'readonly': [('state','not in',('draft'))]}"/>
-                    <field name="loan_contract_id"/>
                 </group>
-                <group name="from_grp">
+                <group name="group_3" name="from_grp">
                     <label for="id" string="Sender"/>
                     <group col="4">
                         <field name="sender_id"/>
@@ -139,8 +137,7 @@
             <tree string="Transactions Type all">
                 <field name="name"/>
                 <field name="from_account_type_id"/>
-                <field name="to_account_type_id"/>
-                <field name="loan_tr_type"/>
+                <field name="to_account_type_id"/>>
                 <field name="is_fee"/>
             </tree>
         </field>
@@ -172,9 +169,6 @@
                         <field name="is_fee" modifiers="{}"/>
                         <field name="fee_type" attrs="{'invisible': [('is_fee','=',False)]}"/>
                         <field name="fee" attrs="{'invisible': [('is_fee','=',False)]}"/>
-                        <field name="is_loan" modifiers="{}"/>
-                        <field name="loan_contract_type_ids" modifiers="{}"/>
-                        <field name="loan_tr_type" modifiers="{}"/>
                     </group>
                 </group>
                 <!-- One2 Many Additional Transactions -->

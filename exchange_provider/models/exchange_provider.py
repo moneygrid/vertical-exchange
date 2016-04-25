@@ -85,6 +85,13 @@ class ExchangeProvider(models.Model):
     # indirection to ease inheritance
     _provider_selection = lambda self, *args, **kwargs: self._get_providers(*args, **kwargs)
 
+    @api.model
+    def _compute_external(self):
+        if self.environment == "internal":
+            return False
+        else:
+            return True
+
     name = fields.Char('Name', size=64, required=True)
     sequence = fields.Integer('Sequence', help="Determine the display order")
     provider = fields.Selection(_provider_selection, string='Provider', required=True)
@@ -114,6 +121,7 @@ class ExchangeProvider(models.Model):
          ('test', 'External Test'),
          ('prod', 'External Production')],
         string='Environment', required=True)
+    is_external = fields.Boolean(compute='_compute_external', string='External Account')
     test_url = fields.Char('Test URL', required=False)
     test_login = fields.Char('Test Login', size=64, required=False)
     test_secret = fields.Char('Test secret', size=128, required=False)
@@ -164,6 +172,25 @@ class ExchangeProvider(models.Model):
     fees_int_fixed = fields.Float('Fixed international fees')
     fees_int_var = fields.Float('Variable international fees (in percents)')
     balance_test = fields.Float('Balance')
+
+    # Fields that are related to exchange.config.settings model
+    exch_code = fields.Char(
+        'Exchange Code', required=False, size=7,
+        help="Unique Exchange Code (EC)"
+             "First part of the 20 digits Account Code CC BBBB"
+             "CC country code -> DE Germany"
+             "BBBB Exchange code")
+    display_balance = fields.Boolean('Everyone can see balances?', default=True)
+    journal_id = fields.Many2one('account.journal', 'Community Journal', required=False)
+    use_account_numbers = fields.Boolean(
+        'Use of Account Numbering System', default=True,
+        help="Use of the 20 digits Account Numbering Code 'CC BBBB DDDDDDDD XXXX-KK'")
+    email_sysadmin = fields.Char('Sysadmin mail address')
+
+    _sql_constraints = [
+        ('exch_code_name_unique',
+         'UNIQUE (exch_code, active)',
+         'Exchange code must be unique!')]
 
     @api.depends('image')
     def _compute_images(self):

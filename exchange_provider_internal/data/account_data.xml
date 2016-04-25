@@ -4,7 +4,7 @@
 
     <!-- Account Templates -->
         <!-- Default User Account  -->
-        <record id="exchange_provider.account_template1" model="exchange.config.accounts">
+        <record id="account_template1" model="exchange.config.accounts">
             <field name="exchange_provider_id" ref="exchange_provider_internal"/>
             <field name="name">Default User Accounts</field>
             <field name="membership_type" ref="membership.membership_2"/>
@@ -23,7 +23,7 @@
         </record>
 
         <!-- Trusted User Account -->
-        <record id="exchange_provider.account_template2" model="exchange.config.accounts">
+        <record id="account_template2" model="exchange.config.accounts">
             <field name="exchange_provider_id" ref="exchange_provider_internal"/>
             <field name="name">Trusted User Accounts</field>
             <field name="membership_type" ref="membership.membership_1"/>
@@ -41,7 +41,7 @@
         </record>
 
         <!-- Default Business User Account -->
-        <record id="exchange_provider.account_template3" model="exchange.config.accounts">
+        <record id="account_template3" model="exchange.config.accounts">
             <field name="config_id" ref="base_exchange.exchange_settings"/>
             <field name="name">Business User Accounts</field>
             <field name="membership_type" ref="membership.membership_0"/>
@@ -57,7 +57,7 @@
             <field name="account_id" ref="base_exchange.exchange_partner_bus_user_account1"/>
         </record>
         <!-- System Account -->
-        <record id="exchange_provider.account_template5" model="exchange.config.accounts">
+        <record id="account_template5" model="exchange.config.accounts">
             <field name="config_id" ref="base_exchange.exchange_settings"/>
             <field name="name">System Account</field>
             <field name="currency_id" ref="base_exchange.DOO"/>
@@ -75,8 +75,8 @@
         <!-- Transaction Type Def User -->
         <record id="transaction_type_template1" model="exchange.transaction.type">
             <field name="name">Default PrivUser -> PrivUser</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template1"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template1"/>
+            <field name="from_account_type_id" ref="account_template1"/>
+            <field name="to_account_type_id" ref="account_template1"/>
             <field name="allowed_payment">True</field>
             <field name="allowed_self_payment">True</field>
             <field name="priority">True</field>
@@ -88,8 +88,8 @@
         <!-- Transaction Type Trusted User -->
         <record id="transaction_type_template2" model="exchange.transaction.type">
             <field name="name">Trusted PrivUser -> PrivUser</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template2"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template2"/>
+            <field name="from_account_type_id" ref="account_template2"/>
+            <field name="to_account_type_id" ref="account_template2"/>
             <field name="allowed_payment">True</field>
             <field name="allowed_self_payment">True</field>
             <field name="priority">True</field>
@@ -100,8 +100,8 @@
         <!-- Transaction Fee Type Business User -->
         <record id="transaction_type_template3a" model="exchange.transaction.type">
             <field name="name">BusinessUser -> Organisation Acc.</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template3"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template5"/>
+            <field name="from_account_type_id" ref="account_template3"/>
+            <field name="to_account_type_id" ref="account_template5"/>
             <field name="allowed_payment">True</field>
             <field name="is_fee">True</field>
             <field name="fee_type">percent</field>
@@ -114,8 +114,8 @@
         <!-- Transaction Type Business User -->
         <record id="transaction_type_template3" model="exchange.transaction.type">
             <field name="name">BusinessUser -> BusinessUser</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template3"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template3"/>
+            <field name="from_account_type_id" ref="account_template3"/>
+            <field name="to_account_type_id" ref="account_template3"/>
             <field name="allowed_payment">True</field>
             <field name="allowed_self_payment">True</field>
             <field name="priority">True</field>
@@ -127,8 +127,8 @@
         <!-- Transaction Type Default -> Trusted User -->
         <record id="transaction_type_template4" model="exchange.transaction.type">
             <field name="name">Default PrivUser -> Trusted PrivUser</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template1"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template2"/>
+            <field name="from_account_type_id" ref="account_template1"/>
+            <field name="to_account_type_id" ref="account_template2"/>
             <field name="allowed_payment">True</field>
             <field name="allowed_self_payment">False</field>
             <field name="priority">True</field>
@@ -138,8 +138,8 @@
         <!-- Transaction Type Trusted  -> Default User -->
         <record id="transaction_type_template5" model="exchange.transaction.type">
             <field name="name">Trusted PrivUser -> Default PrivUser</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template2"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template2"/>
+            <field name="from_account_type_id" ref="account_template2"/>
+            <field name="to_account_type_id" ref="account_template2"/>
             <field name="allowed_payment">True</field>
             <field name="allowed_self_payment">False</field>
             <field name="max_amount_per_day">200.0</field>
@@ -150,8 +150,8 @@
         <!-- Transaction Type Default -> Business User -->
         <record id="transaction_type_template6" model="exchange.transaction.type">
             <field name="name">Default PrivUser -> Business User</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template1"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template3"/>
+            <field name="from_account_type_id" ref="account_template1"/>
+            <field name="to_account_type_id" ref="account_template3"/>
             <field name="allowed_payment">True</field>
             <field name="allowed_self_payment">False</field>
             <field name="priority">True</field>
@@ -162,8 +162,8 @@
         <!-- Transaction Type Default -> Organisation -->
         <record id="transaction_type_template7" model="exchange.transaction.type">
             <field name="name">Default PrivUser -> Organisation Acc.</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template1"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template5"/>
+            <field name="from_account_type_id" ref="account_template1"/>
+            <field name="to_account_type_id" ref="account_template5"/>
             <field name="allowed_payment">True</field>
             <field name="allowed_self_payment">False</field>
             <field name="priority">True</field>
@@ -173,8 +173,8 @@
         <!-- Transaction Type Trusted -> Organisation -->
         <record id="transaction_type_template8" model="exchange.transaction.type">
             <field name="name">Trusted PrivUser -> Organisation Acc.</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template2"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template5"/>
+            <field name="from_account_type_id" ref="account_template2"/>
+            <field name="to_account_type_id" ref="account_template5"/>
             <field name="allowed_payment">True</field>
             <field name="allowed_self_payment">False</field>
             <field name="priority">True</field>
@@ -184,8 +184,8 @@
         <!-- Transaction Type Organisation -> Trusted User -->
         <record id="transaction_type_template9" model="exchange.transaction.type">
             <field name="name">Organisation Acc. -> Trusted PrivUser</field>
-            <field name="from_account_type_id" ref="exchange_provider.account_template5"/>
-            <field name="to_account_type_id" ref="exchange_provider.account_template2"/>
+            <field name="from_account_type_id" ref="account_template5"/>
+            <field name="to_account_type_id" ref="account_template2"/>
             <field name="allowed_payment">True</field>
             <field name="allowed_self_payment">False</field>
             <field name="priority">True</field>
@@ -195,14 +195,14 @@
 
         <!-- System Account -->
         <record id="account_system_1" model="exchange.accounts">
-            <field name="template_id" ref="exchange_provider.account_template5"/>
+            <field name="template_id" ref="account_template5"/>
             <field name="name">Default System Account</field>
             <field name="currency_id" ref="base_exchange.DOO"/>
             <field name="number">SY-DEF1</field>
         </record>
         <!-- Default Admin Account -->
         <record id="account_user_1" model="exchange.accounts">
-            <field name="template_id" ref="exchange_provider.account_template2"/>
+            <field name="template_id" ref="account_template2"/>
             <field name="partner_id" ref="base.partner_root"/>
             <field name="name">Default User Account</field>
             <field name="currency_id" ref="base_exchange.DOO"/>

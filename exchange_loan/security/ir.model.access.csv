@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_exchange_loan_contract_type_admin,exchange_loan_contract_type_admin,model_exchange_loan_contract_type,base_exchange.group_exchange_admin,1,1,1,1
+access_exchange_loan_contract_admin,exchange_loan_contract_admin,model_exchange_loan_contract,base_exchange.group_exchange_admin,1,1,1,1
+access_exchange_loan_contract_user,exchange_loan_contract_user,model_exchange_loan_contract,base_exchange.group_exchange_user,1,0,0,0

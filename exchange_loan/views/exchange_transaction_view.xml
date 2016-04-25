@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Transactions view form inherit -->
+    <record id="view_transactions_form" model="ir.ui.view">
+        <field name="name">exchange.transaction.form.inherit</field>
+        <field name="model">exchange.transaction</field>
+        <field name="inherit_id" ref="exchange.view_transactions_form"/>
+        <field name="arch" type="xml">
+            <form string="Transaction" version="7.0">
+                <field name="is_fee" position="after">
+                    <field name="is_loan" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                </field>
+                <field name="is_invoice" position="after">
+                    <field name="loan_contract_id"/>
+                </field>
+            </form>
+        </field>
+    </record>
+
+    <!-- Transactions type view tree inherit -->
+    <record id="view_transactions_type_tree" model="ir.ui.view">
+        <field name="name">exchange.transaction.type.tree</field>
+        <field name="model">exchange.transaction.type</field>
+        <field name="inherit_id" ref="exchange.view_transactions_type_tree"/>
+        <field name="arch" type="xml">
+            <field name="to_account_type_id" position="after">
+                <field name="loan_tr_type"/>
+            </field>
+        </field>
+    </record>
+
+    <!--  Transactions type view form inherit -->
+    <record id="view_transaction_type_form" model="ir.ui.view">
+        <field name="name">exchange.transaction.type.form</field>
+        <field name="model">exchange.transaction.type</field>
+        <field name="inherit_id" ref="exchange.view_transactions_type_form"/>
+        <field name="arch" type="xml">
+            <form string="Transactions Type all">
+                <field name="fee" position="after">
+                    <field name="is_loan" modifiers="{}"/>
+                    <field name="loan_contract_type_ids" modifiers="{}"/>
+                    <field name="loan_tr_type" modifiers="{}"/>
+                </field>
+            </form>
+        </field>
+    </record>
+</odoo>

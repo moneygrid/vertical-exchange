@@ -20,12 +20,26 @@ class ExchangeConfigSettings(models.TransientModel):
     exchange_provider_id = fields.Many2one('exchange.provider', 'Exchange Provider',
                                            help='Related Transaction engine internal or external')
 
-    is_external = fields.Boolean(compute='_compute_external', string='External Account')
-    """
-    account_ids = fields.One2many(
-        'exchange.config.accounts', 'config_id', 'Accounts templates')
-    """
-    # TODO may raise conflicts with exchange rates in accounting system
+    exch_code = fields.Char(
+        'Exchange Code', related='exchange_provider_id.exch_code',
+        help="Unique Exchange Code (EC)"
+             "First part of the 20 digits Account Code CC BBBB"
+             "CC country code -> DE Germany"
+             "BBBB Exchange code")
+
+    # Related fields
+    is_external = fields.Boolean(string='External Account', related='exchange_provider_id.is_external')
+    display_balance = fields.Boolean('Everyone can see balances?',
+                                     related='exchange_provider_id.display_balance')
+    use_account_numbers = fields.Boolean(
+        'Use of Account Numbering System', related='exchange_provider_id.use_account_numbers',
+        help="Use of the 20 digits Account Numbering Code 'CC BBBB DDDDDDDD XXXX-KK'")
+    email_sysadmin = fields.Char('Sysadmin mail address', related='exchange_provider_id.email_sysadmin')
+    account_conf_ids = fields.One2many('Accounts templates', related='exchange_provider_id.account_conf_ids')
+
+
+
+
 
 
 

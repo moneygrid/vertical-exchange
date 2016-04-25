@@ -10,7 +10,7 @@ from openerp import api, fields, models, _
 from openerp.exceptions import UserError
 
 
-class ExchTestConfigSettings(models.TransientModel):
+class ExchangeConfigSettings(models.TransientModel):
     _name = 'exchange.config.settings'
     _inherit = 'res.config.settings'
 
@@ -32,14 +32,6 @@ class ExchTestConfigSettings(models.TransientModel):
     name = fields.Char(
         'Exchange Name', required=True, size=21, default='MY Exchange',
         help='Name of the Exchange')
-    exch_code = fields.Char(
-        'Exchange Code', required=False, size=7, default='CH-EXCH01',
-        help="Unique Exchange Code (EC)"
-             "First part of the 20 digits Account Code CC BBBB"
-             "CC country code -> DE Germany"
-             "BBBB Exchange code")
-    company_id = fields.Many2one('res.company', string='Company', required=True,
-        default=lambda self: self.env.user.company_id)
 
     res_company_id = fields.Many2one(
         'res.company', 'Exchange Organisation', default=_default_company,

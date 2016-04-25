@@ -1,20 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- TODO to delete Adding Menu Config -->
-     <!-- Exchange Config view -->
+    <!-- Exchange Config view -->
     <record id="view_exchange_configuration_setting" model="ir.ui.view">
         <field name="name">exchange.configuration.setting.inherit</field>
         <field name="model">exchange.config.settings</field>
         <field name="inherit_id" ref="base_exchange.view_exchange_configuration"/>
         <field name="arch" type="xml">
             <group name="init_grp" position="after">
-                <group name="provider_grp">
+                <group string="Exchange Provider" name="provider_grp">
                     <label for="id" string="Exchange Provider"/>
                     <div name="provider">
                         <div>
                             <field name="exchange_provider_id"/>
                         </div>
+                        <div>
+                            <label for="exch_code"/>
+                            <field name="exch_code"  class="oe_inline"/>
+                        </div>
+                        <div>
+                            <label for="is_external"/>
+                            <field name="is_external"  class="oe_inline"/>
+                        </div>
                     </div>
+                </group>
+                <group string="Exchange Identity" name="identity_grp">
+                    <label for="id" string="Exchange Identity"/>
+                    <div name="identity">
+                        <div>
+                            <label for="name"/>
+                            <field name="name" class="oe_inline"/>
+                        </div>
+                        <div>
+                            <label for="res_company_id"/>
+                            <field name="res_company_id"  class="oe_inline"/>
+                        </div>
+                    </div>
+                </group>
+                <!-- TODO seems to be not possible with related fields!
+                <group string="Account Templates" name="account_grp">
+                    <label for="id" string="Account Templates"/>
+                    <field colspan="2" col="1" name="account_conf_ids">
+                      <tree>
+                            <field name="name"/>
+                            <field name="account_type"/>
+                            <field name="membership_type"/>
+                            <field name="currency_id"/>
+                        </tree>
+                    </field>
+                </group> -->
+
+                <group string="Exchange Settings" name="exchange_grp">
+                    <label for="id" string="Exchange Settings"/>
+                    <div name="ex-setting">
+                        <div>
+                            <field name="display_balance" class="oe_inline"/>
+                            <label for="display_balance"/>
+                        </div>
+                        <div>
+                            <field name="use_account_numbers" class="oe_inline"/>
+                            <label for="use_account_numbers"/>
+                        </div>
+                        <div>
+                            <label for="ref_currency_id"/>
+                            <field name="ref_currency_id" class="oe_inline"/>
+                        </div>
+                        <div>
+                            <label for="journal_id"/>
+                            <field name="journal_id" class="oe_inline"/>
+                        </div>
+                        <div>
+                            <label for="email_sysadmin"/>
+                            <field name="email_sysadmin" class="oe_inline"/>
+                        </div>
+                    </div>
+                </group>
+                <group name="module_grp">
+                    <label for="id" string="Extra Modules Installation"/>
                 </group>
             </group>
         </field>

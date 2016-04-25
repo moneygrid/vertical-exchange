@@ -5,7 +5,6 @@ from openerp import models, fields, api
 from openerp.exceptions import except_orm
 from datetime import datetime, timedelta
 
-
 #    List/Model of Loans and Loans Type
 
 

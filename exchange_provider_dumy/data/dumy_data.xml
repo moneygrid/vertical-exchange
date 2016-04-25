@@ -39,6 +39,7 @@
         <!-- Dumy Provider DATA -->
         <record id="exchange_provider_dumy" model="exchange.provider">
             <field name="name">Dumy Provider</field>
+            <field name="exch_code">EX-DUMY</field>
             <field name="provider">dumy</field>
             <field name="environment">test</field>
             <field name="connection">multiuser</field> <!-- possible values
@@ -49,6 +50,7 @@
             <field name="active" eval="True"/>
             <field name="currency_ids" eval="[(4, ref('exch_DUM'))]"/>
             <field name="currency_id" ref="exch_DUM"/>
+            <field name="email_sysadmin">JohnDo@dumy.org</field>
             <field name="dumy_id">JohnDo</field>
             <field name="dumy_secret">1240597'9867'98072</field>
             <field name="partner_id" ref="partner_dumy_company"/>

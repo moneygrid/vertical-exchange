@@ -27,6 +27,7 @@ Creates framework for Exchange Providers/ Transaction engines (Multiwallet)
         'views/exchange_account_view.xml',
         'views/res_config_view.xml',
         'data/exchange_data.xml',
+        # 'data/account_config_data.xml',
     ],
  #   'demo': ['base_community_demo.xml'],
     'installable': True,

@@ -1,132 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="exchange_settings" model='exchange.config.settings'/>
+    <!-- <record id="exchange_settings" model='exchange.config.settings'/> Create="False" -->
 
     <record id="view_exchange_configuration" model="ir.ui.view">
         <field name="name">exchange.configuration</field>
         <field name="model">exchange.config.settings</field>
         <field name="arch" type="xml">
-            <form string="Configure Exchange" version="7.0" create="false" class="oe_form_configuration">
-                <separator string="Exchange"/>
-                 <group name="init_grp">
-                    <label for="id" string="Exchange Name"/>
-                    <div name="names">
-                        <div>
-                            <field name="name"/><newline/>
-                            <field name="res_company_id" class="oe_inline"/>
-                            <label for="res_company_id"/>
-                            <newline/><br/>
-                            <field name="exch_code" class="oe_inline"/>
-                            <label for="exch_code"/>
-                        </div>
-                    </div>
-                </group> <!--
-                <group name="account_grp">
-                    <label for="id" string="Accounts"/>
-                    <div name="accounts">
-                        <div>
-                            <field name="account_ids"/>
-                        </div>
-                    </div>
-                </group>
-                 -->
-                <group name="exchange_grp">
-                    <label for="id" string="Exchange Settings"/>
-                    <div name="ex-setting">
-                        <div>
-                            <field name="display_balance" class="oe_inline"/>
-                            <label for="display_balance"/>
-                        </div>
-                        <div>
-                            <field name="ref_currency_id" class="oe_inline"/>
-                            <label for="ref_currency_id"/>
-                        </div>
-                        <div>
-                            <field name="journal_id" class="oe_inline"/>
-                            <label for="journal_id"/>
-                        </div>
-                        <div>
-                            <field name="use_account_numbers" class="oe_inline"/>
-                            <label for="use_account_numbers"/>
-                        </div>
-                        <div>
-                            <field name="email_sysadmin" class="oe_inline"/>
-                            <label for="email_sysadmin"/>
-                        </div>
-                    </div>
+            <form string="Configure Exchange" class="oe_form_configuration">
+                <header>
+                    <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                    <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                </header>
+                <group name="init_grp">
                 </group>
             </form>
         </field>
     </record>
-
-    <!-- Exchange Config view
-    <record id="exchange_settings" model='exchange.config.settings'/>
-
-    <record id="view_exchange_configuration_setting" model="ir.ui.view">
-        <field name="name">exchange.configuration.setting</field>
-        <field name="model">exchange.config.settings</field>
-        <field name="arch" type="xml">
-            <form string="Configure Exchange" position="inside" create="false" class="oe_form_configuration">
-                <separator string="Exchange"/>
-
-                <group name="init_grp">
-                    <label for="id" string="Exchange Name"/>
-                    <div name="names">
-                        <div>
-                            <field name="name"/><newline/>
-                            <field name="res_company_id" class="oe_inline"/>
-                            <label for="res_company_id"/>
-                            <newline/><br/>
-                            <field name="exch_code" class="oe_inline"/>
-                            <label for="exch_code"/>
-                        </div>
-                    </div>
-                </group>
-                <group name="account_grp">
-                    <label for="id" string="Accounts"/>
-                    <div name="accounts">
-                        <div>
-                            <field name="account_ids"/>
-                        </div>
-                    </div>
-                </group>
-
-                <group name="exchange_grp">
-                    <label for="id" string="Exchange Settings"/>
-                    <div name="ex-setting">
-                        <div>
-                            <field name="display_balance" class="oe_inline"/>
-                            <label for="display_balance"/>
-                        </div>
-                        <div>
-                            <field name="ref_currency_id" class="oe_inline"/>
-                            <label for="ref_currency_id"/>
-                        </div>
-                        <div>
-                            <field name="journal_id" class="oe_inline"/>
-                            <label for="journal_id"/>
-                        </div>
-                        <div>
-                            <field name="use_account_numbers" class="oe_inline"/>
-                            <label for="use_account_numbers"/>
-                        </div>
-                    </div>
-                </group>
-            </form>
-        </field>
-    </record> -->
 
     <record id="action_exchange_configuration" model="ir.actions.act_window">
         <field name="name">Exchange Settings</field>
+        <field name="type">ir.actions.act_window</field>
         <field name="res_model">exchange.config.settings</field>
-        <field name="view_id" ref="view_exchange_configuration"/>
+
         <field name="view_mode">form</field>
-        <field name="res_id" ref="exchange_settings"/>
+        <field name="target">inline</field>
+
     </record>
+    <!--
+        <record id="action_account_config" model="ir.actions.act_window">
+            <field name="name">Configure Accounting</field>
+            <field name="type">ir.actions.act_window</field>
+        <field name="view_id" ref="view_exchange_configuration"/>
+            <field name="res_model">account.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+    -->
 
     <!-- Adding Exchange Currency Boolean to Currencies -->
     <record id="form_exchange_currency_view_inherited" model="ir.ui.view">
-        <field name="name">Currency view Exchange extension</field>
+        <field name="name">res.currency.view.inherit</field>
         <field name="model">res.currency</field>
         <field name="inherit_id" ref="base.view_currency_form"/>
         <field name="arch" type="xml">

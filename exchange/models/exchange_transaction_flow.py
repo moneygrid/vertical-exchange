@@ -7,7 +7,7 @@ from openerp.exceptions import except_orm
 from openerp import SUPERUSER_ID
 from openerp import workflow
 from datetime import datetime, timedelta
-import exchange_model
+
 # import re
 
 
