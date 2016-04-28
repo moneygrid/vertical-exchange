@@ -78,10 +78,9 @@ class ExchangeProvider(models.Model):
     _description = 'Exchange Provider'
     _order = 'sequence'
 
-    @api.model  # collects selection items from provider modules
+    @api.model  # collects selection items from provider_xxx modules
     def _get_providers(self):
         return []
-
     # indirection to ease inheritance
     _provider_selection = lambda self, *args, **kwargs: self._get_providers(*args, **kwargs)
 
@@ -97,7 +96,7 @@ class ExchangeProvider(models.Model):
     provider = fields.Selection(_provider_selection, string='Provider', required=True)
     # TODO provider_model = fields.Many2one('exchange.provider.model', string='Provider Model', required=False)
     ref_provider = fields.Reference(
-        [('exchange.provider.internal', 'Internal'), ('exchange.provider.dumy', 'Dumy')],
+        [('exchange.account.provider.internal', 'Internal'), ('exchange.account.provider.dumy', 'Dumy')],
         'Accounts PR')
    # balance = fields.Float(
    #    'Balance Pr', related='ref_provider.balance', readonly=True)
@@ -165,15 +164,8 @@ class ExchangeProvider(models.Model):
                              help='Message displayed, if order is cancel during the payment process.')
     error_msg = fields.Html('Error Message', translate=True,
                             help='Message displayed, if error is occur during the payment process.')
-    # Fees
-    fees_active = fields.Boolean('Add Extra Fees')
-    fees_dom_fixed = fields.Float('Fixed domestic fees')
-    fees_dom_var = fields.Float('Variable domestic fees (in percents)')
-    fees_int_fixed = fields.Float('Fixed international fees')
-    fees_int_var = fields.Float('Variable international fees (in percents)')
-    balance_test = fields.Float('Balance')
-
-    # Fields that are related to exchange.config.settings model
+    balance_test = fields.Float('Balance', help='Balance of the account that is connected to the test credentials')
+    # Fields that are related from exchange.config.settings model
     exch_code = fields.Char(
         'Exchange Code', required=False, size=7,
         help="Unique Exchange Code (EC)"
@@ -186,6 +178,8 @@ class ExchangeProvider(models.Model):
         'Use of Account Numbering System', default=True,
         help="Use of the 20 digits Account Numbering Code 'CC BBBB DDDDDDDD XXXX-KK'")
     email_sysadmin = fields.Char('Sysadmin mail address')
+    # Field that is related to exchange.config.settings model
+
 
     _sql_constraints = [
         ('exch_code_name_unique',
@@ -203,14 +197,11 @@ class ExchangeProvider(models.Model):
         sub_function = "_act_provider_test_" + str(self.provider)
         call_test = getattr(self, sub_function)
         result = call_test()
-        # function = self.sub_function2()
-        print "function conn", sub_function, call_test, result
 
     @api.one  # get provider_balance from the provider models
     def act_provider_get_balance(self):
         sub_function = "_get_provider_balance_" + str(self.provider)
         call_balance = getattr(self, sub_function)
         result = call_balance()
-        print "function_balance", sub_function, call_balance, result
         self.balance_test = result
 

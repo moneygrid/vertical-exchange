@@ -35,13 +35,13 @@ class ExchangeAccounts(models.Model):
         print "function balance", sub_function, call_test, result
     """
 
-    name = fields.Char('Account Name',  size=64, required=True)
+    name = fields.Char('Account Name', translate=True, size=64, required=True)
     # TODO should be computed field out of 'number_prefix' & 'GeneratedNumber' & 'currency_id'
     acc_number = fields.Char(
         'Account Number', required=True,
         size=16, help='Number of the Account', default='CH-XX-123456')
     key = fields.Text(
-        'Key', readonly=True, help="Account key for the use in outside DB/ledger")
+        'Key', readonly=True, help="Account token for the use in outside DB/ledger")
     locked = fields.Selection([
         ('open', 'Open'),
         ('ingoing', 'Ingoing'),
@@ -71,10 +71,6 @@ class ExchangeAccounts(models.Model):
         [('res.user', 'User'), ('res.partner', 'Partner')],
         'Refers to')
     """
-    limit_negative = fields.Boolean('Limit - ?')
-    limit_negative_value = fields.Float('Credit Limit -', default=0.0)
-    limit_positive = fields.Boolean('Limit + ?')
-    limit_positive_value = fields.Float('Account Limit +')
 
     # Related fields (stored in DB)
     type_prefix = fields.Many2one('exchange.account.type',
@@ -98,15 +94,6 @@ class ExchangeAccounts(models.Model):
     image_small = fields.Binary("Small-sized image",
                                 related='template_id.image_small')
     desc = fields.Text('Description')
-    # Computed fields
-    # Next 2 fields are TODO
-    available = fields.Float(
-        'Available', store=False,
-        compute='_get_available_amount')
-    balance = fields.Float(
-        'Account Balance', store=False,
-        compute='_get_balance')
-    reserved = fields.Float('Reserved')
 
     @api.one
     def do_account_deblock(self):
@@ -120,21 +107,6 @@ class ExchangeAccounts(models.Model):
     def do_account_close(self):
         self.state = 'closed'
 
-    @api.one
-    @api.depends('balance', 'limit_negative_value')  # computed field available calculate
-    def _get_available_amount(self):
-        for record in self:
-            record.available = self.balance - self.limit_negative_value
-
-    @api.one  # computed field balance calculate
-    def _get_balance(self):
-
-        self.balance = 100.0
-
-    @api.one  # TODO get account_balance from test account
-    def act_account_get_balance(self):
-        raise Exception("This is not yet implemented!")
-
 
 class AccountTypesType(models.Model):
 
@@ -143,7 +115,7 @@ class AccountTypesType(models.Model):
     _description = 'Exchange Accounts Types list'
 
     name = fields.Char(
-       'Account Type Key', required=True, size=2, default="XX",
+       'Account Type Key', required=True, size=2, translate=True, default="XX",
        help="Account key examples"
             "PD Private User Default account"
             "PU Private User sub-account"

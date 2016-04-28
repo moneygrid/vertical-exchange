@@ -10,39 +10,48 @@ from openerp.tools.translate import _
 _logger = logging.getLogger(__name__)
 
 
-class ProviderAccount(models.Model):
+class ExchangeAccounts(models.Model):
     #    List of Accounts for members and the system
-    _name = 'exchange.provider.internal'
+    _inherit = 'exchange.accounts'
+
+    account_id_internal = fields.Many2one('exchange.account.provider.internal', 'Account link to Provider',
+                                  track_visibility='onchange', required=True)
+
+
+class ProviderAccount(models.Model):
+    #    List of internal Accounts for members and the system
+    _name = 'exchange.account.provider.internal'
     _description = 'Exchange Provider Accounts Internal'
     _order = 'template_id,name'
 
-    @api.onchange('template_id')
-    def _get_creditlimit(self):
-        print self
-        limitout = 9.0
-        # template_id.limit_positive_value
-        limitout = self.env['exchange.config.accounts'].browse(self._context.get('limit_positive_value'))
-        print limitout
-        self.limit_positive_value = limitout
+    @api.model
+    def _get_limit_neg(self):
+        return self.template_id.limit_negative
+
+    @api.model
+    def _get_limit_neg_val(self):
+        return self.template_id.limit_negative_value
+
+    @api.model
+    def _get_limit_pos_val(self):
+        print self.template_id.limit_positive_value
+        return 50.0
 
     name = fields.Char('Account Name', size=64, required=True)
     provider_id = fields.Many2one(related='template_id.exchange_provider_id', string='Provider', required=False)
-    template_id = fields.Many2one(
-        'exchange.config.accounts', 'Account Template',
-        track_visibility='onchange', required=True)
-    limit_negative = fields.Boolean('Limit - ?')
-    limit_negative_value = fields.Float(
-        'Credit Limit -', default=0.0)
-    limit_positive = fields.Boolean('Limit + ?')
-    limit_positive_value = fields.Float(
-        'Account Limit +')
+    template_id = fields.Many2one('exchange.config.accounts', 'Account Template',
+                                  track_visibility='onchange', required=True)
+    limit_negative = fields.Boolean('Limit - ?', default=_get_limit_neg)
+    limit_negative_value = fields.Float('Credit Limit -', default=0.0)
+    limit_positive = fields.Boolean('Limit + ?', default=True)
+    limit_positive_value = fields.Float('Account Limit +', default=_get_limit_pos_val)
 
     # Computed fields
     balance = fields.Float(
         'Account Balance', store=False,
         compute='_get_balance')
 
-    @api.one # computed field balance calculate
+    @api.one  # computed field balance calculate
     def _get_balance(self):
 
         self.balance = 1500.0

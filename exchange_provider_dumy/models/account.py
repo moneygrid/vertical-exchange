@@ -10,9 +10,17 @@ from openerp.tools.translate import _
 _logger = logging.getLogger(__name__)
 
 
+class ExchangeAccounts(models.Model):
+    #    List of Accounts for members and the system
+    _inherit = 'exchange.accounts'
+
+    account_id_dumy = fields.Many2one('exchange.account.provider.dumy', 'Account link to Provider',
+                                      track_visibility='onchange', required=True)
+
+
 class ProviderAccount(models.Model):
     #    List of Accounts for members and the system
-    _name = 'exchange.provider.dumy'
+    _name = 'exchange.account.provider.dumy'
     _description = 'Exchange Provider Accounts Dumy'
     _order = 'template_id,name'
 

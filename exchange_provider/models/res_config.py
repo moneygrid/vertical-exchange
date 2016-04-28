@@ -35,7 +35,7 @@ class ExchangeConfigSettings(models.TransientModel):
         'Use of Account Numbering System', related='exchange_provider_id.use_account_numbers',
         help="Use of the 20 digits Account Numbering Code 'CC BBBB DDDDDDDD XXXX-KK'")
     email_sysadmin = fields.Char('Sysadmin mail address', related='exchange_provider_id.email_sysadmin')
-    account_conf_ids = fields.One2many('Accounts templates', related='exchange_provider_id.account_conf_ids')
+    # account_conf_ids = fields.One2many('Accounts templates', related='exchange_provider_id.account_conf_ids')
 
 
 

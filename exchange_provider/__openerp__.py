@@ -22,9 +22,11 @@ Creates framework for Exchange Providers/ Transaction engines (Multiwallet)
     ],
     'data': [
         'security/ir.model.access.csv',
+        'views/exchange_transaction_workflow.xml',
         'views/exchange_provider_view.xml',
         'views/exchange_account_config_view.xml',
         'views/exchange_account_view.xml',
+        'views/exchange_transaction_view.xml',
         'views/res_config_view.xml',
         'data/exchange_data.xml',
         # 'data/account_config_data.xml',

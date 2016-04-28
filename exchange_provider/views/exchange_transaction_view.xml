@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Transactions view tree -->
+    <record id="view_transactions_tree" model="ir.ui.view">
+        <field name="name">exchange.transaction.tree</field>
+        <field name="model">exchange.transaction</field>
+        <field name="arch" type="xml">
+            <tree string="Transactions all">
+                <field name="name"/>
+                <field name="account_from_id"/>
+                <field name="account_to_id"/>
+                <field name="type_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Transactions view form -->
+    <record id="view_transactions_form" model="ir.ui.view">
+        <field name="name">exchange.transaction.form</field>
+        <field name="model">exchange.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Transaction" version="7.0">
+                <!--   <field name="model_name" invisible="1"/> -->
+                <header>
+                    <!--        <button name="do_test" states="draft" string="Test"
+                                  help="Only to test Functions!" type="object"/>
+                          -->
+                    <button name="do_cancel" states="draft,sent,invoiced" string="Cancel" type="workflow"
+                            paid="Are you sure? You can't reopen it" help="Cancel this Transaction"/>
+                    <button name="do_payment" states="draft" class="oe_highlight" type="workflow" confirm="Are you sure to send a direct payment?"
+                            string="Send Payment" help="Sending a direct payment to Receiver"/>
+                    <button name="do_invoice" states="draft" type="workflow" class="oe_highlight" confirm="Are you sure to send this invoice?"
+                            string="Send Invoice" help="Sending a invoice get paid from Receiver"/>
+                    <button name="do_deny_invoice" states="invoiced" type="workflow" class="oe_highlight"
+                            string="Deny payment" help="Confirm that you don't accept the invoice"/>
+                    <button name="do_confirm_invoice" states="invoiced" type="workflow" class="oe_highlight"
+                            string="Pay Invoice" help="Confirm the payment of the invoice"/>
+                    <button name="do_refund" states="paid" string="Refund" type="workflow"/>
+                    <button name="do_draft" states="canceled" string="Put in draft" type="workflow"/>
+                    <button name="do_content" class="oe_highlight"
+                            string="Send Message" help="Sending a message to Receiver" type="object"
+                            attrs="{'invisible': [('messaging_from','=',False)]}"/>
+                    <!--
+                         Needed?
+                        <button name="transaction_confirm_refund_done" states="confirm_refund" string="Return to done"/>
+                        <button name="transaction_confirm_refund_cancel" states="confirm_refund" class="oe_highlight" string="Confirm that you received the payment for the refund"/>
+                     -->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,paid,canceled"/>
+                </header>
+                <!--   <form string="Transactions all"> -->
+                <group name="group_1" col="4">
+                    <field name="type_id" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                    <field name="name" fonts="bold:state!=draft"/>
+                    <field name="emission_date" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                    <field name="transaction_date"/>
+                    <field name="emission_from" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                    <field name="user_role"/>
+                    <!--   invisible fields  -->
+                    <field name="messaging_from" position="attributes">
+                        <attribute name="invisible"/>1<attribute/>
+                    </field>
+                    <field name="messaging_to" position="attributes">
+                        <attribute name="invisible"/>1<attribute/>
+                    </field>
+                </group>
+                <group name="group_2" col="4">
+                    <field name="is_fee" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                    <field name="is_invoice" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                </group>
+                <group name="group_3">
+                    <label for="id" string="Sender"/>
+                    <group col="4">
+                        <field name="sender_id"/>
+                        <field name="account_from_id" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                        <field name="amount_from" widget="monetary" options="{'currency_field': 'currency_from'}" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                        <field name="currency_from"/>
+                        <field name="exchange_rate_from"/>
+                        <!-- <field name="ext_from"/> -->
+                    </group>
+                </group>
+
+                <group name="to_grp">
+                    <label for="id" string="Receiver"/>
+                    <group col="4">
+                        <field name="receiver_id"/>
+                        <field name="account_to_id" attrs="{'invisible': [('state','not in',('draft'))]}"/>
+                        <field name="amount_to" widget="monetary" options="{'currency_field': 'currency_to'}" attrs="{'readonly': [('state','not in',('draft'))]}"/>
+                        <field name="currency_to"/>
+                        <field name="exchange_rate_to"/>
+                        <!-- <field name="ext_to"/> -->
+                    </group>
+                </group>
+                <group name="transfer_grp">
+                    <field name="line_ids"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <!-- Menu Items Transaction all -->
+    <record id="act_exchange_transaction_all" model="ir.actions.act_window">
+        <field name="name">Transactions All </field>
+        <field name="res_model">exchange.transaction</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field eval="False" name="view_id"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <!--     <field name="search_view_id" ref="view_exchange_transaction_search"/>
+       --> </record>
+    <!-- Association Menu Item -->
+    <menuitem action="act_exchange_transaction_all" id="menu_act_transaction_asoc_all"
+              parent="base_exchange.menu_association_exchange_admin" sequence="2"/>
+
+    <!-- *********************************************************************************** -->
+    <!-- Transactions type view tree -->
+    <record id="view_transaction_type_tree" model="ir.ui.view">
+        <field name="name">exchange.transaction.type.tree</field>
+        <field name="model">exchange.transaction.type</field>
+        <field name="arch" type="xml">
+            <tree string="Transactions Type all">
+                <field name="name"/>
+                <field name="from_account_type_id"/>
+                <field name="to_account_type_id"/>
+                <field name="is_fee"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--  Transactions type view form -->
+    <record id="view_transaction_type_form" model="ir.ui.view">
+        <field name="name">exchange.transaction.type.form</field>
+        <field name="model">exchange.transaction.type</field>
+        <field name="arch" type="xml">
+            <form string="Transactions Type all">
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Name"/></h1>
+                    </div>
+                <group col="4">
+                    <field name="from_account_type_id"/>
+                    <field name="to_account_type_id"/>
+                    <field name="type_prefix_from"/>
+                    <field name="type_prefix_to"/>
+                    <field name="max_amount_per_day"/>
+                    <field name="priority"/>
+                    <field name="hidden"/>
+                    <field name="allowed_payment"/>
+                    <field name="allowed_self_payment"/>
+                    <field name="conciliable"/>
+                </group>
+                <notebook>
+                    <page name="fee_page" string="Fees">
+                        <group col="4">
+                            <field name="is_fee" modifiers="{}"/>
+                            <field name="fee_type" attrs="{'invisible': [('is_fee','=',False)]}"/>
+                            <field name="fee" attrs="{'invisible': [('is_fee','=',False)]}"/>
+                        </group>
+                        <field name="feetype_ids" attrs="{'invisible': [('is_fee','=',True)]}">
+                            <tree>
+                                <field name="name"/>
+                                <field name="from_account_type_id"/>
+                                <field name="to_account_type_id"/>
+                                <field name="is_fee"/>
+                            </tree>
+                        </field>
+                    </page>
+
+                    <page name="text_grp" string="Messages">
+                        <group col="2">
+                            <!--   TODO   <label for="desc"/> -->
+                            <field name="desc"/>
+                            <field name="confirmation_message" modifiers="{}"/>
+                        </group>
+                    </page>
+
+                    <page name="info_grp" string="Dataset info">
+                        <group col="4">
+                            <field name="create_uid"/>
+                            <field name="create_date"/>
+                            <field name="write_uid"/>
+                            <field name="write_date"/>
+                        </group>
+                    </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items Transaction type all -->
+    <record id="act_exchange_transaction_type_all" model="ir.actions.act_window">
+        <field name="name">Transaction Type All</field>
+        <field name="res_model">exchange.transaction.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field eval="False" name="view_id"/>
+        <!-- <field name="view_id" ref="view_transaction_type_form"/>
+         <field name="search_view_id" ref="view_exchange_transaction_type_search"/> -->
+    </record>
+
+    <!-- Settings Menu Item -->
+    <menuitem action="act_exchange_transaction_type_all" id="menu_act_transaction_type_all"
+              parent="base_exchange.menu_association_exchange_config" sequence="2"/>
+    <!-- *********************************************************************************** -->
+
+    <!-- Transactions line view tree -->
+    <record id="view_transaction_line_tree" model="ir.ui.view">
+        <field name="name">exchange.transaction.line.tree</field>
+        <field name="model">exchange.transaction.line</field>
+        <field name="arch" type="xml">
+            <tree string="Transactions Line all">
+                <field name="name"/>
+                <field name="transfer_from_id"/>
+                <field name="transfer_to_id"/>
+                <field name="transfer_type"/>
+                <field name="amount_from"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--  Transactions line view form -->
+    <record id="view_transaction_line_form" model="ir.ui.view">
+        <field name="name">exchange.transaction.line.form</field>
+        <field name="model">exchange.transaction.line</field>
+        <field name="arch" type="xml">
+            <form string="Transactions Line all">
+                <group col="4">
+                    <field name="name"/>
+                    <field name="transfer_type"/>
+                    <field name="ref"/>
+                    <field name="type_id"/>
+                    <field name="date"/>
+                </group>
+                <group name="hash_grp">
+                    <label for="id" string="From / to"/>
+                    <group col="4">
+                        <field name="transfer_from_id"/>
+                        <field name="transfer_to_id"/>
+                        <!--     <field name="account_from"/>
+                             <field name="account_to"/> -->
+                        <field name="amount_from"/>
+                        <field name="amount_to"/>
+                        <field name="transfer_from_hash"/>
+                        <field name="transfer_to_hash"/>
+                    </group>
+                </group>
+                <group col="4">
+                    <field name="to_check"/>
+                    <field name="date"/>
+                </group>
+                <group>
+                    <field name="content"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items Transaction line -->
+    <record id="act_exchange_transaction_line_all" model="ir.actions.act_window">
+        <field name="name">Transaction Line All</field>
+        <field name="res_model">exchange.transaction.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_transaction_line_tree"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <!--     <field name="search_view_id" ref="view_exchange_transaction_line_search"/>
+       --> </record>
+    <!-- Association Menu Item -->
+    <menuitem action="act_exchange_transaction_line_all" id="menu_act_transaction_line_asoc_all" parent="base_exchange.menu_association_exchange_admin" sequence="3"/>
+    <!-- *********************************************************************************** -->
+
+
+    <!--  Transactions line view new message form -->
+    <record id="view_transaction_line_info_form" model="ir.ui.view">
+        <field name="name">exchange.transaction.line.info.form</field>
+        <field name="model">exchange.transaction.line</field>
+        <field name="arch" type="xml">
+            <form string="Transactions Line new">
+                <group col="4">
+                    <field name="name"/>
+                    <field name="transfer_type"/>
+                    <field name="ref"/>
+                    <field name="type_id"/>
+                    <field name="date"/>
+                </group>
+                <group name="hash_grp">
+                    <label for="id" string="From / to"/>
+                    <group col="4">
+                        <field name="transfer_from_id"/>
+                        <field name="transfer_to_id"/>
+                    </group>
+                </group>
+                <group>
+                    <field name="content"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!--  act_window items Transaction line new -->
+    <record id="act_exchange_transaction_line_new" model="ir.actions.act_window">
+        <field name="name">Transaction Line new</field>
+        <field name="view_id" ref="view_transaction_line_info_form"/>
+        <field name="res_model">exchange.transaction.line</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_transaction_line_form"/>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+
+        <!--      <field name="target">new</field> -->
+    </record>
+
+    <!-- Association Menu Item  view_account_config_tree -->
+    <menuitem action="act_exchange_transaction_line_new" id="menu_act_transact_test_assoc_all" parent="base_exchange.menu_association_exchange_config" sequence="12"/>
+</odoo>

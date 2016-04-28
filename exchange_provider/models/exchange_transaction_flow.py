@@ -158,7 +158,7 @@ class ExchangeTransactions(models.Model):
         return skip_confirm
 
     @api.one  # Payment via external db
-    @api.depends ()
+    @api.depends()
     def _payment_extern(self):
         # 1. TODO check if external db connection is established
 
@@ -180,7 +180,15 @@ class ExchangeTransactions(models.Model):
         'Number', size=30, required=True)
         # TODO       default=tr_number_calc('type_id'))
     account_from_id = fields.Many2one(
-        'exchange.accounts', 'Account From', required=True, state={'draft': [('readonly', False)]}, track_visibility='onchange')
+        'exchange.accounts', string='Account From', required=True, state={'draft': [('readonly', False)]},
+        track_visibility='onchange')
+    """
+    account_from_ref = fields.Reference([
+        ('exchange.accounts', 'Internal Test'),
+        ('exchange.account.provider.internal', 'Internal'),
+        ('exchange.account.provider.dumy', 'Dumy')],
+        'Account From Ref')
+    """
     account_to_id = fields.Many2one(
         'exchange.accounts', 'Account To', required=True, state={'draft': [('readonly', False)]}, track_visibility='onchange')
     type_id = fields.Many2one(
@@ -321,7 +329,6 @@ class ExchangeTransactions(models.Model):
             )
             print 'new record in lines'
 
-
     @api.one  # STAGE 2b invoiced
     def action_invoice(self):
         # Workflow action which sends an invoice to Receiver
@@ -330,7 +337,6 @@ class ExchangeTransactions(models.Model):
         print 'step invoiced'
         self.state = 'invoiced'
         return True
-
 
     @api.multi  # OLD
     def action_refund(self,  fields, context=None):

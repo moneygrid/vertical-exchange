@@ -10,6 +10,61 @@ from openerp.tools.translate import _
 _logger = logging.getLogger(__name__)
 
 
+class ExchangeAccounts(models.Model):
+    """
+    Inherited model of Accounts for members and the system.
+    Most of the here defined fields are related to the submodels exchange.account.provider.xxxxx!
+    """
+    _inherit = 'exchange.accounts'
+
+    # All Computed fields
+    limit_negative = fields.Boolean('Limit - ?', compute='_compute_limit_negative')
+    limit_negative_value = fields.Float('Credit Limit -')
+    limit_positive = fields.Boolean('Limit + ?')
+    limit_positive_value = fields.Float('Account Limit +')
+    """
+    limit_negative = fields.Boolean('Limit - ?', related='account_id_internal.limit_negative')
+    limit_negative_value = fields.Float('Credit Limit -', related='account_id_internal.limit_negative_value')
+    limit_positive = fields.Boolean('Limit + ?', related='account_id_internal.limit_positive')
+    limit_positive_value = fields.Float('Account Limit +', related='account_id_internal.limit_positive_value')
+    """
+    provider_ref = fields.Reference([
+            ('exchange.account.provider.internal', 'Internal'),
+            ('exchange.account.provider.dumy', 'Dumy')],
+            'Ref test')
+    available = fields.Float('Available', store=True, compute='_compute_available_amount')
+    balance = fields.Float('Account Balance', store=False) # , compute='_compute_balance')
+    reserved = fields.Float('Reserved')
+    exchange_provider = fields.Selection('Exchange Provider', related='template_id.exchange_provider_id.provider',
+                                         readonly=True, help='Related transaction engine name')
+    transaction_from_ids = fields.One2many('exchange.transaction', 'account_from_id', string='Transactions from')
+    transaction_to_ids = fields.One2many('exchange.transaction', 'account_to_id', string='Transactions to')
+
+    @api.one  # TODO auto switching of account_id_xxxxxxx
+    def _compute_limit_negative(self):
+        return self.account_id_internal.limit_negative
+
+    @api.one  # Action connection test via the provider models
+    def _compute_limit_negative2(self):
+        sub_function = "_get_limit_negative_" + str(self.exchange_provider)
+        call_limit = getattr(self, sub_function)
+        result = call_limit()
+
+    @api.one
+    @api.depends('balance', 'limit_negative_value')  # computed field available calculate
+    def _compute_available_amount(self):
+        return float(self.balance - self.limit_negative_value)
+
+    @api.one  # computed field balance calculate
+    def _compute_balance(self):
+        balance_internal = fields.Float('Account Balance', related='account_id_internal.balance')
+        return balance_internal
+
+    @api.one  # TODO get account_balance from test account
+    def act_account_compute_balance(self):
+        raise Exception("This is not yet implemented!")
+
+
 class AccountTemplateConfig(models.Model):
     # Lines containing the general configuration of account templates
     _inherit = 'exchange.config.accounts'
@@ -26,7 +81,7 @@ class AccountTemplateConfig(models.Model):
             return True
 
     exchange_provider_id = fields.Many2one('exchange.provider', 'Exchange Provider',
-                                           help='Related Transaction engine internal or external')
+                                           help='Related transaction engine internal or external')
     is_external = fields.Boolean(compute='_compute_external', string='External Account')
     """
     config_id = fields.Many2one(

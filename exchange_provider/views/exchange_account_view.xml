@@ -45,22 +45,24 @@
                     </div>
                     <group col="4">
                         <field name="template_id" class="oe_inline"/>
-                        <field name="partner_id"/>
+                        <field name="available" widget="monetary" options="{'currency_field': 'currency_base'}"/>
                     </group>
                     <group name="curr_grp" col="4">
                         <field name="currency_base"/>
-                        <field name="available" widget="monetary" options="{'currency_field': 'currency_base'}"/>
                         <field name="exchange_rate"/>
+                        <field name="partner_id"/>
                     </group>
 
                     <notebook colspan="4">
-                        <page name="setting_page" string="Settings">
-                            <group col="4">
-                                <field name="type_prefix"/>
-                                <field name="with_messaging"/>
-                                <field name="default_account"/>
-                             <!--   <field name="exchange_provider_id"/> -->
-                            </group>
+                        <page name="trans_page" string="Transactions">
+                                <field name="transaction_from_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="account_from_id"/>
+                                    <field name="account_to_id"/>
+                                    <field name="type_id"/>
+                                </tree>
+                            </field>
                         </page>
                         <page name="limits_page" string="Credit Limits">
                             <group col="4">
@@ -70,10 +72,21 @@
                                 <field name="limit_positive_value" attrs="{'invisible': [('limit_positive','=',False)]}"/>
                             </group>
                         </page>
-                        <page string="Description">
-                            <group>
-                                <field name="desc"/>
+                        <page name="setting_page" string="Settings">
+                            <group col="4">
+                                <field name="type_prefix"/>
+                                <field name="with_messaging"/>
+                                <field name="default_account"/>
                             </group>
+                        </page>
+                        <page string="Extra">
+                            <group>
+                                <field name="exchange_provider"/>
+                                <field name="provider_ref"/>
+                            </group>
+                        </page>
+                        <page string="Description">
+                                <field name="desc"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -107,22 +120,6 @@
         <field name="search_view_id" ref="view_exchange_accounts_search"/>
     </record>
     <!-- Association Menu Item -->
-    <menuitem action="act_exchange_accounts_all" id="menu_act_exchange_accounts_asoc_all" parent="base_exchange.menu_association_exchange_admin" sequence="6"/>
-    <!-- *********************************************************************************** -->
-
-    <!-- Association Menu Item My Wallet -->
-    <record id="act_exchange_accounts_my" model="ir.actions.act_window">
-        <field name="name">My Exchange Wallet</field>
-        <field name="res_model">exchange.accounts</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field eval="False" name="view_id"/>
-        <field name="domain">[('partner_id','!=',False)]</field>
-        <field name="domain">[('user_ids','=',uid)]</field>
-        <field name="context">{}</field>
-        <field name="search_view_id" ref="view_exchange_accounts_search"/>
-    </record>
-    <!-- Association Menu Item -->
-    <menuitem action="act_exchange_accounts_my" id="menu_act_exchange_accounts_my" parent="base_exchange.menu_association_exchange_user" sequence="20"/>
-    <!-- *********************************************************************************** -->
+    <menuitem action="act_exchange_accounts_all" id="menu_act_exchange_accounts_asoc_all"
+              parent="base_exchange.menu_association_exchange_admin" sequence="6"/>
 </odoo>

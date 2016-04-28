@@ -12,4 +12,15 @@
             </xpath>
         </field>
     </record>
+    <!-- TODO to remove -->
+    <record id="view_accounts_form_inherit" model="ir.ui.view">
+        <field name="name">exchange.accounts.form</field>
+        <field name="model">exchange.accounts</field>
+        <field name="inherit_id" ref="exchange_provider.view_accounts_form"/>
+        <field name="arch" type="xml">
+            <field name="exchange_provider" position='after'>
+            <field name="account_id_internal"/>
+        </field>
+        </field>
+    </record>
 </odoo>

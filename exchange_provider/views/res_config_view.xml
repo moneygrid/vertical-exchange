@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <odoo>
     <!-- TODO to delete Adding Menu Config -->
     <!-- Exchange Config view -->
@@ -9,18 +10,18 @@
         <field name="arch" type="xml">
             <group name="init_grp" position="after">
                 <group string="Exchange Provider" name="provider_grp">
-                    <label for="id" string="Exchange Provider"/>
+                    <label for="id" string="Default Exchange Provider"/>
                     <div name="provider">
-                        <div>
+                            <p>Please be aware that changing the default Exchange Provider will cause a complete
+                            reconfiguration of the Exchange framework?</p>
                             <field name="exchange_provider_id"/>
-                        </div>
                         <div>
                             <label for="exch_code"/>
                             <field name="exch_code"  class="oe_inline"/>
                         </div>
                         <div>
-                            <label for="is_external"/>
                             <field name="is_external"  class="oe_inline"/>
+                            <label for="is_external"/>
                         </div>
                     </div>
                 </group>
@@ -32,8 +33,8 @@
                             <field name="name" class="oe_inline"/>
                         </div>
                         <div>
-                            <label for="res_company_id"/>
-                            <field name="res_company_id"  class="oe_inline"/>
+                            <label for="company_id"/>
+                            <field name="company_id"  class="oe_inline"/>
                         </div>
                     </div>
                 </group>
@@ -52,7 +53,7 @@
 
                 <group string="Exchange Settings" name="exchange_grp">
                     <label for="id" string="Exchange Settings"/>
-                    <div name="ex-setting">
+                    <div name="ex_setting">
                         <div>
                             <field name="display_balance" class="oe_inline"/>
                             <label for="display_balance"/>
@@ -75,8 +76,18 @@
                         </div>
                     </div>
                 </group>
-                <group name="module_grp">
-                    <label for="id" string="Extra Modules Installation"/>
+                <group string="Extra Modules Installation" name="module_grp">
+                    <label for="id" string="Modules"/>
+                    <div name="module_install">
+                        <div>
+                            <field name="module_exchange_membership" class="oe_inline"/>
+                            <label for="module_exchange_membership"/>
+                        </div>
+                        <div>
+                            <field name="module_exchange_loan" class="oe_inline"/>
+                            <label for="module_exchange_loan"/>
+                        </div>
+                    </div>
                 </group>
             </group>
         </field>

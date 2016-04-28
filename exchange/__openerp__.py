@@ -18,17 +18,14 @@
                 ],
 
     'data': [
-        'security/exchange_security.xml',
-        'security/ir.model.access.csv',
-        'views/res_config_view.xml',
+       # 'security/exchange_security.xml',
+       #  'security/ir.model.access.csv',
         'views/exchange_account_view.xml',
         'views/exchange_transaction_view.xml',
-        'views/exchange_loan_view.xml',
  #       'test_view.xml',
-        'views/exchange_transaction_workflow.xml',
-        'data/exchange_data.xml',
-        'data/account_data.xml',
-        'data/loan_data.xml',
+      # 'views/exchange_transaction_workflow.xml',
+      #  'data/exchange_data.xml',
+      #  'data/account_data.xml',
             ],
     """
     'demo': ['demo/exchange_demo.xml'],

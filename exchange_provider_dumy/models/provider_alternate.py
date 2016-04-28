@@ -47,9 +47,6 @@ class ProviderDumy(models.Model):
         help='Is a Goclouder Docker container?')
 #    clouder_container_ids = fields.One2many('clouder.container',
 #                                            'container_id', 'Ports')
-    merchant_id = fields.Char('SIPS API User Password',
-                                   required_if_provider='sips')
-    sips_secret = fields.Char('SIPS Secret', size=64, required_if_provider='sips')
 
     # Methods
     def _get_dumy_urls(self, environment):

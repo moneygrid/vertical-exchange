@@ -78,7 +78,7 @@ class ExchangeAccounts(models.Model):
         'Refers to')
     """
     ref_test = fields.Reference(
-        [('exchange.provider.internal', 'Internal'), ('exchange.provider.dumy', 'Dumy')],
+        [('exchange.account.provider.internal', 'Internal'), ('exchange.account.provider.dumy', 'Dumy')],
         'Ref test')
     limit_negative = fields.Boolean('Limit - ?')
     limit_negative_value = fields.Float('Credit Limit -', default=0.0)

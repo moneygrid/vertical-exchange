@@ -79,37 +79,7 @@
                                  --><field name="membership_type" class="oe_inline"/>
                                 <label for="membership_type" />
                             </div>
-                            <div>
-                                <field name="type_prefix" class="oe_inline"/>
-                                <label for="type_prefix"/><br> </br>
-                            </div>
-                            <div>
-                                <field name="hidden" class="oe_inline"/>
-                                <label for="hidden"/><br> </br>
-                            </div>
-                            <div>
-                                <field name="default_account" class="oe_inline"/>
-                                <label for="default_account"/>
-                            </div>
-                            <div>
-                                <field name="with_messaging" class="oe_inline"/>
-                                <label for="with_messaging"/>
-                            </div>
-                        </div>
-                    </group>
-                    <group name="limits_grp">
-                        <label for="id" string="Credit Limits"/>
-                        <div name="limit-setting">
-                            <div>
-                                <field name="limit_negative" class="oe_inline"/>
-                                <label for="limit_negative" class="oe_inline"/>
-                                <field name="limit_negative_value" attrs="{'invisible': [('limit_negative','=',False)]}"/>
-                            </div>
-                            <div>
-                                <field name="limit_positive"/>
-                                <label for="limit_positive" class="oe_inline"/>
-                                <field name="limit_positive_value" attrs="{'invisible': [('limit_positive','=',False)]}"/>
-                            </div>
+
                         </div>
                     </group>
                     <group name="external_grp">
@@ -121,6 +91,32 @@
                             </div>
                         </div>
                     </group>
+                    <notebook colspan="4">
+                        <page name="account_page" string="Related Accounts">
+                                <field name="accounts_ids"/>
+                        </page>
+                        <page name="setting_page" string="Settings">
+                            <group col="4">
+                                <field name="type_prefix"/>
+                                <field name="with_messaging"/>
+                                <field name="default_account"/>
+                                <field name="hidden"/>
+                            </group>
+                        </page>
+                        <page name="limits_page" string="Credit Limits">
+                            <group col="4">
+                                <field name="limit_negative"/>
+                                <field name="limit_negative_value" attrs="{'invisible': [('limit_negative','=',False)]}"/>
+                                <field name="limit_positive"/>
+                                <field name="limit_positive_value" attrs="{'invisible': [('limit_positive','=',False)]}"/>
+                            </group>
+                        </page>
+                        <page string="Description">
+                            <group>
+                                <field name="desc"/>
+                            </group>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

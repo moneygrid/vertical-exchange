@@ -27,9 +27,15 @@ CURRENCY_CODES = {
 
 class ProviderDumy(models.Model):
     _inherit = 'exchange.provider'
-    # Fields
+    # credentials Fields
     dumy_id = fields.Char('Dumy API User ID', required_if_provider='dumy')
     dumy_secret = fields.Char('Dumy Secret', size=64, required_if_provider='dumy')
+    # Fees, (are only relevant in case of fees that are not included in the transaction logic)
+    fees_active = fields.Boolean('Add Extra Fees')
+    fees_dom_fixed = fields.Float('Fixed domestic fees')
+    fees_dom_var = fields.Float('Variable domestic fees (in percents)')
+    fees_int_fixed = fields.Float('Fixed international fees')
+    fees_int_var = fields.Float('Variable international fees (in percents)')
 
     # Methods
     def _get_dumy_urls(self, environment):
