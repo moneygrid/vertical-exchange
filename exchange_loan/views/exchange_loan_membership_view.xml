@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Adding loan content to Partner -->
+    <record id="exchange_partner_membership_loan_view" model="ir.ui.view">
+        <field name="name">partner.form.membership.loan.users</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page name="loans" string="Loans">
+                    <group col="4">
+                        Loans of this user
+                    </group>
+                    <group name="acc_grp">
+                    </group>
+                    <field name="exchange_loan_ids" attrs="{'invisible': [('see_balance','!=', True)]}">
+                        <tree string="Accounts">
+                            <field name="name"/>
+                            <field name="state"/>
+                            <field name="loan_type_id"/>
+                            <field name="total_amount"/>
+                            <field name="currency_from"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Membership inherit My Profile -->
+    <record id="membership_my_profile_view_inherit" model="ir.ui.view">
+        <field name="name">res.partner.profile.form.membership.my.inherit</field>
+        <field name="inherit_id" ref="exchange_membership.membership_my_profile_view"/>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page name="loans" string="Loans">
+                    <group readonly="1" col="4">
+                        Loans of this user
+                    </group>
+                    <field name="exchange_loan_ids" attrs="{'invisible': [('see_balance','!=', True)]}">
+                        <tree string="Accounts">
+                            <field name="name" readonly="1"/>
+                            <field name="state" readonly="1"/>
+                            <field name="loan_type_id" readonly="1"/>
+                            <field name="total_amount" readonly="1"/>
+                            <field name="currency_from" readonly="1"/>
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

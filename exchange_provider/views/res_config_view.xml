@@ -92,4 +92,19 @@
             </group>
         </field>
     </record>
+
+   <!-- Adding fields to Partner -->
+    <record id="exchange_partner_membership_base_inherit_view" model="ir.ui.view">
+        <field name="name">partner.form.membership.users</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="exchange_user_code" placeholder="Exchange User ID"/>
+            </field>
+            <field name="website" position="after">
+                <field name="exchange_provider_id"/>
+            </field>
+        </field>
+    </record>
 </odoo>

@@ -8,7 +8,7 @@
     'category': 'Exchange',
     'author': 'Lucas Huber, moneygrid Project',
     'license': 'LGPL-3',
-    'summary': 'Community Exchange Base Module',
+    'summary': 'Community Exchange/Wallet Backend',
     'website': 'https://github.com/moneygrid/vertical-exchange',
     'depends': [
                 'account_accountant',
@@ -18,14 +18,14 @@
                 ],
 
     'data': [
-       # 'security/exchange_security.xml',
-       #  'security/ir.model.access.csv',
+        # 'security/exchange_security.xml',
+        #  'security/ir.model.access.csv',
         'views/exchange_account_view.xml',
         'views/exchange_transaction_view.xml',
- #       'test_view.xml',
-      # 'views/exchange_transaction_workflow.xml',
-      #  'data/exchange_data.xml',
-      #  'data/account_data.xml',
+        #       'test_view.xml',
+        # 'views/exchange_transaction_workflow.xml',
+        # 'data/exchange_data.xml',
+        # 'data/account_data.xml',
             ],
     """
     'demo': ['demo/exchange_demo.xml'],

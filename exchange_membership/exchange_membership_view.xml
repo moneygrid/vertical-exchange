@@ -207,21 +207,6 @@
                             </field>
                         </page>
 
-                        <page name="loans" string="Loans">
-                            <group readonly="1" col="4">
-                                Loans of this user
-                            </group>
-                            <field name="exchange_loan_ids" attrs="{'invisible': [('see_balance','!=', True)]}">
-                                <tree string="Accounts">
-                                    <field name="name" readonly="1"/>
-                                    <field name="state" readonly="1"/>
-                                    <field name="loan_type_id" readonly="1"/>
-                                    <field name="total_amount" readonly="1"/>
-                                    <field name="currency_from" readonly="1"/>
-                                </tree>
-                            </field>
-                        </page>
-
                         <page name="presentation" string="About me/us">
                             <field name="presentation"/>
                         </page>

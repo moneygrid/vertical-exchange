@@ -17,7 +17,7 @@ class ValidationError(ValueError):
     """
 class ExchangeProviderModel(models.Model):
     """
-    # Model allocation for the Exchange Providers
+    # TODO to remove? Model allocation for the Exchange Providers
     """
     _name = 'exchange.provider.model'
     _description = 'Exchange Provider Models'

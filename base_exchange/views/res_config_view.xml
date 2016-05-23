@@ -12,6 +12,7 @@
                     <button string="Cancel" type="object" name="cancel" class="oe_link"/>
                 </header>
                 <group name="init_grp">
+                    <field name="exchange_config_id"/>
                 </group>
             </form>
         </field>
@@ -21,10 +22,8 @@
         <field name="name">Exchange Settings</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">exchange.config.settings</field>
-
         <field name="view_mode">form</field>
         <field name="target">inline</field>
-
     </record>
     <!--
         <record id="action_account_config" model="ir.actions.act_window">

@@ -191,6 +191,9 @@ class ExchangeTransactions(models.Model):
     """
     account_to_id = fields.Many2one(
         'exchange.accounts', 'Account To', required=True, state={'draft': [('readonly', False)]}, track_visibility='onchange')
+    account_to_from_id = fields.Many2one(
+        'exchange.accounts', string='Account From/To', required=False, state={'draft': [('readonly', False)]},
+        track_visibility='onchange')
     type_id = fields.Many2one(
         'exchange.transaction.type', 'Transactions Type', state={'draft': [('readonly', False)]}, required=True)
     line_ids = fields.One2many(

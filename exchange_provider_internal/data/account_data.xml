@@ -15,7 +15,6 @@
             <field name="limit_negative_value">0.0</field>
             <field name="limit_positive" eval="True"/>
             <field name="limit_positive_value">500.0</field>
-            <field name="limit_positive" eval="True"/>
             <field name="hidden" eval="False"/>
             <field name="exchange_provider_id" ref="exchange_provider_internal.exchange_provider_internal"/>
             <!--  Account in Odoo accounting system -->

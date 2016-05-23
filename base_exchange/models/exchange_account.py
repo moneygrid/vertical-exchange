@@ -25,6 +25,28 @@ class ExchangeAccounts(models.Model):
         self.limit_negative_value = self.template_id.limit_negative_value
         self.limit_positive = self.template_id.limit_positive
         self.limit_positive_value = self.template_id.limit_positive_value
+
+    @api.multi  # get partner_id from the res_users model
+    def _compute_partner_id(self):
+        for record in self:
+            record.partner_id_id = record.partner_id.id
+
+    @api.multi  # get partner_id from the res_users model
+    def _compute_partner_id_cur(self):
+        for record in self:
+            record.partner_id_current = self.env.user.partner_id.id
+            return self.env.user.partner_id.id
+
+    @api.multi  # TODO   # get partner_id from the res_users model
+    def _compute_partner_is_current(self):
+        for record in self:
+            if record.partner_id.id == self.env.user.partner_id.id:
+                record.partner_is_current = True
+                return True
+            else:
+                record.partner_is_current = False
+                return False
+
     """
     @api.multi  # TODO   # get balance from the provider models
     def _compute_balance_mod(self):
@@ -42,6 +64,8 @@ class ExchangeAccounts(models.Model):
         size=16, help='Number of the Account', default='CH-XX-123456')
     key = fields.Text(
         'Key', readonly=True, help="Account token for the use in outside DB/ledger")
+    color = fields.Integer('Color Index')
+    sequence = fields.Integer('Sequence')
     locked = fields.Selection([
         ('open', 'Open'),
         ('ingoing', 'Ingoing'),
@@ -62,8 +86,11 @@ class ExchangeAccounts(models.Model):
     template_id = fields.Many2one(
         'exchange.config.accounts', 'Account Template',
         track_visibility='onchange', required=True)
-    partner_id = fields.Many2one(
-        'res.partner', 'Partner')
+    partner_id = fields.Many2one('res.partner', 'Account Owner')
+    partner_id_id = fields.Integer(compute=_compute_partner_id, String='Partner ID')
+    partner_id_current = fields.Integer(compute=_compute_partner_id_cur, String='Current Partner')
+    partner_is_current = fields.Boolean(compute=_compute_partner_is_current, String='Is Current Partner')
+    # user_id = fields.One2many('res.users', 'User ID', related='partner_id.user_ids', readonly=True)
     # Referenced Fields
     # ref = fields.Reference('Reference', selection=openerp.addons.base.res.res_request.referencable_models)
     """
@@ -83,8 +110,7 @@ class ExchangeAccounts(models.Model):
          readonly=True)
     exchange_rate = fields.Float(
         'Exchange Rate', related='template_id.exchange_rate', readonly=True)
-    user_id = fields.One2many('res.users',
-        'User ID', related='partner_id.user_ids', readonly=True)
+
     with_messaging = fields.Boolean(
         string='Messaging', related='template_id.with_messaging',
         readonly=True)
@@ -225,7 +251,7 @@ class AccountTemplateConfig(models.Model):
     _sql_constraints = [
         ('name', 'unique(name)',
         'We can only have one line per name'),
-        ('default_account', 'unique(membership_type,default_account)',
+        ('default_account', 'unique(membership_type,default_account,exchange_provider_id)',
         'We can only have one default account per type'),
     ]
 

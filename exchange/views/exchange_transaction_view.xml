@@ -67,7 +67,7 @@
                     <field name="is_fee" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                     <field name="is_invoice" attrs="{'readonly': [('state','not in',('draft'))]}"/>
                 </group>
-                <group name="group_3" name="from_grp">
+                <group name="from_grp">
                     <label for="id" string="Sender"/>
                     <group col="4">
                         <field name="sender_id"/>
@@ -96,22 +96,8 @@
             </form>
         </field>
     </record>
-    <!-- Menu Items Transaction all -->
-    <record id="act_exchange_transaction_all" model="ir.actions.act_window">
-        <field name="name">Transactions All </field>
-        <field name="res_model">exchange.transaction</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field eval="False" name="view_id"/>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-        <!--     <field name="search_view_id" ref="view_exchange_transaction_search"/>
-       --> </record>
-    <!-- Association Menu Item -->
-    <menuitem action="act_exchange_transaction_all" id="menu_act_transaction_asoc_all" parent="base_exchange.menu_association_exchange_admin" sequence="2"/>
 
     <!-- *********************************************************************************** -->
-
     <!-- Menu Items my Transactions -->
     <record id="act_exchange_transaction_my" model="ir.actions.act_window">
         <field name="name">My Transactions</field>
@@ -126,191 +112,14 @@
         <!--        <field name="search_view_id" ref="view_exchange_transaction_search"/>
         -->   </record>
     <!-- Association Menu Item -->
-    <menuitem action="act_exchange_transaction_my" id="menu_act_transaction_accounts_my" parent="base_exchange.menu_association_exchange_user" sequence="18"/>
+    <menuitem action="act_exchange_transaction_my" id="menu_act_transaction_accounts_my"
+              parent="base_exchange.menu_association_exchange_user" sequence="18"/>
+
     <!-- *********************************************************************************** -->
-
-    <!-- Transactions type view tree -->
-    <record id="view_transactions_type_tree" model="ir.ui.view">
-        <field name="name">exchange.transaction.type.tree</field>
-        <field name="model">exchange.transaction.type</field>
-        <field name="arch" type="xml">
-            <tree string="Transactions Type all">
-                <field name="name"/>
-                <field name="from_account_type_id"/>
-                <field name="to_account_type_id"/>>
-                <field name="is_fee"/>
-            </tree>
-        </field>
-    </record>
-
-    <!--  Transactions type view form -->
-    <record id="view_transaction_type_form" model="ir.ui.view">
-        <field name="name">exchange.transaction.type.form</field>
-        <field name="model">exchange.transaction.type</field>
-        <field name="arch" type="xml">
-            <form string="Transactions Type all">
-                <group col="4">
-                    <field name="name" modifiers="{'required': true}"/>
-                    <field name="allowed_self_payment" modifiers="{}"/>
-                    <field name="from_account_type_id" modifiers="{'required': true}"/>
-                    <field name="to_account_type_id" modifiers="{'required': true}"/>
-                    <field name="type_prefix_from" modifiers="{'required': true}"/>
-                    <field name="type_prefix_to" modifiers="{'required': true}"/>
-                    <field name="max_amount_per_day" modifiers="{}"/>
-                    <field name="priority" modifiers="{}"/>
-                    <field name="hidden" modifiers="{}"/>
-                    <field name="allowed_payment" modifiers="{}"/>
-                    <field name="conciliable" modifiers="{}"/>
-                </group>
-
-                <group name="text_grp">
-                    <label for="id" string="Fees / Loans"/>
-                    <group col="4">
-                        <field name="is_fee" modifiers="{}"/>
-                        <field name="fee_type" attrs="{'invisible': [('is_fee','=',False)]}"/>
-                        <field name="fee" attrs="{'invisible': [('is_fee','=',False)]}"/>
-                    </group>
-                </group>
-                <!-- One2 Many Additional Transactions -->
-                <label for="feetype_ids" class="oe_inline"/>
-                <field name="feetype_ids" attrs="{'invisible': [('is_fee','=',True)]}"/>
-
-                <group name="text_grp">
-                    <label for="id" string="Messages"/>
-                    <group col="4">
-                        <!-- TODO   <label for="desc"/> -->
-                        <field name="desc" modifiers="{}"/><newline/>
-                        <!--    <label for="confirmation_message"/> -->
-                        <field name="confirmation_message" modifiers="{}"/>
-                    </group>
-                </group>
-
-                <group name="info_grp">
-                    <label for="id" string="Dataset info"/>
-                    <group col="4">
-                        <field name="create_uid"/>
-                        <field name="create_date"/>
-                        <field name="write_uid"/>
-                        <field name="write_date"/>
-                    </group>
-                </group>
-            </form>
-        </field>
-    </record>
-    <!-- Menu Items Transaction type all -->
-    <record id="act_exchange_transaction_type_all" model="ir.actions.act_window">
-        <field name="name">Transaction Type All </field>
-        <field name="res_model">exchange.transaction.type</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field eval="False" name="view_id"/>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-        <!--     <field name="search_view_id" ref="view_exchange_transaction_search"/>
-       --> </record>
-    <!-- Settings Menu Item -->
-    <menuitem action="act_exchange_transaction_type_all" id="menu_act_transaction_type_all" parent="base_exchange.menu_association_exchange_config" sequence="2"/>
-    <!-- *********************************************************************************** -->
-
-    <!-- Transactions line view tree -->
-    <record id="view_transaction_line_tree" model="ir.ui.view">
-        <field name="name">exchange.transaction.line.tree</field>
-        <field name="model">exchange.transaction.line</field>
-        <field name="arch" type="xml">
-            <tree string="Transactions Line all">
-                <field name="name"/>
-                <field name="transfer_from_id"/>
-                <field name="transfer_to_id"/>
-                <field name="transfer_type"/>
-                <field name="amount_from"/>
-            </tree>
-        </field>
-    </record>
-
-    <!--  Transactions line view form -->
-    <record id="view_transaction_line_form" model="ir.ui.view">
-        <field name="name">exchange.transaction.line.form</field>
-        <field name="model">exchange.transaction.line</field>
-        <field name="arch" type="xml">
-            <form string="Transactions Line all">
-                <group col="4">
-                    <field name="name"/>
-                    <field name="transfer_type"/>
-                    <field name="ref"/>
-                    <field name="type_id"/>
-                    <field name="date"/>
-                </group>
-                <group name="hash_grp">
-                    <label for="id" string="From / to"/>
-                    <group col="4">
-                        <field name="transfer_from_id"/>
-                        <field name="transfer_to_id"/>
-                        <!--     <field name="account_from"/>
-                             <field name="account_to"/> -->
-                        <field name="amount_from"/>
-                        <field name="amount_to"/>
-                        <field name="transfer_from_hash"/>
-                        <field name="transfer_to_hash"/>
-                    </group>
-                </group>
-                <group col="4">
-                    <field name="to_check"/>
-                    <field name="date"/>
-                </group>
-                <group>
-                    <field name="content"/>
-                </group>
-            </form>
-        </field>
-    </record>
-
-    <!-- Menu Items Transaction line -->
-    <record id="act_exchange_transaction_line_all" model="ir.actions.act_window">
-        <field name="name">Transaction Line All </field>
-        <field name="res_model">exchange.transaction.line</field>
-        <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field eval="False" name="view_id"/>
-        <field name="domain">[]</field>
-        <field name="context">{}</field>
-        <!--     <field name="search_view_id" ref="view_exchange_transaction_line_search"/>
-       --> </record>
-    <!-- Association Menu Item -->
-    <menuitem action="act_exchange_transaction_line_all" id="menu_act_transaction_line_asoc_all" parent="base_exchange.menu_association_exchange_admin" sequence="3"/>
-    <!-- *********************************************************************************** -->
-
-
-    <!--  Transactions line view new message form -->
-    <record id="view_transaction_line_info_form" model="ir.ui.view">
-        <field name="name">exchange.transaction.line.info.form</field>
-        <field name="model">exchange.transaction.line</field>
-        <field name="arch" type="xml">
-            <form string="Transactions Line new">
-                <group col="4">
-                    <field name="name"/>
-                    <field name="transfer_type"/>
-                    <field name="ref"/>
-                    <field name="type_id"/>
-                    <field name="date"/>
-                </group>
-                <group name="hash_grp">
-                    <label for="id" string="From / to"/>
-                    <group col="4">
-                        <field name="transfer_from_id"/>
-                        <field name="transfer_to_id"/>
-                    </group>
-                </group>
-                <group>
-                    <field name="content"/>
-                </group>
-            </form>
-        </field>
-    </record>
-
-    <!--  act_window items Transaction line new -->
-    <record id="act_exchange_transaction_line_new" model="ir.actions.act_window">
+    <!--  act_window items Transaction line new
+    <record id="act_my exchange_transaction_line_new" model="ir.actions.act_window">
         <field name="name">Transaction Line Message new </field>
-        <field name="view_id" ref="view_transaction_line_info_form"/>
+        <field name="view_id" ref="exchange_provider.view_transaction_line_info_form"/>
         <field name="res_model">exchange.transaction.line</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
@@ -318,9 +127,11 @@
         <field name="domain">[]</field>
         <field name="context">{}</field>
 
-        <!--      <field name="target">new</field> -->
+        <field name="target">new</field>
     </record>
 
-    <!-- Association Menu Item  view_account_config_tree -->
-    <menuitem action="act_exchange_transaction_line_new" id="menu_act_transact_test_assoc_all" parent="base_exchange.menu_association_exchange_config" sequence="12"/>
+    Association Menu Item  view_account_config_tree
+    <menuitem action="act_my_exchange_transaction_line_new" id="menu_act_transact_test_assoc_all"
+              parent="base_exchange.menu_association_exchange_user" sequence="28"/>
+              -->
 </odoo>

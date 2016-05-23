@@ -14,7 +14,7 @@
  ====================
 
  Allow members to get loans and contracts and perform the necessary transactions between the contracted accounts.
-
+    * Adding the loan page to Partner
  -----------------------------------------------------
  """,
     'website': 'https://github.com/moneygrid/vertical-exchange',

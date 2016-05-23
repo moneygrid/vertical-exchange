@@ -16,6 +16,7 @@ This module can be used as template to integrate future Exchange Provider into t
         # 'views/dumy_button_view.xml',
         'views/exchange_provider_view.xml',
         'data/dumy_data.xml',
+        'data/account_data.xml',
     ],
     'installable': True,
 }

@@ -1,30 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_exchange_accounts_search" model="ir.ui.view">
-        <field name="name">exchange.accounts.search</field>
+    <record id="view_exchange_account_my_search" model="ir.ui.view">
+        <field name="name">exchange.accounts.my.search</field>
         <field name="model">exchange.accounts</field>
         <field name="arch" type="xml">
             <search string="Accounts">
                 <field name="name"/>
-                <field name="number"/>
+                <field name="acc_number"/>
                 <field name="partner_id"/>
+                <field name="partner_id_id"/>
+                <field name="partner_id_current"/>
+                <field name="balance"/>
+                <field name="state"/>
+                <field name="currency_base"/>
                 <separator/>
-                <!--        <filter name="my_accounts" string="My accounts" domain="['|',('sender_id.user_ids','in',uid),('receiver_id.user_ids','in',uid)]" icon="terp-check"/>
-               --> </search>
+                <filter name="my_accounts" string="My accounts" domain="
+                [('partner_id_id','=','partner_id_current')]" icon="terp-check"/>
+                <!--  TODO Filter does not work
+                <filter name="my_accounts" string="My accounts"
+                domain="['|',('sender_id.user_ids','in',uid),('receiver_id.user_ids','in',uid)]" icon="terp-check"/>
+                -->
+                <group expand="0" string="Group By">
+                    <filter string="Partner" name="group_by_partner_id" context="{'group_by':'partner_id'}"/>
+                    <filter string="State" name="group_by_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
         </field>
     </record>
 
-    <!-- Association Menu Item My Wallet -->
+    <!-- My Account kanban view -->
+    <record id="view_exchange_account_my_kanban" model="ir.ui.view">
+        <field name="name">exchange.accounts.my.kanban</field>
+        <field name="model">exchange.accounts</field>
+        <field name="type">kanban</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="color"/>
+                <field name="name"/>
+                <field name="acc_number"/>
+                <field name="partner_id"/>
+                <field name="partner_id_id"/>
+                <field name="partner_id_current"/>
+                <field name="balance"/>
+                <field name="state"/>
+                <field name="currency_base"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)}
+                            oe_kanban_card oe_kanban_global_click">
+
+                            <div class="o_dropdown_kanban dropdown" groups="base.group_user">
+                                <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                    <span class="fa fa-bars fa-lg"/>
+                                </a>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                    <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                </ul>
+                            </div>
+                            <div class="oe_kanban_content">
+                                <div><b><field name="name"/></b></div>
+                                <p><font color="#BDBDBD"><field name="balance"/></font></p>
+                            </div>
+                            <div><field name="currency_base"/></div>
+                          <!--  <div>
+                                <a t-if="record.task_count.raw_value">
+                                    <t t-raw="record.task_count.raw_value"/> Tasks</a>
+                            </div>
+                            <div>
+                                <a t-if="record.def_done_count.raw_value">
+                                    <t t-raw="record.def_done_count.raw_value"/> Definitions of Done</a>
+                            </div>
+                            <div class="oe_clear"></div> -->
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Association Menu Item My Wallet TODO domain does not work -->
     <record id="act_exchange_accounts_my" model="ir.actions.act_window">
-        <field name="name">My Exchange Wallet</field>
+        <field name="name">My Exchange Wallets</field>
         <field name="res_model">exchange.accounts</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">kanban,tree,form</field>
         <field eval="False" name="view_id"/>
-        <field name="domain">[('partner_id','!=',False)]</field>
-        <field name="domain">[('user_ids','=',uid)]</field>
+        <field name="domain">[('partner_id_id','=','partner_id_current')]</field>
         <field name="context">{}</field>
-        <field name="search_view_id" ref="view_exchange_accounts_search"/>
+        <field name="search_view_id" ref="view_exchange_account_my_search"/>
     </record>
     <!-- Association Menu Item -->
     <menuitem action="act_exchange_accounts_my" id="menu_act_exchange_accounts_my" parent="base_exchange.menu_association_exchange_user" sequence="20"/>

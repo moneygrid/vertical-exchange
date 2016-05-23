@@ -15,7 +15,7 @@ class ExchangeAccounts(models.Model):
     _inherit = 'exchange.accounts'
 
     account_id_internal = fields.Many2one('exchange.account.provider.internal', 'Account link to Provider',
-                                  track_visibility='onchange', required=True)
+                                  track_visibility='onchange', required=False)
 
 
 class ProviderAccount(models.Model):

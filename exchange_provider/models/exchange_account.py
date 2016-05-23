@@ -37,8 +37,25 @@ class ExchangeAccounts(models.Model):
     reserved = fields.Float('Reserved')
     exchange_provider = fields.Selection('Exchange Provider', related='template_id.exchange_provider_id.provider',
                                          readonly=True, help='Related transaction engine name')
+    transaction_view = fields.Selection([
+            ('ingoing', 'Ingoing Transactions'),
+            ('outgoing', 'Outgoing Transactions'),
+            ('inout', 'All Transactions')],
+            string='Transactions Filter', default='inout', help="Choose which transactions you like to see.")
     transaction_from_ids = fields.One2many('exchange.transaction', 'account_from_id', string='Transactions from')
     transaction_to_ids = fields.One2many('exchange.transaction', 'account_to_id', string='Transactions to')
+    transaction_ids = fields.One2many('exchange.transaction', 'account_to_from_id',
+                                      string='Transactions all', compute='_compute_transaction_ids')
+
+    @api.multi  # TODO
+    @api.depends('transaction_view', 'transaction_from_ids', 'transaction_to_ids')
+    def _compute_transaction_ids(self):
+        # ingoing = self.env['exchange.transaction'].search([('id', '=', self.id)])
+        ingoing = self.transaction_from_ids
+        outgoing = self.transaction_to_ids
+        inout = ingoing + outgoing
+        self.transaction_ids = inout
+        return inout
 
     @api.one  # TODO auto switching of account_id_xxxxxxx
     def _compute_limit_negative(self):
@@ -88,3 +105,9 @@ class AccountTemplateConfig(models.Model):
         'exchange.config.settings', 'Config ID', required=False)
     """
     initcredit_type = fields.Many2one('exchange.transaction.type', 'Initial credit transaction type')
+
+
+_sql_constraints = [
+    ('default_account', 'unique(membership_type,default_account,exchange_provider_id)',
+     'We can only have one default account per type'),
+    ]
