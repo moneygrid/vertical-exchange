@@ -2,8 +2,8 @@
 # © <2016> <Moneygrid Project, Lucas Huber
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 # TODO, This functions are mostly not yet needed, Deleting the unused ones is a final task
-from openerp import models, fields, api, _
-from openerp.exceptions import except_orm
+from odoo import models, fields, api, _
+from odoo.exceptions import except_orm
 from datetime import datetime, timedelta
 import subprocess
 import os.path
@@ -69,7 +69,7 @@ class ExchangeBaseModel(models.AbstractModel):
     @property
     def user_partner(self):
         """
-        Property returning the full name of the server.
+        Property returning the full name of the partner.
         """
         return self.env['res.partner'].search(
             [('user_ids', 'in', int(self.env.uid))])[0]

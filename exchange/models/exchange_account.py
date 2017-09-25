@@ -2,11 +2,10 @@
 # © <2016> <Moneygrid Project, Lucas Huber, Yannick Buron>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-import openerp
-from openerp import models, fields, api
-from openerp.tools import image_get_resized_images, image_resize_image_big
-from openerp.exceptions import except_orm
-import openerp.addons.decimal_precision as dp
+from odoo import api, fields, models
+from odoo.tools import image
+# from odoo.exceptions import UserError, ValidationError
+# import odoo.addons.decimal_precision as dp
 
 
 class ExchangeAccounts(models.Model):
@@ -271,13 +270,13 @@ class AccountTemplateConfig(models.Model):
     image = fields.Binary("Image", attachment=True,
                           help="This field holds the image used for this currency/account, limited to 1024x1024px")
     image_medium = fields.Binary("Medium-sized image",
-                                 compute='_compute_images', inverse='_inverse_image_medium', store=True,
+                                 compute='_get_image', inverse='_inverse_image_medium', store=True,
                                  attachment=True,
                                  help="Medium-sized image of this currency/account. It is automatically " \
                                       "resized as a 128x128px image, with aspect ratio preserved. " \
                                       "Use this field in form views or some kanban views.")
     image_small = fields.Binary("Small-sized image",
-                                compute='_compute_images', inverse='_inverse_image_small', store=True,
+                                compute='_get_image', inverse='_inverse_image_small', store=True,
                                 attachment=True,
                                 help="Small-sized image of this currency/account. It is automatically " \
                                      "resized as a 64x64px image, with aspect ratio preserved. " \
@@ -296,10 +295,14 @@ class AccountTemplateConfig(models.Model):
     ]
 
     @api.depends('image')
-    def _compute_images(self):
-        for rec in self:
-            rec.image_medium = openerp.tools.image_resize_image_medium(rec.image)
-            rec.image_small = openerp.tools.image_resize_image_small(rec.image)
+    def _get_image(self):
+        for record in self:
+            if record.image:
+                record.image_medium = image.crop_image(record.image, type='top', ratio=(4, 3), thumbnail_ratio=4)
+                record.image_thumb = image.crop_image(record.image, type='top', ratio=(4, 3), thumbnail_ratio=6)
+            else:
+                record.image_medium = False
+                record.image_thumb = False
 
     @api.multi
     def _compute_external(self):

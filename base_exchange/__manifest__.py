@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 {
     'name': 'Base Exchange',
-    'version': '9.0.0.1.x',
+    'version': '0.0.1.x',
     'category': 'Community',
     'summary': 'Basic configuration',
     'author': 'Lucas Huber',
@@ -21,7 +21,7 @@ Base Exchange
     'depends': [
         'base',
         'mail',
-        'association',
+        'membership',
     ],
     'data': [
         'security/base_exchange_security.xml',

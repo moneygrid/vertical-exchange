@@ -3,9 +3,7 @@
 import json
 import logging
 
-from openerp import models, fields, api
-from openerp.tools.float_utils import float_compare
-from openerp.tools.translate import _
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 

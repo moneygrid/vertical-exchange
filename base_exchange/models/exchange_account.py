@@ -2,11 +2,12 @@
 # © <2016> <Moneygrid Project, Lucas Huber, Yannick Buron>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-import openerp
-from openerp import models, fields, api
-from openerp.tools import image_get_resized_images, image_resize_image_big
-from openerp.exceptions import except_orm
-import openerp.addons.decimal_precision as dp
+from odoo import api, fields, models
+from odoo.tools import image
+# from odoo.exceptions import UserError, ValidationError
+# import odoo.addons.decimal_precision as dp
+
+#  from . import exchange.model
 
 
 class ExchangeAccounts(models.Model):
@@ -47,6 +48,13 @@ class ExchangeAccounts(models.Model):
                 record.partner_is_current = False
                 return False
 
+    @api.onchange('acc_number')
+    @api.multi  # get token from hash function of the account number
+    def _compute_token(self):
+        self.ensure_one()
+        token = str(hash(self.acc_number))
+        return token
+
     """
     @api.multi  # TODO   # get balance from the provider models
     def _compute_balance_mod(self):
@@ -62,8 +70,8 @@ class ExchangeAccounts(models.Model):
     acc_number = fields.Char(
         'Account Number', required=True,
         size=16, help='Number of the Account', default='CH-XX-123456')
-    key = fields.Text(
-        'Key', readonly=True, help="Account token for the use in outside DB/ledger")
+    token = fields.Text(compute=_compute_token, string='Key or token', store=True,
+                        readonly=True, help="Account token for the use in outside DB/ledger")
     color = fields.Integer('Color Index')
     sequence = fields.Integer('Sequence')
     locked = fields.Selection([
@@ -84,8 +92,7 @@ class ExchangeAccounts(models.Model):
         help="Status of Account"
              "Blocked, for temporary blocking transactions")
     template_id = fields.Many2one(
-        'exchange.config.accounts', 'Account Template',
-        track_visibility='onchange', required=True)
+        'exchange.config.accounts', 'Account Template', track_visibility='onchange', required=True)
     partner_id = fields.Many2one('res.partner', 'Account Owner')
     partner_id_id = fields.Integer(compute=_compute_partner_id, String='Partner ID')
     partner_id_current = fields.Integer(compute=_compute_partner_id_cur, String='Current Partner')
@@ -231,22 +238,20 @@ class AccountTemplateConfig(models.Model):
     image = fields.Binary("Image", attachment=True,
                           help="This field holds the image used for this currency/account, limited to 1024x1024px")
     image_medium = fields.Binary("Medium-sized image",
-                                 compute='_compute_images', inverse='_inverse_image_medium', store=True,
-                                 attachment=True,
+                                 compute="_get_image", store=True, attachment=True,
                                  help="Medium-sized image of this currency/account. It is automatically " \
                                       "resized as a 128x128px image, with aspect ratio preserved. " \
                                       "Use this field in form views or some kanban views.")
     image_small = fields.Binary("Small-sized image",
-                                compute='_compute_images', inverse='_inverse_image_small', store=True,
-                                attachment=True,
+                                compute="_get_image", store=True, attachment=True,
                                 help="Small-sized image of this currency/account. It is automatically " \
                                      "resized as a 64x64px image, with aspect ratio preserved. " \
                                      "Use this field anywhere a small image is required.")
     exchange_rate = fields.Float(
         'Exchange Rate', related='currency_id.rate', readonly=True)
 
-  #       readonly=True, digits=lambda cr:(16, 2))
-  #       digits=dp.get_precision('Account')
+    #       readonly=True, digits=lambda cr:(16, 2))
+    #       digits=dp.get_precision('Account')
 
     _sql_constraints = [
         ('name', 'unique(name)',
@@ -256,11 +261,14 @@ class AccountTemplateConfig(models.Model):
     ]
 
     @api.depends('image')
-    def _compute_images(self):
-        for rec in self:
-            rec.image_medium = openerp.tools.image_resize_image_medium(rec.image)
-            rec.image_small = openerp.tools.image_resize_image_small(rec.image)
-
+    def _get_image(self):
+        for record in self:
+            if record.image:
+                record.image_medium = image.crop_image(record.image, type='top', ratio=(4, 3), thumbnail_ratio=4)
+                record.image_thumb = image.crop_image(record.image, type='top', ratio=(4, 3), thumbnail_ratio=6)
+            else:
+                record.image_medium = False
+                record.image_thumb = False
 
 # TODO    @api.one
 #    @api.constrains('account_type', 'membership_type', 'default_account')

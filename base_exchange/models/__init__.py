@@ -2,6 +2,6 @@
 
 import res_config
 # import exchange_logging
-import base
+import exchange_base
 import exchange_account
 

@@ -49,16 +49,22 @@
     </record>
 
     <!-- Association Menu Items -->
-    <menuitem id="menu_association_exchange_user" name="My Exchange" parent="base.menu_association" sequence="40"/>
+    <menuitem id="menu_association_exchange_user" name="My Exchange" parent="membership.menu_association" sequence="40"/>
     <menuitem id="menu_association_exchange_admin" name="Exchange Admin"
-              parent="base.menu_association" sequence="60" groups="group_exchange_moderator"/>
-    <menuitem id="menu_association_config_products" name="Membership Products"
-              parent="base.menu_marketing_config_association" sequence="100" groups="base.group_configuration"
-              action="membership.action_membership_products"/>
+              parent="membership.menu_association" sequence="60" groups="group_exchange_moderator"/>
+
+
+    <!-- Rename and move to lower level Membership Products-->
+    <menuitem action="membership.action_membership_products"
+          id="menu_marketing_config_association_item"
+          name="Membership Products"
+          parent="membership.menu_marketing_config_association"
+          sequence="100"/>
+
 
     <!-- Association Configuration Menu Items -->
     <menuitem id="menu_association_exchange_config" name="Exchange"
-              parent="base.menu_marketing_config_association" sequence="60" groups="group_exchange_admin"/>
+              parent="membership.menu_marketing_config_association" sequence="60" groups="group_exchange_admin"/>
     <menuitem id="menu_exchange_admin_configuration" parent="menu_association_exchange_config"
               sequence="16" action="action_exchange_configuration"/>
 </odoo>

@@ -2,10 +2,7 @@
 # © <2016> <Moneygrid Project, Lucas Huber, Yannick Buron>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from openerp import models, fields, api
-from openerp.exceptions import except_orm
-from openerp import SUPERUSER_ID
-from openerp import workflow
+from odoo import api, fields, models
 from datetime import datetime, timedelta
 
 # import re

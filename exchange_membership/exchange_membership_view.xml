@@ -262,10 +262,10 @@
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">res.partner</field>
         <field name="view_type">form</field>
-        <field name="view_mode">tree,form</field>
-        <field name="target">current</field>
+        <field name="view_mode">form,tree</field>
+        <!--<field name="target">current</field>-->
         <field name="domain">[('user_ids','=',uid)]</field>
-        <!--              <field name="context">{}</field> -->
+        <!--  TODO domain does not work because od ids ? <field name="context">{}</field> -->
         <field name="view_id" ref="membership_my_profile_view"/>
     </record>
     <menuitem action="act_membership_my_profile" id="menu_action_membership_my_profile" parent="base_exchange.menu_association_exchange_user"/>

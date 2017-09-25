@@ -2,9 +2,8 @@
 # © <2016> <Moneygrid Project, Lucas Huber, Yannick Buron>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from openerp import models, fields, api
-from openerp.exceptions import except_orm
-from datetime import datetime, timedelta
+from odoo import api, fields, models, exceptions
+
 
 #    TODO Models of Transfers in internal transaction engine, so far in module exchange_provider solved
 

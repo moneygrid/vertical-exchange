@@ -4,9 +4,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 import logging
-from openerp.tools import image_get_resized_images, image_resize_image_big
 _logger = logging.getLogger(__name__)
-from openerp import api, fields, models, _
+from odoo import api, fields, models
 
 
 class ExchangeConfigSettingsBak(models.Model):

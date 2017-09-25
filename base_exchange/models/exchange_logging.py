@@ -2,7 +2,7 @@
 # © <2016> <Moneygrid Project, Lucas Huber, Yannick Buron>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 # TODO, THE LOGGING FUNCTION NEEDS TO BE INTEGRATED INTO THE EXCHANGE FRAMEWORK
-from openerp import models, fields, api, _
+from odoo import models, fields, api, _
 from datetime import datetime, timedelta
 import string
 import logging

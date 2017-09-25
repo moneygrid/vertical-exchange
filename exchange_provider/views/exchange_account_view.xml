@@ -5,7 +5,7 @@
         <field name="name">exchange.accounts.tree</field>
         <field name="model">exchange.accounts</field>
         <field name="arch" type="xml">
-            <tree string="Accounts all" default_order="name">
+            <tree string="Accounts all" create="false" delete="false" default_order="name">
                 <field name="name"/>
                 <field name="acc_number"/>
                 <field name="template_id"/>
@@ -21,7 +21,7 @@
         <field name="name">exchange.accounts.form</field>
         <field name="model">exchange.accounts</field>
         <field name="arch" type="xml">
-            <form string="Accounts" version="8.0">
+            <form string="Accounts" create="false" delete="false" version="7.0">
 
                 <!--    <field name="active_model" invisible="1"/>
                     <header attrs="{'invisible': [('active_model','!=','exchange.accounts')]}"> -->
@@ -115,6 +115,7 @@
                         <page string="Extra">
                             <group>
                                 <field name="exchange_provider"/>
+                                <field name="token"/>
                                 <field name="provider_ref"/>
                             </group>
                         </page>

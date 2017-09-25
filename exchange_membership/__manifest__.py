@@ -5,7 +5,7 @@
 
 {
     'name': 'Exchange Membership',
-    'version': '9.0.0.1.x',
+    'version': '0.0.1.x',
     'category': 'Association',
     'summary': 'Community Exchange Membership integration',
     'author': 'Lucas Huber, moneygrid Project',

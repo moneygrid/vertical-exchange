@@ -4,7 +4,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 {
     'name': 'Exchange / Community Banking',
-    'version': '9.0.0.1.x',
+    'version': '0.0.1.x',
     'category': 'Exchange',
     'author': 'Lucas Huber, moneygrid Project',
     'license': 'LGPL-3',

@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 {
     'name': 'Exchange Provider Base',
-    'version': '9.0.0.1.x',
+    'version': '0.0.1.x',
     'category': 'Community',
     'summary': 'Basic framework for transaction engines',
     'author': 'Lucas Huber',
@@ -29,7 +29,7 @@ Creates framework for Exchange Providers/ Transaction engines (Multiwallet)
         'views/exchange_transaction_view.xml',
         'views/res_config_view.xml',
         'data/exchange_data.xml',
-        # 'data/account_config_data.xml',
+        'data/account_config_data.xml',
     ],
  #   'demo': ['base_community_demo.xml'],
     'installable': True,

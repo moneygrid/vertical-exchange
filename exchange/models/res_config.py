@@ -2,15 +2,7 @@
 # © <2016> <Moneygrid Project, Lucas Huber, Yannick Buron>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-import time
-import datetime
-from dateutil.relativedelta import relativedelta
-
-import openerp
-from openerp import SUPERUSER_ID
-from openerp.tools import DEFAULT_SERVER_DATE_FORMAT as DF
-from openerp import api, fields, models, _
-from openerp.exceptions import UserError
+from odoo import api, fields, models
 
 
 class ResPartner(models.Model):

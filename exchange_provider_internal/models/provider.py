@@ -3,9 +3,10 @@
 import json
 import logging
 
-from openerp import models, fields, api
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
+
 
 class ProviderInternal(models.Model):
     _inherit = 'exchange.provider'

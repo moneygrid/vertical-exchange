@@ -3,10 +3,11 @@
 import json
 import logging
 
-from openerp import models, fields, api
-from openerp.tools.float_utils import float_compare
-from openerp.tools.translate import _
-from openerp.addons.exchange_provider.models.exchange_provider import ValidationError
+from odoo import api, fields, models, exceptions
+from odoo.tools.float_utils import float_compare
+from odoo.tools.translate import _
+from odoo.exceptions import UserError, ValidationError
+
 
 _logger = logging.getLogger(__name__)
 

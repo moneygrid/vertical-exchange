@@ -4,10 +4,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 # from lxml import etree
 # from lxml.builder import E
-from openerp import models, fields, api
-
-# from openerp import SUPERUSER_ID
-# from openerp.tools.translate import _
+from odoo import models, fields, api
 
 
 class ResPartner(models.Model):

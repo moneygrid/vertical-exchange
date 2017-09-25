@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<openerp>
+<odoo>
     <data noupdate="0">
        <!-- Groups for Exchange-->
         <record model="ir.module.category" id="module_exchange_category">
@@ -32,9 +32,9 @@
 
         <!-- Association/ Menu Items -->
 
-        <record model="ir.ui.menu" id="base.menu_association">
+        <record model="ir.ui.menu" id="membership.menu_association">
             <field eval="[(4, ref('group_exchange_user'))]" name="groups_id"/>
         </record>
 
     </data>
-</openerp>
+</odoo>

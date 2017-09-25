@@ -2,10 +2,8 @@
 # © <2016> <Moneygrid Project, Lucas Huber>
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-
-import openerp
-from openerp import models, fields, api, exceptions
-from openerp.tools import image_get_resized_images, image_resize_image_big
+from odoo import api, fields, models, exceptions
+from odoo.tools import image
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -13,21 +11,6 @@ _logger = logging.getLogger(__name__)
 class ValidationError(ValueError):
     """ Used for value error when validating transaction data coming from Exchange Providers. """
     pass
-
-    """
-class ExchangeProviderModel(models.Model):
-    """
-    # TODO to remove? Model allocation for the Exchange Providers
-    """
-    _name = 'exchange.provider.model'
-    _description = 'Exchange Provider Models'
-    _order = 'name'
-
-    name = fields.Char('Name', size=64, required=True)
-    account_model_id = fields.Many2one('ir.model', string='Account Model', required=False)
-    transaction_model_id = fields.Many2one('ir.model', string='Transaction Model', required=False)
-    description = fields.Text('Description')
-    """
 
 
 class ExchangeProviderCurrencies(models.Model):
@@ -69,9 +52,8 @@ class ExchangeProvider(models.Model):
        defined on the Exchange Provider model (see fields definition).
 
     Each Exchange Provider should also define controllers to handle communication between
-    Odoo and the Exchange Provider. It generally consists in return urls given to the
-    payment form and that the Exchange Provider uses to send the customer back after the
-    transaction, with transaction details given as a POST request.
+    Odoo and the Exchange Provider. It generally consists in the API framework for transactions .
+    and transmitting balances, transaction history and parameters.
     """
 
     _name = 'exchange.provider'
@@ -133,22 +115,22 @@ class ExchangeProvider(models.Model):
                                   help="Currency used for this Provider Configuration"
                                        "(only by the module provided currencies are available!)")
     view_template_id = fields.Many2one('ir.ui.view', 'Form Button Template', required=False)
-    """
-    registration_view_template_id = fields.Many2one('ir.ui.view', 'Form Template',
-                                                     domain=[('type', '=', 'qweb')],
-                                                     help="Template for method registration")
-    """
+
+   # registration_view_template_id = fields.Many2one('ir.ui.view', 'Form Template',
+   #                                                  domain=[('type', '=', 'qweb')],
+   #                                                  help="Template for method registration")
+
     description = fields.Text('Description')
     image = fields.Binary("Image", attachment=True,
                           help="This field holds the image used for this Exchange Provider, limited to 1024x1024px")
     image_medium = fields.Binary("Medium-sized image",
-                                 compute='_compute_images', inverse='_inverse_image_medium', store=True,
+                                 compute='images', inverse='_inverse_image_medium', store=True,
                                  attachment=True,
                                  help="Medium-sized image of this Exchange Provider. It is automatically " \
                                       "resized as a 128x128px image, with aspect ratio preserved. " \
                                       "Use this field in form views or some kanban views.")
     image_small = fields.Binary("Small-sized image",
-                                compute='_compute_images', inverse='_inverse_image_small', store=True,
+                                compute='images', inverse='_inverse_image_small', store=True,
                                 attachment=True,
                                 help="Small-sized image of this Exchange Provider. It is automatically " \
                                      "resized as a 64x64px image, with aspect ratio preserved. " \
@@ -187,10 +169,14 @@ class ExchangeProvider(models.Model):
          'Exchange code must be unique!')]
 
     @api.depends('image')
-    def _compute_images(self):
-        for rec in self:
-            rec.image_medium = openerp.tools.image_resize_image_medium(rec.image)
-            rec.image_small = openerp.tools.image_resize_image_small(rec.image)
+    def _get_image(self):
+        for record in self:
+            if record.image:
+                record.image_medium = image.crop_image(record.image, type='top', ratio=(4, 3), thumbnail_ratio=4)
+                record.image_thumb = image.crop_image(record.image, type='top', ratio=(4, 3), thumbnail_ratio=6)
+            else:
+                record.image_medium = False
+                record.image_thumb = False
 
     @api.one  # Action connection test via the provider models
     def act_provider_test(self):

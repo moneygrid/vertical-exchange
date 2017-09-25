@@ -6,10 +6,10 @@ from hashlib import sha256
 import urlparse
 import unicodedata
 
-from openerp import models, fields, api, exceptions
-from openerp.tools.float_utils import float_compare
-from openerp.tools.translate import _
-from openerp.addons.exchange_provider.models.exchange_provider import ValidationError
+from odoo import api, fields, models, exceptions
+from odoo.tools.float_utils import float_compare
+from odoo.tools.translate import _
+from odoo.exceptions import UserError, ValidationError
 from ..controllers.main import DumyController
 
 _logger = logging.getLogger(__name__)

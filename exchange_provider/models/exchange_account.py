@@ -3,9 +3,7 @@
 import json
 import logging
 
-from openerp import models, fields, api
-from openerp.tools.float_utils import float_compare
-from openerp.tools.translate import _
+from odoo import api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -92,7 +90,7 @@ class AccountTemplateConfig(models.Model):
 
     @api.multi
     def _compute_external(self):
-        if self.exchange_provider_id.environment == "internal":
+        if 1 == 1:  # self.exchange_provider_id.environment == "internal":
             return False
         else:
             return True
@@ -106,8 +104,9 @@ class AccountTemplateConfig(models.Model):
     """
     initcredit_type = fields.Many2one('exchange.transaction.type', 'Initial credit transaction type')
 
-
+"""
 _sql_constraints = [
     ('default_account', 'unique(membership_type,default_account,exchange_provider_id)',
      'We can only have one default account per type'),
     ]
+"""

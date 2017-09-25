@@ -18,7 +18,7 @@
     'data': [
         'views/exchange_provider_view.xml',
         'data/internal_data.xml',
-        'data/account_data.xml',
+       # 'data/account_data.xml',
     ],
     'installable': True,
 }

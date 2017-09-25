@@ -3,7 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 {
     'name': 'Exchange Provider Dumy',
-    'version': '9.0.0.1.x',
+    'version': '0.0.1.x',
     'category': 'Exchange',
     'summary': 'Dumy API for distributed ledgers',
     'author': 'Lucas Huber, moneygrid Project',
@@ -16,7 +16,7 @@ This module can be used as template to integrate future Exchange Provider into t
         # 'views/dumy_button_view.xml',
         'views/exchange_provider_view.xml',
         'data/dumy_data.xml',
-        'data/account_data.xml',
+       # 'data/account_data.xml',
     ],
     'installable': True,
 }

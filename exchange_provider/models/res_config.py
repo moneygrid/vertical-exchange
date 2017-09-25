@@ -4,9 +4,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 import logging
-import openerp
-from openerp import models, fields, api
-from openerp.tools import image_get_resized_images, image_resize_image_big
+from odoo import api, fields, models
+# from odoo.tools import image
 _logger = logging.getLogger(__name__)
 
 
@@ -18,7 +17,7 @@ class ExchangeConfigSettings(models.TransientModel):
     _inherit = 'exchange.config.settings'
 
     exchange_provider_id = fields.Many2one('exchange.provider', 'Exchange Provider',
-                                           help='Related Transaction engine internal or external')
+                                          help='Related Transaction engine internal or external')
 
     exch_code = fields.Char(
         'Exchange Code', related='exchange_provider_id.exch_code',
@@ -76,17 +75,17 @@ class ResPartner(models.Model):
 
     @api.multi
     @api.depends('exchange_provider_id')
-    def _compute_user_code(self):
+    def _compute_user_icann_code(self):
         """
         Computes the Exchange code (Membership number) of the user according the ICANN speficiations.
-        """
+
         self.ensure_one()  # One record expected, raise error if self is an unexpected recordset
         exch_code = self.exchange_provider_id.exch_code
         partid = 1235  # TODO
         type1 = str(exch_code + '-' + partid)
         print partid, type1
         return type1
-
+        """
     @api.multi
     @api.depends('exchange_user_code')
     def _compute_user_code(self):
@@ -94,8 +93,8 @@ class ResPartner(models.Model):
         Computes the user token (Membership number) as a Hash from the exchange_user_code.
         """
         self.ensure_one()  # One record expected, raise error if self is an unexpected recordset
-        user_code_hash = base.hash_string(self.exchange_user_code)
-        print "user Hash", user_code_hash
+        # user_code_hash = base.hash_string(self.exchange_user_code)
+        # print "user Hash", user_code_hash
         return 3159889080830
 
 
