@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Association Menu Items -->
+    <menuitem id="menu_association_exchange_user" name="My Exchange" parent="membership.menu_association" sequence="40"
+              groups="group_exchange_user"/>
+    <menuitem id="menu_association_exchange_admin" name="Exchange Admin"
+              parent="membership.menu_association" sequence="60" groups="group_exchange_moderator"/>
+
+    <!-- Rename and move to lower level Membership Products-->
+    <menuitem action="membership.action_membership_products"
+          id="menu_marketing_config_association_item"
+          name="Membership Products"
+          parent="membership.menu_marketing_config_association"
+          sequence="100"/>
+
+    <!-- Association Configuration Menu Items -->
+    <menuitem id="menu_association_exchange_config" name="Exchange"
+              parent="membership.menu_marketing_config_association" sequence="60" groups="group_exchange_admin"/>
+    <menuitem id="menu_exchange_admin_configuration" parent="menu_association_exchange_config"
+              sequence="16" action="action_exchange_configuration"/>
+    <!-- Association Menu Item view_account_config_tree -->
+    <menuitem action="act_account_config_all" id="menu_act_account_config_assoc_all"
+              parent="exchange.menu_association_exchange_config" sequence="4"/>
+
+    <!-- Exchange Provider Configuration Menu Items -->
+    <menuitem id="menu_exchange_provider_all" parent="exchange.menu_association_exchange_config"
+              action="act_exchange_provider_all" sequence="22"/>
+</odoo>

@@ -133,5 +133,5 @@
         <field name="context">{}</field>
     </record>
     <!-- Association Menu Item  view_account_config_tree -->
-    <menuitem action="act_account_config_all" id="menu_act_account_config_assoc_all" parent="base_exchange.menu_association_exchange_config" sequence="4"/>
+    <menuitem action="act_account_config_all" id="menu_act_account_config_assoc_all" parent="base_exchange.menu_account_exchange_config" sequence="4"/>
 </odoo>

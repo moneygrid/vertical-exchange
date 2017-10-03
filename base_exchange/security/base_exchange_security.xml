@@ -30,10 +30,13 @@
             <field name="implied_ids" eval="[(4, ref('group_exchange_moderator'))]"/>
         </record>
 
-        <!-- Association/ Menu Items -->
-
+        <!-- Association/ Menu Items
         <record model="ir.ui.menu" id="membership.menu_association">
             <field eval="[(4, ref('group_exchange_user'))]" name="groups_id"/>
+        </record> -->
+        <!--TODO Set admin group to superuser -->
+        <record id="base.default_user" model="res.users">
+        <field name="groups_id" eval="[(4,ref('group_exchange_admin'))]"/>
         </record>
 
     </data>

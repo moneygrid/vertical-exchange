@@ -186,7 +186,7 @@
        -->
     </record>
 
-    <!-- Association Configuration Menu Items -->
-    <menuitem id="menu_exchange_provider_all" parent="base_exchange.menu_association_exchange_config"
+    <!-- Exchange Provider Configuration Menu Items -->
+    <menuitem id="menu_exchange_provider_all" parent="base_exchange.menu_account_exchange_config"
               action="act_exchange_provider_all" sequence="22"/>
 </odoo>

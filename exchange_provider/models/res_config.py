@@ -12,7 +12,7 @@ _logger = logging.getLogger(__name__)
 class ExchangeConfigSettings(models.TransientModel):
 
     """
-    Exchange settings which will be used to contain all configuration
+    Exchange settings which are related to the different Providers
     """
     _inherit = 'exchange.config.settings'
 
@@ -95,7 +95,17 @@ class ResPartner(models.Model):
         self.ensure_one()  # One record expected, raise error if self is an unexpected recordset
         # user_code_hash = base.hash_string(self.exchange_user_code)
         # print "user Hash", user_code_hash
-        return 3159889080830
+        return "default-code"
 
+    @api.multi
+    @api.depends('exchange_user_token')
+    def _compute_user_token(self):
+        """
+        Computes the user token (Membership number) as a Hash from the exchange_user_code.
+        """
+        self.ensure_one()  # One record expected, raise error if self is an unexpected recordset
+        # user_code_hash = base.hash_string(self.exchange_user_code)
+        # print "user Hash", user_code_hash
+        return 3159889080830
 
 

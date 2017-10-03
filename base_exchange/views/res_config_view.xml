@@ -1,18 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- <record id="exchange_settings" model='exchange.config.settings'/> Create="False" -->
-
+    <data>
+    <!-- TODO View does not apply initial values and not show existing ones  -->
     <record id="view_exchange_configuration" model="ir.ui.view">
         <field name="name">exchange.configuration</field>
         <field name="model">exchange.config.settings</field>
         <field name="arch" type="xml">
             <form string="Configure Exchange" class="oe_form_configuration">
                 <header>
-                    <button string="Apply" type="object" name="execute" class="oe_highlight"/>
-                    <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+                        <button string="Apply" type="object" name="execute" class="oe_highlight"/>
+                        <button string="Cancel" type="object" name="cancel" class="oe_link" special="cancel"/>
                 </header>
-                <group name="init_grp">
-                    <field name="exchange_config_id"/>
+
+                <group string="Exchange Identity" name="identity_grp">
+                    <label for="id" string="Exchange Identity"/>
+                    <div name="identity">
+                        <div>
+                            <label for="name"/>
+                            <field name="name" class="oe_inline"/>
+                        </div>
+                        <div>
+                            <label for="company_id"/>
+                            <field name="company_id"  class="oe_inline"/>
+                        </div>
+                    </div>
+                </group>
+                <group string="Exchange Settings" name="exchange_grp">
+                    <label for="id" string="Exchange Settings"/>
+                    <div name="ex_setting">
+                        <div>
+                            <label for="ref_currency_id"/>
+                            <field name="ref_currency_id" class="oe_inline"/>
+                        </div>
+                        <div>
+                            <label for="journal_id"/>
+                            <field name="journal_id" class="oe_inline"/>
+                        </div>
+                    </div>
+                </group>
+                <group string="Extra Modules Installation" name="module_grp">
+                    <label for="id" string="Modules"/>
+                    <div name="module_install">
+                        <div>
+                            <field name="module_exchange_membership" class="oe_inline"/>
+                            <label for="module_exchange_membership"/>
+                        </div>
+                        <div>
+                            <field name="module_exchange_loan" class="oe_inline"/>
+                            <label for="module_exchange_loan"/>
+                        </div>
+                    </div>
                 </group>
             </form>
         </field>
@@ -42,29 +79,17 @@
         <field name="model">res.currency</field>
         <field name="inherit_id" ref="base.view_currency_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='active']" position="after">
+            <xpath expr="//field[@name='rate']" position="after">
                 <field name="exchange_currency"/>
             </xpath>
         </field>
     </record>
 
-    <!-- Association Menu Items -->
-    <menuitem id="menu_association_exchange_user" name="My Exchange" parent="membership.menu_association" sequence="40"/>
-    <menuitem id="menu_association_exchange_admin" name="Exchange Admin"
-              parent="membership.menu_association" sequence="60" groups="group_exchange_moderator"/>
+    <!-- Account Exchange Configuration Menu Items -->
+    <menuitem id="menu_account_exchange_config" name="Exchanges" parent="account.menu_finance_configuration"
+              sequence="2" groups="group_exchange_admin"/>
 
-
-    <!-- Rename and move to lower level Membership Products-->
-    <menuitem action="membership.action_membership_products"
-          id="menu_marketing_config_association_item"
-          name="Membership Products"
-          parent="membership.menu_marketing_config_association"
-          sequence="100"/>
-
-
-    <!-- Association Configuration Menu Items -->
-    <menuitem id="menu_association_exchange_config" name="Exchange"
-              parent="membership.menu_marketing_config_association" sequence="60" groups="group_exchange_admin"/>
-    <menuitem id="menu_exchange_admin_configuration" parent="menu_association_exchange_config"
-              sequence="16" action="action_exchange_configuration"/>
+    <menuitem id="menu_exchange_admin_configuration" name="Settings" parent="menu_account_exchange_config"
+              sequence="16" action="action_exchange_configuration" groups="group_exchange_admin"/>
+    </data>
 </odoo>

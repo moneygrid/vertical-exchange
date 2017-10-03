@@ -14,14 +14,14 @@ Base Exchange
 
 - Creates configuration menu for exchange modules
 - Creates all basic models for exchange
-
+- Creates menus in Accounting Configuration
 -------------------------------------------------
 """,
     'website': 'https://github.com/moneygrid/vertical-exchange',
     'depends': [
         'base',
         'mail',
-        'membership',
+        'account_accountant',
     ],
     'data': [
         'security/base_exchange_security.xml',

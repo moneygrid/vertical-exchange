@@ -245,5 +245,10 @@
             <field name="account_name">Clearing Account</field>
             <field name="account_desc">For System or Organisation</field>
         </record>
+       <!-- Create default Settings record
+        <record id="base_exchange.exchange_settings" model='exchange.config.settings'>
+            <field name="name" ref="My Exchange"/>
+            <field name="company_id" ref="ĐAP"/>
+        </record>  -->
     </data>
 </odoo>

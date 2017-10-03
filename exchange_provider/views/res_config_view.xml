@@ -8,7 +8,7 @@
         <field name="model">exchange.config.settings</field>
         <field name="inherit_id" ref="base_exchange.view_exchange_configuration"/>
         <field name="arch" type="xml">
-            <group name="init_grp" position="after">
+            <group name="identity_grp" position="after">
                 <group string="Exchange Provider" name="provider_grp">
                     <label for="id" string="Default Exchange Provider"/>
                     <div name="provider">
@@ -25,19 +25,7 @@
                         </div>
                     </div>
                 </group>
-                <group string="Exchange Identity" name="identity_grp">
-                    <label for="id" string="Exchange Identity"/>
-                    <div name="identity">
-                        <div>
-                            <label for="name"/>
-                            <field name="name" class="oe_inline"/>
-                        </div>
-                        <div>
-                            <label for="company_id"/>
-                            <field name="company_id"  class="oe_inline"/>
-                        </div>
-                    </div>
-                </group>
+
                 <!-- TODO seems to be not possible with related fields!
                 <group string="Account Templates" name="account_grp">
                     <label for="id" string="Account Templates"/>
@@ -49,7 +37,7 @@
                             <field name="currency_id"/>
                         </tree>
                     </field>
-                </group> -->
+                </group>
 
                 <group string="Exchange Settings" name="exchange_grp">
                     <label for="id" string="Exchange Settings"/>
@@ -75,20 +63,7 @@
                             <field name="email_sysadmin" class="oe_inline"/>
                         </div>
                     </div>
-                </group>
-                <group string="Extra Modules Installation" name="module_grp">
-                    <label for="id" string="Modules"/>
-                    <div name="module_install">
-                        <div>
-                            <field name="module_exchange_membership" class="oe_inline"/>
-                            <label for="module_exchange_membership"/>
-                        </div>
-                        <div>
-                            <field name="module_exchange_loan" class="oe_inline"/>
-                            <label for="module_exchange_loan"/>
-                        </div>
-                    </div>
-                </group>
+                </group> -->
             </group>
         </field>
     </record>
@@ -107,4 +82,6 @@
             </field>
         </field>
     </record>
+
+
 </odoo>
