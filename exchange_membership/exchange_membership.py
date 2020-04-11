@@ -19,11 +19,14 @@ class ResPartner(models.Model):
     show_phone = fields.Boolean('Show phone to others members?')
     exchange_group = fields.Selection([
         ('user', 'User'),
+        ('broker', 'Broker'),
         ('moderator', 'Moderator'),
         ('admin', 'Admin'),
         ],
-        readonly=False, track_visibility='onchange',
+        readonly=True, track_visibility='onchange',
         help="Role of User in Exchange")
+    # TODO     related = 'res.users.membership_state',
+
     state = fields.Selection([
         ('application', 'Application'),
         ('open', 'Active'),
@@ -33,21 +36,29 @@ class ResPartner(models.Model):
         required=True, default='open', track_visibility='onchange',
         help="Status of Account"
              "Blocked, for temporary blocking transactions")
-    member_state = fields.Char(compute='_member_state', store=False)
+
     membership_type = fields.Many2one('product.product',
                                       'Membership Type', related='member_lines.membership_id',
                                       readonly=True, store=True, help="Membership Type from Products")
+    membership_state2 = fields.Selection(related='partner_id.membership_state', string='Membership State',
+                                         store=False, readonly=True),
+    # TODO should be the same value as in 'membership_state'
 
+    @api.multi
+    def _membership_type(self):
+        self.ensure_one()  # One record expected, raise error if self is an unexpected recordset
+        return 'TODO1'
 
-@api.one
-def _member_state(self, ids):
-    res = {}
-    for id in ids:
-        record = self.browse()
-        res.update({id: record.membership_state})
-        #  res = self.membership_state
-    return res
-
+    """
+    @api.one
+    def _member_state(self, ids):
+        res = {}
+        for id in ids:
+            record = self.browse()
+            res.update({id: record.membership_state})
+            #  res = self.membership_state
+        return res
+    """
     @api.one
     def do_membership_deblock(self):
         self.state = 'open'
@@ -55,8 +66,6 @@ def _member_state(self, ids):
     @api.one
     def do_membership_block(self):
         self.state = 'blocked'
-#    def do_membership_block(self, cr, uid, context=None):
-#        self.state = 'blocked'
 
     @api.one
     def do_membership_close(self):

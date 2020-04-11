@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Membership My Profile -->
+    <record id="membership_my_profile_view" model="ir.ui.view">
+        <field name="name">res.partner.profile.form.membership.my</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <form string="My Profile">
+                <header>
+                    <!--          <field name="state" widget="statusbar" statusbar_visible="application,open,blocked,closed"/>
+                   -->      </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" groups="base.group_no_one"
+                                readonly="1" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button"
+                                   readonly="1"   options='{"terminology": "archive"}'/>
+                        </button>
+                        <!-- TODO  both buttons don't see the fields membership_type/member_state ?-->
+                        <button type="action" class="oe_stat_button" id="membership_type_button"
+                                icon="fa-users" attrs="{'invisible': [('membership_state', '=', False)]}"
+                                help="shows the type of membership">
+                            <span class="o_stat_text">
+                                <field name="member_lines" widget="statinfo" string="MemberState." readonly="1"/>
+                            </span>
+                        </button>
+
+                        <button id="membership_state_button"
+                                type="action" icon="fa-user"
+                                class="oe_stat_button"
+                                help="shows the membership status">
+                            <span class="o_stat_text">
+                                <field name="membership_state" widget="statinfo" string="MemberSt."/>
+                            </span>
+                        </button>
+
+
+                    </div>
+                    <field name="image" widget='image' class="oe_avatar" options='{"preview_image": "image_medium", "size": [90, 90]}'/>
+                    <div class="oe_title">
+                        <field name="is_company" invisible="1"/>
+                        <field name="company_type" widget="radio"
+                               readonly="1"  class="oe_edit_only"
+                               on_change="on_change_company_type(company_type)"
+                               options="{'horizontal': true}"/>
+                        <h1>
+                            <field name="name" readonly="1" default_focus="1" placeholder="Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
+                        </h1>
+                        <div class="o_row" readonly="1">
+                            <field name="parent_id"
+                                   placeholder="Company"
+                                   domain="[('is_company', '=', True)]" context="{'default_is_company': True, 'default_supplier': supplier, 'default_customer': customer}"
+                                   readonly="1" attrs="{'invisible': [('is_company','=', True),('parent_id', '=', False)]}"
+                                   on_change="onchange_parent_id(parent_id)"/>
+                        </div>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="type" attrs="{'invisible': [('parent_id','=', False)]}" groups="base.group_no_one"/>
+                            <label for="street" string="Address"/>
+                            <div class="o_address_format">
+                                <div class="oe_edit_only">
+                                    <button name="open_parent" type="object" string="(edit)" class="oe_link"
+                                            attrs="{'invisible': ['|', ('parent_id', '=', False), ('type', '!=', 'contact')]}"/>
+                                </div>
+
+                                <field name="street" placeholder="Street..." readonly="1" class="o_address_street"
+                                       attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                <field name="street2" placeholder="Street 2..." readonly="1" class="o_address_street"
+                                       attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                <field name="city" placeholder="City" readonly="1" class="o_address_city"
+                                       attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                <field name="state_id" class="o_address_state" placeholder="State" readonly="1" options='{"no_open": True}' on_change="onchange_state(state_id)"
+                                       attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}" context="{'country_id': country_id, 'zip': zip}"/>
+                                <field name="zip" placeholder="ZIP" readonly="1" class="o_address_zip"
+                                       attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                                <field name="country_id" placeholder="Country" readonly="1" class="o_address_country" options='{"no_open": True, "no_create": True}'
+                                       attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                            </div>
+                            <field name="website" widget="url" placeholder="e.g. www.odoo.com"/>
+                            <field name="exchange_group" readonly="1"/>
+                            <field name="exchange_user_code" readonly="1"/>
+                        </group>
+                        <group readonly="1">
+                            <field name="function" placeholder="e.g. Sales Director"
+                                   attrs="{'invisible': [('is_company','=', True)]}"/>
+                            <field name="phone" widget="phone" readonly="1"/>
+                            <field name="mobile" widget="phone" readonly="1"/>
+                            <field name="fax"/>
+                            <field name="user_ids" invisible="1"/>
+                            <field name="email" widget="email" readonly="1" attrs="{'required': [('user_ids','!=', [])]}"/>
+                            <field name="title" options='{"no_open": True}'
+                                   attrs="{'invisible': [('is_company', '=', True)]}"/>
+                            <field name="lang"/>
+                            <field name="category_id" widget="many2many_tags" placeholder="Tags..."/>
+                        </group>
+                    </group>
+
+                    <notebook colspan="4">
+
+                        <page name="wallet" string="Wallet">
+                            <group col="4">
+                                <field name="see_balance" invisible="0" modifiers="{}"/>
+                                <field name="create_date" readonly="1"/>
+                            </group>
+                            <group name="acc_grp">
+                                <label for="exchange_account_ids"/>
+                            </group>
+                            <field name="exchange_account_ids" attrs="{'invisible': [('see_balance','!=', True)]}">
+                                <tree string="Accounts" readonly="1">
+                                    <field name="template_id" readonly="1" class="oe_inline"/>
+                                    <field name="name" readonly="1" style="bold"/>
+                                    <field name="state" readonly="1"/>
+                                    <field name="limit_negative" readonly="1" invisible="1"/>
+                                    <field name="limit_negative_value" readonly="1" attrs="{'invisible': [('limit_negative','=',False)]}"/>
+                                    <field name="limit_positive" readonly="1" invisible="1"/>
+                                    <field name="limit_positive_value" readonly="1" attrs="{'invisible': [('limit_positive','=',False)]}"/>
+                                    <field name="balance"/>
+                                    <field name="currency_base" readonly="1"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page name="presentation" string="About me/us">
+                            <field name="presentation"/>
+                        </page>
+
+                        <page name="membership" string="Membership">
+                            <group>
+                                <group readonly="1">
+                                    <field name="free_member" readonly="1"/>
+                                    <label for="membership_state"/>
+                                    <div>
+                                        <field name="membership_state"/>
+                                        <button name="%(membership.action_membership_invoice_view)d" type="action" string="Buy Membership"
+                                                attrs="{'invisible':[('free_member','=',True)]}" class="oe_link"/>
+                                    </div>
+                                </group>
+                                <group  readonly="1">
+                                    <field name="associate_member" readonly="1" attrs="{'invisible':[('free_member','=',True)]}"/>
+                                    <field name="membership_start" readonly="1" attrs="{'invisible':[('membership_start','=',False)]}"/>
+                                    <field name="membership_stop" readonly="1" attrs="{'invisible':[('membership_stop','=',False)]}"/>
+                                    <field name="membership_cancel" readonly="1" attrs="{'invisible':[('membership_cancel','=',False)]}"/>
+                                </group>
+                            </group>
+                            <field name="member_lines" nolabel="1" colspan="4" readonly="1">
+                                <tree string="Memberships" readonly="1">
+                                    <field name="date"/>
+                                    <field name="membership_id"/>
+                                    <field name="member_price"/>
+                                    <field name="account_invoice_id"/>
+                                    <field name="state"/>
+                                </tree>
+                                <form string="Memberships">
+                                    <field name="date" readonly="1"/>
+                                    <field name="member_price" readonly="1"/>
+                                    <field name="membership_id" readonly="1"/>
+                                    <field name="account_invoice_id" readonly="1" context="{'form_view_ref': 'account.invoice_form'}"/>
+                                    <field name="state" readonly="1" colspan="4"/>
+                                </form>
+                            </field>
+
+                        </page>
+                    </notebook>
+                </sheet>
+                <!--        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers" modifiers="{}"/>
+                            <field name="message_ids" widget="mail_thread" options="{'emoji_list': [{'source': ':)', 'substitution': '&lt;img src='/mail/static/src/img/smiley/smile.png'/&gt;', 'id': 1, 'description': 'Emoji Smile'}, {'source': ':(', 'substitution': '&lt;img src='/mail/static/src/img/smiley/sad.png'/&gt;', 'id': 2, 'description': 'Emoji Sad'}, {'source': ':D', 'substitution': '&lt;img src='/mail/static/src/img/smiley/laugh.png'/&gt;', 'id': 3, 'description': 'Emoji Laugh'}, {'source': ';)', 'substitution': '&lt;img src='/mail/static/src/img/smiley/wink.png'/&gt;', 'id': 4, 'description': 'Emoji Wink'}, {'source': 'O_0', 'substitution': '&lt;img src='/mail/static/src/img/smiley/stuck_out_tongue.png'/&gt;', 'id': 5, 'description': 'Emoji Stuck Out Tongue Winking Eye'}, {'source': ':@', 'substitution': '&lt;img src='/mail/static/src/img/smiley/scream.png'/&gt;', 'id': 6, 'description': 'Emoji Scream'}, {'source': ':|', 'substitution': '&lt;img src='/mail/static/src/img/smiley/neutral.png'/&gt;', 'id': 7, 'description': 'Emoji Speechless/Neutral face'}, {'source': ':p', 'substitution': '&lt;img src='/mail/static/src/img/smiley/yum.png'/&gt;', 'id': 8, 'description': 'Emoji Cheeky'}, {'source': ':/', 'substitution': '&lt;img src='/mail/static/src/img/smiley/confused.png'/&gt;', 'id': 9, 'description': 'Emoji Confused'}, {'source': ':O', 'substitution': '&lt;img src='/mail/static/src/img/smiley/open_mouth.png'/&gt;', 'id': 10, 'description': 'Emoji Open Mouth'}, {'source': '&amp;lt;3', 'substitution': '&lt;img src='/mail/static/src/img/smiley/heart.png'/&gt;', 'id': 11, 'description': 'Emoji Heart'}, {'source': ':+1', 'substitution': '&lt;img src='/mail/static/src/img/smiley/thumbsup.png'/&gt;', 'id': 12, 'description': 'Emoji Thumbs Up'}, {'source': ':-1', 'substitution': '&lt;img src='/mail/static/src/img/smiley/thumbsdown.png'/&gt;', 'id': 13, 'description': 'Emoji Thumbs Down'}, {'source': ':kitten', 'substitution': '&lt;img src='/mail/static/src/img/smiley/cat.png'/&gt;', 'id': 14, 'description': 'Emoji Kitten'}, {'source': ':pinky', 'substitution': '&lt;img src='/mail/static/src/img/smiley/pinky.png'/&gt;', 'id': 15, 'description': 'Emoji Pinky'}, {'source': ':musti', 'substitution': '&lt;img src='/mail/static/src/img/smiley/musti.png'/&gt;', 'id': 16, 'description': 'Emoji Musti'}, {'source': ':turban', 'substitution': '&lt;img src='/mail/static/src/img/smiley/man_with_turban.png'/&gt;', 'id': 17, 'description': 'Emoji Man With Turban'}, {'source': ':troll', 'substitution': '&lt;img src='/mail/static/src/img/smiley/trollface.png'/&gt;', 'id': 18, 'description': 'Emoji Troll Face'}, {'source': ':boar', 'substitution': '&lt;img src='/mail/static/src/img/smiley/boar.png'/&gt;', 'id': 19, 'description': 'Emoji Boar'}, {'source': ':poop', 'substitution': '&lt;img src='/mail/static/src/img/smiley/poop.png'/&gt;', 'id': 20, 'description': 'Emoji Poop'}, {'source': ':cookie', 'substitution': '&lt;img src='/mail/static/src/img/smiley/cookie.png'/&gt;', 'id': 21, 'description': 'Emoji Cookie'}, {'source': ':postal_horn', 'substitution': '&lt;img src='/mail/static/src/img/smiley/postal_horn.png'/&gt;', 'id': 22, 'description': 'Emoji Postal Horn'}, {'source': ':ghost', 'substitution': '&lt;img src='/mail/static/src/img/smiley/ghost.png'/&gt;', 'id': 23, 'description': 'Emoji Ghost'}, {'source': ':beer', 'substitution': '&lt;img src='/mail/static/src/img/smiley/beer.png'/&gt;', 'id': 24, 'description': 'Emoji Beer'}, {'source': ':man', 'substitution': '&lt;img src='/mail/static/src/img/smiley/man.png'/&gt;', 'id': 25, 'description': 'Emoji Man'}], 'display_log_button': true, 'thread_level': 1, 'internal_subtypes': [{'description': false, 'sequence': 100, 'id': 2, 'name': 'Note'}]}" modifiers="{}"/>
+                        </div>
+                -->    </form>
+        </field>
+    </record>
+
+    <!-- My Profile -->
+    <record id="act_membership_my_profile" model="ir.actions.act_window">
+        <field name="name">My Profile</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form,tree</field>
+        <!--<field name="target">current</field>-->
+        <field name="domain">[('user_ids','=',uid)]</field>
+        <!--  TODO domain does not work because od ids ? <field name="context">{}</field> -->
+        <field name="view_id" ref="membership_my_profile_view"/>
+    </record>
+    <menuitem action="act_membership_my_profile" id="menu_action_membership_my_profile" parent="exchange.menu_association_exchange_user"/>
+
+    <!-- My Preference -->
+    <record id="membership_my_prefs_view" model="ir.ui.view">
+        <field name="name">profile.form.membership.user</field>
+        <field name="model">res.users</field>
+        <field name="arch" type="xml">
+            <form string="My Preference">
+                <header>
+                    <field name="state" widget="statusbar" modifiers="{'readonly': true}"/>
+                </header>
+                <group>
+                    <field name="presentation" modifiers="{}"/>
+                    <field name="signature" modifiers="{}"/>
+                    <field name="notify_email" modifiers="{'required': true}"/>
+                    <field name="lang" modifiers="{}"/>
+                    <field name="active" modifiers="{}"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- https://bugs.launchpad.net/openobject-server/+bug/1263401 ....
+    <record id="membership.action_membership_members" model="ir.actions.act_window">
+        <field name="domain">[('user_ids','!=',False)]</field>
+        <field name="context">{}</field>
+    </record>
+-->
+    <record id="act_membership_my_prefs" model="ir.actions.server">
+        <field name="name">My Preferences</field>
+        <field name="model_id" ref="base.model_res_users"/>
+        <field name="state">code</field>
+        <field name="code">
+            action = {
+            'type': 'ir.actions.act_window',
+            'name': 'My Preferences',
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_model': 'res.users',
+            'nodestroy': 'true',
+            'res_id': uid,
+            'views': [(False, 'form')],
+            'view_id': 'ref=membership_my_prefs_view',
+            }
+        </field>
+    </record>
+    <!--
+         <record id="act_membership_my_prefs" model="ir.actions.act_window">
+             <field name="name">My Preferences</field>
+             <field name="type">ir.actions.act_window</field>
+             <field name="res_model">res.users</field>
+             <field name="view_type">form</field>
+             <field name="view_mode">form</field>
+             <field name="target">current</field>
+             <field name="active_id">1</field>
+             <field name="action_id" eval="ref('base.action_res_users_my')"/>
+             <field name="view_id" ref="membership_my_prefs_view"/>
+         </record> -->
+    <menuitem action="act_membership_my_prefs" id="menu_action_membership_my_prefs" parent="exchange.menu_association_exchange_user"/>
+
+</odoo>

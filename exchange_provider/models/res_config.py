@@ -95,7 +95,7 @@ class ResPartner(models.Model):
         self.ensure_one()  # One record expected, raise error if self is an unexpected recordset
         # user_code_hash = base.hash_string(self.exchange_user_code)
         # print "user Hash", user_code_hash
-        return "default-code"
+        return 5256773159-1
 
     @api.multi
     @api.depends('exchange_user_token')

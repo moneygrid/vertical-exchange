@@ -25,7 +25,9 @@ class ExchangeConfigSettingsBak(models.Model):
         'res.currency', 'Reference currency',  # default=_default_currency,
         help="Currency which is used to calculate exchange rates for transaction engine /n"
              "ATTENTION Reference currency for Odoo Accounting my differ!", store=True,
-        domain=[('exchange_currency', '=', True)], required=False)
+        required=False)
+
+    #  TODO domain = [('exchange_currency', '=', True)], required = False)
 
 
 class ExchangeConfigSettings(models.TransientModel):

@@ -102,6 +102,6 @@
         <field name="context">{}</field>
         <field name="search_view_id" ref="view_exchange_account_my_search"/>
     </record>
-    <!-- Association Menu Item -->
-    <menuitem action="act_exchange_accounts_my" id="menu_act_exchange_accounts_my" parent="base_exchange.menu_association_exchange_user" sequence="20"/>
+    <!-- Association Menu Item My accounts -->
+    <menuitem action="act_exchange_accounts_my" id="menu_act_exchange_accounts_my" parent="exchange.menu_association_exchange_user" sequence="20"/>
 </odoo>

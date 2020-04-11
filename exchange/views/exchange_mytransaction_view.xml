@@ -113,7 +113,7 @@
         -->   </record>
     <!-- Association Menu Item -->
     <menuitem action="act_exchange_transaction_my" id="menu_act_transaction_accounts_my"
-              parent="base_exchange.menu_association_exchange_user" sequence="18"/>
+              parent="exchange.menu_association_exchange_user" sequence="18"/>
 
     <!-- *********************************************************************************** -->
     <!--  act_window items Transaction line new
